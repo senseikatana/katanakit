@@ -21,7 +21,7 @@
   "author": "senseikatana - Sergio Jurado",
   "repository": {
     "type": "git",
-    "url": "git@github.com:senseikatana/katanakit-css.git"
+    "url": "git+ssh://git@github.com/senseikatana/katanakit-css.git"
   },
   "homepage": "https://github.com/senseikatana/katanakit-css#readme",
   "bugs": {
@@ -36,6 +36,9 @@
   ],
   "sass": "src/scss/main.scss",
   "style": "dist/css/katanakit.css",
+  "publishConfig": {
+    "provenance": false
+  },
   "scripts": {
     "dev": "cd docs && yarn start",
     "docs:build": "cd docs && yarn build",
