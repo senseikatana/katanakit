@@ -1,6 +1,6 @@
 {
   "name": "katanakit-css",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "KatanaKIT CSS — a lightweight, modular SCSS mini-framework: design tokens, utility classes and layout mixins (grid, flex, breakpoints) with a @apply-style system. Zero runtime overhead.",
   "keywords": [
     "scss",
