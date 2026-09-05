@@ -37,8 +37,8 @@
   "sass": "src/scss/main.scss",
   "style": "dist/css/katanakit.css",
   "scripts": {
-    "dev": "astro dev --root site --port 4321",
-    "build": "npm run build:css && npm run build:docs-css && astro build --root site",
+    "dev": "cd docs && yarn start",
+    "build": "npm run build:css",
     "build:css": "node_modules/.bin/sass src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed",
     "build:docs-css": "bash scripts/build-docs-css.sh",
     "preview": "astro preview --root site",

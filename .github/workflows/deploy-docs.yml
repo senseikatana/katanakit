@@ -1,13 +1,10 @@
 # ============================================================
-#  deploy-docs.yml — Build docs site and deploy to docs branch
+#  deploy-docs.yml — Build Docusaurus docs and deploy to gh-pages
 #
 #  On push to main:
-#    1. Builds CSS artifacts (framework + docs)
-#    2. Syncs versions.json from git tags
-#    3. Builds Astro docs site (with Tailwind CSS v4)
-#    4. Force-pushes the built output to the 'docs' branch
-#
-#  GitHub Pages serves from the 'docs' branch.
+#    1. Builds CSS artifact (npm package)
+#    2. Builds Docusaurus site (docs/)
+#    3. Deploys docs/build to gh-pages branch
 # ============================================================
 name: Deploy Docs
 
@@ -36,25 +33,22 @@ jobs:
           node-version: 22
           cache: yarn
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: corepack enable && yarn install --frozen-lockfile
 
       - name: Build CSS artifact (npm)
         run: yarn build:css
 
-      - name: Build docs CSS (utilities only, no reset)
-        run: bash scripts/build-docs-css.sh
+      - name: Install docs dependencies
+        run: cd docs && yarn install --frozen-lockfile
 
-      - name: Sync versions.json from git tags
-        run: bash scripts/sync-versions.sh
+      - name: Build Docusaurus site
+        run: cd docs && yarn build
 
-      - name: Build Astro docs site (with Tailwind CSS)
-        run: npx astro build --root site
-
-      - name: Deploy to docs branch
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./site/dist
+          publish_dir: ./docs/build
           force_orphan: true

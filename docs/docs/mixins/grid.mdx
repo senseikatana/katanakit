@@ -1,0 +1,56 @@
+---
+sidebar_position: 14
+title: Grid
+description: CSS Grid mixins for responsive layouts.
+---
+
+# Grid Mixins
+
+## grid-responsive
+
+```scss
+@include m.grid-responsive($min-size, $mode: fill, $max-size: 1fr, $gap: null);
+```
+
+Auto-fill or auto-fit responsive columns.
+
+## grid-container
+
+```scss
+@include m.grid-container(
+  $cols: 12,
+  $rows: null,
+  $gap: 1rem,
+  $place-items: center,
+  $place-content: center
+);
+```
+
+## grid-span
+
+```scss
+@include m.grid-span($cols: 1, $rows: null);
+```
+
+## grid-placement
+
+```scss
+@include m.grid-placement($col-start, $col-end, $row-start, $row-end);
+```
+
+## Other mixins
+
+- `grid-autofill($min, $max, $gap)` — auto-fill alias
+- `grid-autofit($min, $max, $gap)` — auto-fit alias
+- `grid-center($gap)` — center both axes
+- `grid-gap($value)` — gap via custom property
+- `grid-areas($areas, $gap)` — template areas
+- `grid-area($name)` — item area
+- `grid-item-center` — `place-self: center center`
+- `grid-item-full($col)` — span all columns
+- `grid-breakpoint-columns($map, $gap)` — responsive columns
+- `subgrid($axis)` — subgrid support
+- `grid-masonry($axis, $gap)` — masonry (experimental)
+- `grid-fixed-columns($width, $gap)` — fixed-width columns
+- `grid-stack($dp, $parent, $children, $col, $row)` — stacking layout
+- `grid-stack-item($col, $row)` — stacking item

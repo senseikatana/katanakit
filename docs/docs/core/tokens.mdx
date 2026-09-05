@@ -1,0 +1,67 @@
+---
+sidebar_position: 3
+title: Design Tokens
+description: Token maps, accessor functions and CSS custom property generation.
+---
+
+# Design Tokens
+
+All design values are centralized in `!default` maps in `_variables.scss`. Override them before importing to customize the framework.
+
+## Token maps
+
+| Token | Map | Keys |
+|---|---|---|
+| Font families | `$font-families` | `sans-serif`, `serif`, `mono` |
+| Shadows | `$shadow-sizes` | `default`, `sm`, `md`, `lg`, `xl`, `2xl`, `inner` |
+| Containers | `$container-sizes` | `sm` … `6xl` |
+| Breakpoints | `$breakpoint-sizes` | `xs` … `3xl` |
+| Spacing | `$spacing-scale` | `0` … `32` |
+| Radius | `$radius` | `default`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `full` |
+| Z-index | `$z-layers` | `auto`, `0`–`50`, `dropdown`, `sticky`, `fixed`, `modal`, `popover`, `tooltip` |
+| Durations | `$transition-durations` | `75` … `1000` (ms) |
+| Easings | `$transition-easings` | `linear`, `in`, `out`, `in-out` |
+
+## Access functions
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+v.font-family("sans-serif")  // font stack
+v.shadow("md")               // shadow value
+v.container("xl")            // container max-width
+v.breakpoint("md")           // breakpoint value
+v.spacing(4)                 // 1rem
+v.radius("lg")               // 0.5rem
+v.z("modal")                 // z-index value
+v.duration(200)              // 200ms
+v.ease("out")                // cubic-bezier
+```
+
+## CSS custom properties
+
+```scss
+@include v.generate-css-tokens();
+```
+
+Emits all tokens as `:root` CSS variables:
+
+```css
+:root {
+  --font-sans-serif: ui-sans-serif, system-ui, ...;
+  --spacing-4: 1rem;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), ...;
+  --radius-lg: 0.5rem;
+}
+```
+
+## Overriding tokens
+
+```scss
+@use "katanakit-css/src/scss/variables" as v with (
+  $spacing-scale: ("0": 0, "1": 0.5rem, "2": 1rem, "4": 2rem),
+  $radius: ("default": 0.5rem, "full": 9999px)
+);
+
+@include v.generate-css-tokens();
+```

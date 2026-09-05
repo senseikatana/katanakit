@@ -1,0 +1,47 @@
+---
+sidebar_position: 7
+title: '@apply'
+description: Compose utilities into components with the @apply registry.
+---
+
+# @apply
+
+The `@apply` system lets you compose registered utilities into component styles.
+
+## Registration
+
+```scss
+@use "katanakit-css/src/scss/mixins" as m;
+
+// Register a utility
+@include m.register-utility("card-base", (
+  display: flex,
+  flex-direction: column,
+  padding: 1rem,
+  border-radius: 0.5rem,
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1)
+));
+```
+
+## Usage
+
+```scss
+.card {
+  @include m.apply(flex, flex-col, p-4, rounded-lg, shadow-md, bg-white);
+}
+```
+
+## Pre-registered utilities
+
+The framework automatically registers utilities from the same maps that generate CSS classes:
+
+- **Display:** `block`, `inline-block`, `flex`, `grid`, `hidden`, etc.
+- **Flexbox:** `flex-row`, `flex-col`, `items-center`, `justify-between`, etc.
+- **Spacing:** `p-*`, `px-*`, `py-*`, `m-*`, `mx-*`, `my-*`, `gap-*` (full `$spacing-map` scale)
+- **Typography:** `text-xs` … `text-4xl`, `font-thin` … `font-black`, `text-left/center/right`
+- **Sizing:** `w-full`, `w-screen`, `h-full`, `h-screen`, `w-auto`, `h-auto`
+- **Borders:** `rounded`, `rounded-lg`, `rounded-full`, `border`, `border-0`, `border-2`, `border-4`, `border-8`
+- **Effects:** `shadow-*`, `opacity-*`, `z-*`, `duration-*`, `ease-*`
+- **Layout:** `static`, `fixed`, `absolute`, `relative`, `sticky`, `overflow-*`
+- **Colors:** `text-white`, `text-black`, `bg-white`, `bg-black`, `bg-transparent`
+- **Transitions:** `transition`, `transition-colors`, `transition-opacity`, `transition-transform`

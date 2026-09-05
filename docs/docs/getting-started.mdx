@@ -1,0 +1,81 @@
+---
+sidebar_position: 2
+title: Getting Started
+description: Install katanakit-css and write your first styles.
+---
+
+# Getting Started
+
+This guide walks you through installing `katanakit-css` and writing your first styles.
+
+## Prerequisites
+
+- **Node.js** >= 18
+- **Dart Sass** (the `sass` npm package)
+
+## Installation
+
+```bash
+npm install katanakit-css
+```
+
+## Path 1: Full stylesheet
+
+The simplest approach — import everything:
+
+```scss
+@use "katanakit-css/src/scss/main";
+```
+
+This emits:
+- CSS reset (preflight)
+- Design tokens as custom properties on `:root`
+- Color utility classes (`.text-*`, `.bg-*`, `.border-*`, `.hover-*`)
+- All opt-in utilities (sizing, flex, effects, layout, spacing)
+
+## Path 2: Compose from modules
+
+Import only what you need:
+
+```scss
+@use "katanakit-css/src/scss/functions" as f;
+@use "katanakit-css/src/scss/variables" as v;
+@use "katanakit-css/src/scss/mixins" as m;
+
+.my-component {
+  padding: v.spacing(4);
+  border-radius: v.radius("lg");
+  box-shadow: v.shadow("md");
+
+  @include m.md {
+    padding: v.spacing(8);
+  }
+}
+```
+
+## Compile
+
+```bash
+npx sass src/scss/main.scss dist/css/main.css --no-source-map --style=compressed
+```
+
+## Overriding tokens
+
+Override any `!default` map before importing:
+
+```scss
+@use "katanakit-css/src/scss/variables" as v with (
+  $spacing-scale: (
+    "0": 0,
+    "1": 0.5rem,
+    "2": 1rem,
+    "4": 2rem
+  )
+);
+```
+
+## Next steps
+
+- [Design Tokens](/docs/core/tokens) — all token maps and access functions
+- [Colors](/docs/core/colors) — palettes, shades, dark mode
+- [Breakpoints](/docs/core/breakpoints) — responsive mixins

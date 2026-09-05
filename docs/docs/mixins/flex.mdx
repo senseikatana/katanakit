@@ -1,0 +1,42 @@
+---
+sidebar_position: 15
+title: Flexbox
+description: Flexbox layout mixins.
+---
+
+# Flexbox Mixins
+
+## flex-container
+
+```scss
+@include m.flex-container(
+  $direction: row,
+  $wrap: nowrap,
+  $gap: null,
+  $align-items: stretch,
+  $justify-content: flex-start
+);
+```
+
+## flex-center
+
+```scss
+@include m.flex-center($gap: null);
+```
+
+Centers content on both axes using `place-items: center`.
+
+## flex-gap
+
+```scss
+@include m.flex-gap($value: 1rem, $var-name: --flex-gap);
+```
+
+## Flex items
+
+- `flex-grow($grow: 1)`
+- `flex-shrink($shrink: 1)`
+- `flex-basis($basis: auto)`
+- `flex-item($grow, $shrink, $basis)` — shorthand
+- `flex-item-center` — `align-self: center`
+- `flex-item-full` — `flex: 1 1 100%`
