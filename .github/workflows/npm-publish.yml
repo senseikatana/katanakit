@@ -1,0 +1,50 @@
+# ============================================================
+#  npm-publish.yml — Publish to npm when a GitHub release is created
+#
+#  Triggers:
+#    - GitHub release published (any version)
+#
+#  Steps:
+#    1. Checkout code at the release tag
+#    2. Install dependencies
+#    3. Build CSS artifacts
+#    4. Run tests
+#    5. Publish to npm with provenance
+# ============================================================
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write  # Required for npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: corepack enable && yarn install --frozen-lockfile
+
+      - name: Build CSS artifacts
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
