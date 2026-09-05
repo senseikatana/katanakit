@@ -29,7 +29,8 @@ cat > "$TMPFILE" <<'SCSS'
 @include u.generate-all-utilities();
 SCSS
 
-npx sass "$TMPFILE" "$OUT" --load-path "$ROOT/src/scss" --no-source-map --style=compressed
+# Use local sass binary to avoid npm warnings
+"$ROOT/node_modules/.bin/sass" "$TMPFILE" "$OUT" --load-path "$ROOT/src/scss" --no-source-map --style=compressed
 rm -f "$TMPFILE"
 
 SIZE=$(wc -c < "$OUT")

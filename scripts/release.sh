@@ -32,7 +32,7 @@ echo "==> New version: $NEW_VERSION (tag: $TAG)"
 
 # 2. Build CSS artifact
 echo "==> Building CSS..."
-npx sass src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed
+"$ROOT/node_modules/.bin/sass" src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed
 
 # 3. Sync versions.json
 echo "==> Syncing versions.json..."
