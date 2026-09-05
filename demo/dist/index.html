@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KatanaKIT CSS — Demo</title>
+  <!-- CSS de versiones publicadas (ver demo/version-switcher.js) -->
+  <link rel="stylesheet" id="kk-version-css" disabled />
+  <script type="module" crossorigin src="/assets/index-DZk3k_ie.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BoxlRbCh.css">
+</head>
+
+<body class="bg-neutral-100 text-neutral-500">
+  <main class="p-8">
+
+    <!-- Barra de versión -->
+    <div class="p-4 rounded shadow bg-white mb-8">
+      <label for="kk-version-select" class="text-neutral-400">Framework version:</label>
+      <select id="kk-version-select" aria-label="Framework version" class="ml-4">
+        <option value="dev" selected>dev — live SCSS (HMR)</option>
+      </select>
+    </div>
+
+    <!-- Hero -->
+    <header class="p-8 rounded shadow bg-white">
+      <h1 class="text-info-500">KatanaKIT CSS</h1>
+      <p class="text-neutral-300">Utilidades generadas desde SCSS + componentes con @apply.</p>
+    </header>
+
+    <!-- Componente .card (generado con @apply) -->
+    <section class="p-8">
+      <h2 class="text-info-400">Componente .card</h2>
+      <div class="card">
+        <h3 class="text-neutral-400">Tarjeta de ejemplo</h3>
+        <p class="text-neutral-300">Esta tarjeta usa p-4, rounded-lg, shadow-md y bg-white vía @apply.</p>
+      </div>
+    </section>
+
+    <!-- Componente .button (generado con @apply) -->
+    <section class="p-8">
+      <h2 class="text-info-400">Componente .button</h2>
+      <button type="button" class="button">Botón primario</button>
+      <button type="submit" class="button">Enviar</button>
+    </section>
+
+    <!-- Listas -->
+    <section class="p-8">
+      <h2 class="text-info-400">Lista</h2>
+      <ul>
+        <li><a href="#" class="text-info-300">Link 1</a></li>
+        <li><a href="#" class="text-info-300">Link 2</a></li>
+      </ul>
+    </section>
+
+  </main>
+</body>
+
+</html>

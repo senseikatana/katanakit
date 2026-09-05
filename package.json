@@ -38,8 +38,17 @@
   "style": "dist/css/katanakit.css",
   "scripts": {
     "dev": "cd docs && yarn start",
-    "build": "yarn run build:css",
+    "docs:build": "cd docs && yarn build",
+    "docs:serve": "cd docs && yarn serve",
+    "docs:clear": "cd docs && yarn clear",
+    "docs:deploy": "cd docs && yarn deploy",
+    "docs:swizzle": "cd docs && yarn swizzle",
+    "docs:write-translations": "cd docs && yarn write-translations",
+    "docs:write-heading-ids": "cd docs && yarn write-heading-ids",
+    "build": "yarn run build:css && yarn run build:css:expanded",
     "build:css": "sass src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed",
+    "build:css:expanded": "sass src/scss/main.scss dist/css/katanakit.expanded.css --no-source-map --style=expanded",
+    "build:css:purge": "sass src/scss/main.scss dist/css/katanakit.purged.css --no-source-map --style=compressed && postcss dist/css/katanakit.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
     "build:docs-css": "sudo ./scripts/build-docs-css.sh",
     "demo": "vite --config vite.config.mts",
     "demo:build": "vite build --config vite.config.mts",
@@ -50,6 +59,7 @@
     "sync-versions": "sudo ./scripts/sync-versions.sh"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^8.0.0",
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.4.1",

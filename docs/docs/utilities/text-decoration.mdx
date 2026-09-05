@@ -1,0 +1,58 @@
+---
+sidebar_position: 25
+title: Text Decoration & Overflow
+description: Utilities for controlling text decoration lines and text overflow behavior.
+---
+
+# Text Decoration & Overflow
+
+Control text decoration lines (underline, overline, line-through) and how overflowing text is handled.
+
+## Text Decoration
+
+| Class | Properties |
+|---|---|
+| `.underline` | `text-decoration-line: underline` |
+| `.overline` | `text-decoration-line: overline` |
+| `.line-through` | `text-decoration-line: line-through` |
+| `.no-underline` | `text-decoration-line: none` |
+
+### Basic Usage
+
+```html
+<a class="underline">Underlined link</a>
+<span class="line-through">Strikethrough text</span>
+<a class="no-underline">Link without underline</a>
+```
+
+## Text Overflow
+
+| Class | Properties |
+|---|---|
+| `.truncate` | `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` |
+| `.text-ellipsis` | `text-overflow: ellipsis` |
+| `.text-clip` | `text-overflow: clip` |
+
+### Basic Usage
+
+```html
+<!-- Truncate long text with ellipsis -->
+<p class="truncate w-64">
+  This is a very long text that will be truncated with an ellipsis.
+</p>
+
+<!-- Clip overflowing text -->
+<p class="text-clip w-64">This text will be clipped without ellipsis.</p>
+```
+
+:::tip
+`.truncate` is a shorthand that combines `overflow: hidden`, `text-overflow: ellipsis`, and `white-space: nowrap` for single-line text truncation.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$text-decoration-list: (underline, overline, line-through, no-underline) !default;
+$text-overflow-list: (truncate, text-ellipsis, text-clip) !default;
+```

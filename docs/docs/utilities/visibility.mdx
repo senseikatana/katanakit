@@ -1,0 +1,50 @@
+---
+sidebar_position: 23
+title: Visibility
+description: Utilities for controlling the visibility of an element.
+---
+
+# Visibility
+
+Control whether an element is visible, invisible, or collapsed.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.visible` | `visibility: visible` |
+| `.invisible` | `visibility: hidden` |
+| `.collapse` | `visibility: collapse` |
+
+## Basic Usage
+
+```html
+<!-- Visible element (default) -->
+<div class="visible">I am visible</div>
+
+<!-- Hidden but still takes up space -->
+<div class="invisible">I am invisible but still occupy space</div>
+
+<!-- Collapsed (hidden and takes no space) -->
+<tr class="collapse">Collapsed row</tr>
+```
+
+## Visibility vs Display
+
+| Class | Takes Space | Visible |
+|---|---|---|
+| `.visible` | Yes | Yes |
+| `.invisible` | Yes | No |
+| `.collapse` | No | No |
+| `.hidden` | No | No |
+
+:::tip
+Use `.invisible` when you want to hide an element but preserve its layout space. Use `.hidden` (from Display utilities) to remove it from the layout entirely.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $visibility-list
+$visibility-list: (visible, invisible, collapse) !default;
+```

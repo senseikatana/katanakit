@@ -10,6 +10,8 @@
 //  effects and layout utilities; call them explicitly
 //  (generate-all-utilities() emits them all).
 // ============================================================
+@use "sass:math";
+@use "sass:list";
 @use "mixins" as mx;
 @use "variables" as v;
 
@@ -19,36 +21,143 @@
 // ============================================================
 
 // Width/height scale for .w-*/.h-*/.min-*/.max-* classes.
-// Includes keywords (auto, full, screen, min/max/fit-content).
 $sizing-map: (
   "0": 0, "base": 1px, "05": 0.125rem, "1": 0.25rem, "2": 0.5rem,
   "3": 0.75rem, "4": 1rem, "5": 1.25rem, "6": 1.5rem, "8": 2rem,
   "10": 2.5rem, "12": 3rem, "16": 4rem, "20": 5rem, "24": 6rem,
   "32": 8rem, "40": 10rem, "48": 12rem, "64": 16rem,
   "auto": auto, "full": 100%, "screen": 100vw,
-  "min": min-content, "max": max-content, "fit": fit-content
+  "min": min-content, "max": max-content, "fit": fit-content,
+  "svw": 100svw, "svh": 100svh, "lvw": 100lvw, "lvh": 100lvh,
+  "dvw": 100dvw, "dvh": 100dvh,
+  "1-2": 50%, "1-3": 33.333%, "2-3": 66.667%,
+  "1-4": 25%, "2-4": 50%, "3-4": 75%
 ) !default;
 
-// Alias of the variables module spacing scale; all .p-*/.m-*/.gap-*
-// classes below are generated from this single map.
+// Spacing scale — alias of variables module (single source of truth).
 $spacing-map: v.$spacing-map !default;
 
 // Typography scale for .text-* classes.
 $font-size-map: (
   "xs": 0.75rem, "sm": 0.875rem, "base": 1rem, "lg": 1.125rem,
-  "xl": 1.25rem, "2xl": 1.5rem, "3xl": 1.875rem, "4xl": 2.25rem
+  "xl": 1.25rem, "2xl": 1.5rem, "3xl": 1.875rem, "4xl": 2.25rem,
+  "5xl": 3rem, "6xl": 3.75rem, "7xl": 4.5rem, "8xl": 6rem, "9xl": 8rem
 ) !default;
 
-// Border width scale for .border-* classes.
+// Border width scale.
 $border-width-map: (
   "0": 0, "2": 2px, "4": 4px, "8": 8px
 ) !default;
 
+// --- NEW UTILITY MAPS (Tailwind parity) ---
+
+// Aspect ratio: .aspect-square, .aspect-video, .aspect-auto.
+$aspect-ratio-map: (
+  "auto": auto, "square": math.div(1, 1), "video": math.div(16, 9)
+) !default;
+
+// Object fit: .object-contain, .object-cover, etc.
+$object-fit-list: (contain, cover, fill, none, scale-down) !default;
+
+// Object position: .object-center, .object-top, etc.
+$object-position-map: (
+  "top-left": top left, "top": top, "top-right": top right,
+  "left": left, "center": center, "right": right,
+  "bottom-left": bottom left, "bottom": bottom, "bottom-right": bottom right
+) !default;
+
+// Cursor: .cursor-pointer, .cursor-not-allowed, etc.
+$cursor-list: (
+  auto, default, pointer, wait, text, move, help, not-allowed,
+  none, context-menu, progress, cell, crosshair, vertical-text,
+  alias, copy, no-drop, grab, grabbing, all-scroll, zoom-in, zoom-out
+) !default;
+
+// Visibility: .visible, .invisible, .collapse.
+$visibility-list: (visible, invisible, collapse) !default;
+
+// Text transform: .uppercase, .lowercase, etc.
+$text-transform-list: (uppercase, lowercase, capitalize, normal-case) !default;
+
+// Text decoration: .underline, .line-through, etc.
+$text-decoration-list: (underline, overline, line-through, no-underline) !default;
+
+// Text overflow: .truncate, .text-ellipsis, .text-clip.
+$text-overflow-list: (truncate, text-ellipsis, text-clip) !default;
+
+// Line height: .leading-none, .leading-tight, etc.
+$line-height-map: (
+  "none": 1, "tight": 1.25, "snug": 1.375,
+  "normal": 1.5, "relaxed": 1.625, "loose": 2
+) !default;
+
+// Letter spacing: .tracking-tighter, .tracking-wide, etc.
+$letter-spacing-map: (
+  "tighter": -0.05em, "tight": -0.025em, "normal": 0em,
+  "wide": 0.025em, "wider": 0.05em, "widest": 0.1em
+) !default;
+
+// Font family: .font-sans, .font-serif, .font-mono.
+$font-family-map: (
+  "sans": (ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif),
+  "serif": (ui-serif, Georgia, Cambria, "Times New Roman", Times, serif),
+  "mono": (ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace)
+) !default;
+
+// List style type: .list-none, .list-disc, .list-decimal.
+$list-style-type-list: (none, disc, decimal) !default;
+
+// List style position: .list-inside, .list-outside.
+$list-style-position-list: (inside, outside) !default;
+
+// Pointer events: .pointer-events-none, .pointer-events-auto.
+$pointer-events-list: (none, auto) !default;
+
+// Resize: .resize-none, .resize, .resize-x, .resize-y.
+$resize-list: (none, both, x, y) !default;
+
+// User select: .select-none, .select-text, .select-all, .select-auto.
+$user-select-list: (none, text, all, auto) !default;
+
+// Scroll behavior: .scroll-auto, .scroll-smooth.
+$scroll-behavior-list: (auto, smooth) !default;
+
+// Border style: .border-solid, .border-dashed, etc.
+$border-style-list: (solid, dashed, dotted, double, hidden, none) !default;
+
+// Float: .float-left, .float-right, .float-none, etc.
+$float-list: (left, right, none, start, end) !default;
+
+// Clear: .clear-left, .clear-right, .clear-both, etc.
+$clear-list: (left, right, both, start, end, none) !default;
+
+// Isolation: .isolate, .isolation-auto.
+$isolation-list: (isolate, auto) !default;
+
+// Box sizing: .box-border, .box-content.
+$box-sizing-list: (border, content) !default;
+
+// Appearance: .appearance-none, .appearance-auto.
+$appearance-list: (none, auto) !default;
+
+// Overflow x/y (separate from the main overflow map).
+$overflow-xy-list: (auto, hidden, clip, visible, scroll) !default;
+
+// Table layout: .table-auto, .table-fixed.
+$table-layout-list: (auto, fixed) !default;
+
+// Border collapse: .border-collapse, .border-separate.
+$border-collapse-list: (collapse, separate) !default;
+
 // ============================================================
 //  AUTO-EMITTED CLASSES (output as soon as this module loads)
+//  These are always present in the stylesheet — no opt-in needed.
 // ============================================================
 
-// Spacing: padding + margin + gap in every direction.
+// ── 5. Spacing utilities ──────────────────────────────────
+// Padding: .p-*, .px-*, .py-*, .pt-*, .pr-*, .pb-*, .pl-*
+// Margin:  .m-*, .mx-*, .my-*, .mt-*, .mr-*, .mb-*, .ml-*
+// Gap:     .gap-*, .gap-x-*, .gap-y-*
 // Fractional keys use kebab notation (p-05 → 0.125rem, p-1-5 → 0.375rem).
 @each $key, $value in $spacing-map {
   .p-#{$key}  { padding: $value; }
@@ -70,18 +179,21 @@ $border-width-map: (
   .gap-y-#{$key}  { row-gap: $value; }
 }
 
-// Base effects with sensible defaults (equivalent to shadow-md/rounded).
+// ── 6. Base effects ───────────────────────────────────────
+// Sensible defaults: .shadow (md), .rounded (0.25rem), .gap (1rem).
 .shadow  { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
 .rounded { border-radius: 0.25rem; }
 .gap     { gap: 1rem; }
 
-// Typography scale: .text-xs … .text-4xl.
+// ── 7. Typography scale ──────────────────────────────────
+// Font sizes: .text-xs (0.75rem) … .text-9xl (8rem).
 @include mx.utils-classes($font-size-map, font-size, "text");
 
-// Border widths: .border-0, .border-2, .border-4, .border-8.
+// ── 8. Border widths ─────────────────────────────────────
+// .border-0, .border-2, .border-4, .border-8.
 @include mx.utils-classes($border-width-map, border-width, "border");
 
-// Base border utility: 1px solid; pair with the .border-* color classes.
+// Base border utility: 1px solid; pair with .border-* color classes.
 .border {
   border-width: 1px;
   border-style: solid;
@@ -89,12 +201,12 @@ $border-width-map: (
 
 // ============================================================
 //  OPT-IN GENERATORS
-//  Mixins that emit their classes only when you call them, so you
-//  can keep your stylesheet lean.
+//  Mixins that emit their classes only when you call them.
+//  generate-all-utilities() emits every group at once.
 // ============================================================
 
-// Sizing: .w-*, .h-*, .min-w-*, .max-w-*, .min-h-*, .max-h-*.
-// Pass your own map to extend or replace the default scale.
+// ── 9. Sizing ────────────────────────────────────────────
+// .w-*, .h-*, .min-w-*, .max-w-*, .min-h-*, .max-h-*
 @mixin get-sizing-classes($map: $sizing-map) {
   @include mx.utils-classes($map, width, "w");
   @include mx.utils-classes($map, min-width, "min-w");
@@ -105,9 +217,8 @@ $border-width-map: (
   @content;
 }
 
-// Flex: .flex-*, .items-*, .justify-*.
-// (The .gap-* classes are already emitted from $spacing-map above.)
-// Every map argument can be replaced with your own.
+// ── 10. Flex ─────────────────────────────────────────────
+// .flex-row/col, .flex-wrap/nowrap, .items-*, .justify-*
 @mixin generate-flex-utilities(
   $direction: mx.$flex-direction-map, $wrap: mx.$flex-wrap-list,
   $align: mx.$align-items-map, $justify: mx.$justify-content-map
@@ -118,7 +229,8 @@ $border-width-map: (
   @include mx.utils-classes($justify, justify-content, "justify");
 }
 
-// Effects: .shadow-*, .rounded-*, .z-*, .duration-*, .ease-*, .opacity-*.
+// ── 11. Effects ──────────────────────────────────────────
+// .shadow-*, .rounded-*, .z-*, .duration-*, .ease-*, .opacity-*
 @mixin generate-effects-utilities() {
   @include mx.utils-classes(mx.$shadow-map, box-shadow, "shadow");
   @include mx.utils-classes(mx.$radius-map, border-radius, "rounded");
@@ -128,23 +240,210 @@ $border-width-map: (
   @include mx.utils-classes(mx.$opacity-values, opacity, "opacity");
 }
 
-// Layout: display, position, overflow, text-align, font-weight,
-// whitespace and overflow-wrap classes.
+// ── 12. Layout ───────────────────────────────────────────
+// Display, position, overflow, overflow-x/y, text-align,
+// font-weight, whitespace, overflow-wrap.
 @mixin generate-layout-utilities() {
   @include mx.utils-classes(mx.$display-values, display);
   @include mx.utils-classes(mx.$position-values, position);
   @include mx.utils-classes(mx.$overflow-values, overflow, "overflow");
+  @include mx.utils-classes($overflow-xy-list, overflow-x, "overflow-x");
+  @include mx.utils-classes($overflow-xy-list, overflow-y, "overflow-y");
   @include mx.utils-classes(mx.$text-align-values, text-align, "text");
   @include mx.utils-classes(mx.$font-weight-values, font-weight, "font");
   @include mx.utils-classes(mx.$white-space-list, white-space, "whitespace");
   @include mx.utils-classes(mx.$overflow-wrap-list, overflow-wrap, "wrap");
 }
 
+// ── 13–23. Extended utilities ────────────────────────────
+// Aspect ratio, object fit/position, cursor, visibility,
+// typography extensions, list style, interactivity, border style,
+// float/clear/isolation/box-sizing, tables, grid classes, flex
+// classes, position values.
+// --- NEW GENERATORS (Tailwind parity) ---
+
+// Aspect ratio: .aspect-square, .aspect-video, .aspect-auto.
+@mixin generate-aspect-utilities() {
+  @include mx.utils-classes($aspect-ratio-map, aspect-ratio, "aspect");
+}
+
+// Object fit + position.
+@mixin generate-object-utilities() {
+  @include mx.utils-classes($object-fit-list, object-fit, "object");
+  @include mx.utils-classes($object-position-map, object-position, "object");
+}
+
+// Cursor.
+@mixin generate-cursor-utilities() {
+  @include mx.utils-classes($cursor-list, cursor, "cursor");
+}
+
+// Visibility.
+@mixin generate-visibility-utilities() {
+  @include mx.utils-classes($visibility-list, visibility);
+}
+
+// Typography extensions: text-transform, text-decoration, text-overflow,
+// line-height, letter-spacing, font-family.
+@mixin generate-typography-extended-utilities() {
+  @include mx.utils-classes($text-transform-list, text-transform);
+  @include mx.utils-classes($text-decoration-list, text-decoration-line);
+  // .truncate is a special case (text-overflow + overflow + white-space).
+  .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .text-ellipsis { text-overflow: ellipsis; }
+  .text-clip { text-overflow: clip; }
+  @include mx.utils-classes($line-height-map, line-height, "leading");
+  @include mx.utils-classes($letter-spacing-map, letter-spacing, "tracking");
+  @each $key, $value in $font-family-map {
+    .font-#{$key} { font-family: #{list.join($value, (), $separator: comma)}; }
+  }
+}
+
+// List style.
+@mixin generate-list-utilities() {
+  @include mx.utils-classes($list-style-type-list, list-style-type, "list");
+  @include mx.utils-classes($list-style-position-list, list-style-position, "list");
+}
+
+// Interactivity: pointer-events, resize, user-select, scroll-behavior, appearance.
+@mixin generate-interactivity-utilities() {
+  @include mx.utils-classes($pointer-events-list, pointer-events, "pointer-events");
+  @each $value in $resize-list {
+    .resize-#{$value} { resize: $value; }
+  }
+  .resize { resize: both; }
+  @include mx.utils-classes($user-select-list, user-select, "select");
+  @include mx.utils-classes($scroll-behavior-list, scroll-behavior, "scroll");
+  @include mx.utils-classes($appearance-list, appearance, "appearance");
+}
+
+// Border style: .border-solid, .border-dashed, etc.
+@mixin generate-border-style-utilities() {
+  @include mx.utils-classes($border-style-list, border-style, "border");
+}
+
+// Float and clear.
+@mixin generate-float-utilities() {
+  @include mx.utils-classes($float-list, float, "float");
+  @include mx.utils-classes($clear-list, clear, "clear");
+}
+
+// Isolation.
+@mixin generate-isolation-utilities() {
+  @include mx.utils-classes($isolation-list, isolation);
+}
+
+// Box sizing: .box-border, .box-content.
+@mixin generate-box-sizing-utilities() {
+  @each $value in $box-sizing-list {
+    .box-#{$value} { box-sizing: #{$value}-box; }
+  }
+}
+
+// Table layout and border collapse.
+@mixin generate-table-utilities() {
+  @include mx.utils-classes($table-layout-list, table-layout, "table");
+  @include mx.utils-classes($border-collapse-list, border-collapse, "border");
+}
+
+// Grid CSS classes: .grid-cols-1..12, .col-span-1..12, .row-span-1..6, .grid-flow-*, .flex-1/auto/none.
+@mixin generate-grid-flex-classes() {
+  // Grid template columns
+  @for $i from 1 through 12 {
+    .grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, 1fr); }
+  }
+  .grid-cols-none { grid-template-columns: none; }
+
+  // Grid column span
+  @for $i from 1 through 12 {
+    .col-span-#{$i} { grid-column: span #{$i} / span #{$i}; }
+  }
+  .col-span-full { grid-column: 1 / -1; }
+
+  // Grid row span
+  @for $i from 1 through 6 {
+    .row-span-#{$i} { grid-row: span #{$i} / span #{$i}; }
+  }
+  .row-span-full { grid-row: 1 / -1; }
+
+  // Grid auto flow
+  .grid-flow-row { grid-auto-flow: row; }
+  .grid-flow-col { grid-auto-flow: column; }
+  .grid-flow-dense { grid-auto-flow: dense; }
+  .grid-flow-row-dense { grid-auto-flow: row dense; }
+  .grid-flow-col-dense { grid-auto-flow: column dense; }
+
+  // Flex shorthand
+  .flex-1 { flex: 1 1 0%; }
+  .flex-auto { flex: 1 1 auto; }
+  .flex-initial { flex: 0 1 auto; }
+  .flex-none { flex: none; }
+
+  // Flex grow/shrink
+  .grow { flex-grow: 1; }
+  .grow-0 { flex-grow: 0; }
+  .shrink { flex-shrink: 1; }
+  .shrink-0 { flex-shrink: 0; }
+
+  // Order
+  .order-first { order: -9999; }
+  .order-last { order: 9999; }
+  .order-none { order: 0; }
+  @for $i from 1 through 12 {
+    .order-#{$i} { order: $i; }
+  }
+
+  // Container
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem; // 1280px
+  }
+}
+
+// Position values: .top-*, .right-*, .bottom-*, .left-*, .inset-*.
+@mixin generate-position-utilities() {
+  // Inset (all sides)
+  .inset-0 { inset: 0; }
+  .inset-auto { inset: auto; }
+  .inset-full { inset: 100%; }
+  .inset-px { inset: 1px; }
+  .inset-x-0 { left: 0; right: 0; }
+  .inset-x-auto { left: auto; right: auto; }
+  .inset-y-0 { top: 0; bottom: 0; }
+  .inset-y-auto { top: auto; bottom: auto; }
+
+  // Top/Right/Bottom/Left
+  @each $side in (top, right, bottom, left) {
+    .#{$side}-0 { #{$side}: 0; }
+    .#{$side}-auto { #{$side}: auto; }
+    .#{$side}-full { #{$side}: 100%; }
+    .#{$side}-px { #{$side}: 1px; }
+    @for $i from 1 through 12 {
+      .#{$side}-#{$i} { #{$side}: $i * 0.25rem; }
+    }
+  }
+}
+
 // Emits every opt-in group at once (used by the main entry point).
-// Call the individual mixins instead to pick and choose.
 @mixin generate-all-utilities() {
   @include get-sizing-classes();
   @include generate-flex-utilities();
   @include generate-effects-utilities();
   @include generate-layout-utilities();
+  @include generate-aspect-utilities();
+  @include generate-object-utilities();
+  @include generate-cursor-utilities();
+  @include generate-visibility-utilities();
+  @include generate-typography-extended-utilities();
+  @include generate-list-utilities();
+  @include generate-interactivity-utilities();
+  @include generate-border-style-utilities();
+  @include generate-float-utilities();
+  @include generate-isolation-utilities();
+  @include generate-box-sizing-utilities();
+  @include generate-table-utilities();
+  @include generate-grid-flex-classes();
+  @include generate-position-utilities();
 }

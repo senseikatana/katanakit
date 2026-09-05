@@ -102,6 +102,27 @@ The package exposes two consumption entry points (see `package.json`):
 Published files include `src/scss`, `dist/css`, `README.md`, `LICENSE` and
 `CHANGELOG.md`.
 
+### CDN
+
+Use the framework directly from jsDelivr without installing anything:
+
+```html
+<!-- Latest version (compressed, 119KB) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/katanakit.css" />
+
+<!-- Specific version -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@0.9.1/dist/css/katanakit.css" />
+
+<!-- Expanded (for development/debugging, 148KB) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/katanakit.expanded.css" />
+```
+
+You can also use unpkg:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/katanakit-css@latest/dist/css/katanakit.css" />
+```
+
 ---
 
 ## Quick start

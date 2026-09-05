@@ -127,11 +127,11 @@ describe('api-smoke: fixture test/fixtures/api-smoke.scss', () => {
     const darkStart = output.indexOf(':root[data-theme');
     const darkBlock = output.slice(darkStart);
     assert.ok(
-      darkBlock.includes('--neutral-100: hsl(0, 0%, 12%)'),
-      'expected --neutral-100 to hold the darkest tone in dark mode',
+      darkBlock.includes('--neutral-100: hsl(0, 0%, 6%)'),
+      'expected --neutral-100 to hold the darkest tone (900) in dark mode',
     );
 
-    for (const shade of [100, 200, 300, 400, 500, 600, 700]) {
+    for (const shade of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]) {
       assert.ok(
         darkBlock.includes(`--neutral-${shade}:`),
         `expected the dark theme to define --neutral-${shade}`,

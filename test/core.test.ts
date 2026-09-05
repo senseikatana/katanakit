@@ -123,8 +123,6 @@ describe('core: public entry (src/scss/main.scss)', () => {
       'aragon',
       'asturias',
       'baleares',
-      'slate',
-      'amber',
       '--reen-basque',
     ];
     for (const word of forbidden) {

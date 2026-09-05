@@ -1,0 +1,62 @@
+---
+sidebar_position: 28
+title: List Style
+description: Utilities for controlling list style type and position.
+---
+
+# List Style
+
+Control the marker type and position of list items.
+
+## List Style Type
+
+| Class | Properties |
+|---|---|
+| `.list-none` | `list-style-type: none` |
+| `.list-disc` | `list-style-type: disc` |
+| `.list-decimal` | `list-style-type: decimal` |
+
+## List Style Position
+
+| Class | Properties |
+|---|---|
+| `.list-inside` | `list-style-position: inside` |
+| `.list-outside` | `list-style-position: outside` |
+
+## Basic Usage
+
+```html
+<!-- Unordered list with disc markers -->
+<ul class="list-disc">
+  <li>Item one</li>
+  <li>Item two</li>
+</ul>
+
+<!-- Ordered list with decimal markers -->
+<ol class="list-decimal">
+  <li>First</li>
+  <li>Second</li>
+</ol>
+
+<!-- No markers -->
+<ul class="list-none">
+  <li>No bullet</li>
+</ul>
+
+<!-- Markers inside the content flow -->
+<ul class="list-disc list-inside">
+  <li>Inside position</li>
+</ul>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$list-style-type-list: (none, disc, decimal) !default;
+$list-style-position-list: (inside, outside) !default;
+```
+
+:::note
+The framework reset sets `list-style: none` on all lists by default. Use `.list-disc` or `.list-decimal` to restore markers when needed.
+:::

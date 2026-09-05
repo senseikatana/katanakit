@@ -1,0 +1,64 @@
+---
+sidebar_position: 35
+title: Container
+description: Utility for a centered, max-width container.
+---
+
+# Container
+
+A centered container with a maximum width, useful for constraining content on large screens.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.container` | `width: 100%; margin-left: auto; margin-right: auto; max-width: 80rem` |
+
+The `.container` class sets `max-width: 80rem` (1280px) and centers the element horizontally with auto margins.
+
+## Basic Usage
+
+```html
+<div class="container">
+  <h1>Page Title</h1>
+  <p>This content is centered and constrained to 1280px max width.</p>
+</div>
+```
+
+## With Padding
+
+Typically you add horizontal padding to prevent content from touching the viewport edges:
+
+```html
+<div class="container px-4">
+  <p>Content with padding on small screens.</p>
+</div>
+```
+
+## Responsive Container Sizes
+
+Use the container token sizes via SCSS for different max-widths:
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+// Available sizes: sm (24rem), md (28rem), lg (32rem), xl (36rem),
+// 2xl (42rem), 3xl (48rem), 4xl (56rem), 5xl (64rem), 6xl (72rem)
+.narrow-container {
+  max-width: v.container("lg"); // 32rem = 512px
+  margin-inline: auto;
+  width: 100%;
+}
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — generate-grid-flex-classes()
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem; // 1280px
+}
+```

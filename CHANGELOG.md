@@ -9,34 +9,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Margin, directional padding, gap-axis, text-size and border-width
-  utility classes** — `.m-*`, `.mx-*`, `.my-*`, `.mt-*`, `.mr-*`, `.mb-*`,
-  `.ml-*`, `.px-*`, `.py-*`, `.pt-*`, `.pr-*`, `.pb-*`, `.pl-*`, `.gap-*`,
-  `.gap-x-*`, `.gap-y-*` (from `$spacing-map`), `.text-xs` … `.text-4xl`
-  (from the new `$font-size-map`) and `.border`, `.border-0`/`2`/`4`/`8`
-  (from the new `$border-width-map`) are now emitted as real CSS classes
-  when the `utilities` module loads. Previously they existed only in the
-  `@apply` registry.
-- **Extended Tailwind-style preflight** — `_reset.scss` now normalises
-  typography (headings, `b`/`strong`, `code`, `small`, `sub`/`sup`, `hr`),
-  lists, links, tables, media, forms (buttons, inputs, placeholders,
-  `summary`, `fieldset`, `legend`, `textarea`) and `[hidden]` on top of the
-  token-driven box-model reset.
-- **Vite demo version switcher** — `demo/version-switcher.js` +
-  `demo/versions.js` toggle between the live dev SCSS and published builds;
-  `yarn build:versions` compiles `public/versions/<tag>.css` for the
-  switcher.
-- **Documentation site** — Astro 7 + Starlight site under `site/` (base
-  `/katanakit-css/`) with a documentation version selector and a
-  `versions/0-1-0` snapshot page.
-- **Vitest** — the test suite migrated from `node --test` to Vitest
-  (`yarn test` → `vitest run`, watch mode via `yarn test:watch`).
+- **CSS dev build** — `yarn build:css:dev` generates `dist/css/katanakit.dev.css`
+  (expanded, 11351 lines) for development in VSCode alongside the compressed
+  production build (`katanakit.css`, 119KB).
+
+## [0.2.0] - 2026-09-05
+
+### Added
+
+- **Aspect ratio utilities** — `.aspect-square`, `.aspect-video`, `.aspect-auto`
+  (from `$aspect-ratio-map`).
+- **Object fit/position utilities** — `.object-contain/cover/fill/none/scale-down`
+  and `.object-center/top/right/bottom/left/...` (9 positions).
+- **Cursor utilities** — 22 cursor values: `.cursor-pointer`, `.cursor-grab`,
+  `.cursor-not-allowed`, `.cursor-wait`, `.cursor-text`, etc.
+- **Visibility utilities** — `.visible`, `.invisible`, `.collapse`.
+- **Text transform** — `.uppercase`, `.lowercase`, `.capitalize`, `.normal-case`.
+- **Text decoration** — `.underline`, `.overline`, `.line-through`, `.no-underline`.
+- **Text overflow** — `.truncate` (ellipsis + overflow hidden), `.text-ellipsis`,
+  `.text-clip`.
+- **Line height** — `.leading-none` (1), `.leading-tight` (1.25), `.leading-snug`
+  (1.375), `.leading-normal` (1.5), `.leading-relaxed` (1.625), `.leading-loose` (2).
+- **Letter spacing** — `.tracking-tighter` (-0.05em) through `.tracking-widest` (0.1em).
+- **Font family** — `.font-sans`, `.font-serif`, `.font-mono` with system font stacks.
+- **Extended font size** — `.text-5xl` (3rem), `.text-6xl` (3.75rem), `.text-7xl`
+  (4.5rem), `.text-8xl` (6rem), `.text-9xl` (8rem).
+- **List style** — `.list-none/disc/decimal`, `.list-inside/outside`.
+- **Interactivity** — `.pointer-events-none/auto`, `.resize-none/both/x/y`,
+  `.select-none/text/all/auto`, `.scroll-auto/smooth`, `.appearance-none/auto`.
+- **Border style** — `.border-solid/dashed/dotted/double/hidden/none`.
+- **Float/clear** — `.float-left/right/none/start/end`, `.clear-left/right/both/start/end/none`.
+- **Isolation** — `.isolate`, `.isolation-auto`.
+- **Box sizing** — `.box-border`, `.box-content`.
+- **Table utilities** — `.table-auto/fixed`, `.border-collapse/separate`.
+- **Grid CSS classes** — `.grid-cols-1` … `.grid-cols-12`, `.grid-cols-none`,
+  `.col-span-1` … `.col-span-12`, `.col-span-full`, `.row-span-1` … `.row-span-6`,
+  `.row-span-full`, `.grid-flow-row/col/dense/row-dense/col-dense`.
+- **Flex CSS classes** — `.flex-1/auto/initial/none`, `.grow/.grow-0`, `.shrink/.shrink-0`,
+  `.order-first/last/none/1` … `.order-12`.
+- **Container** — `.container` (width 100%, max-width 80rem, centered).
+- **Position utilities** — `.top-*/right-*/bottom-*/left-*` (0, 1-12, auto, full, px),
+  `.inset-0/auto/full/px`, `.inset-x-0/auto`, `.inset-y-0/auto`.
+- **Overflow directional** — `.overflow-x-auto/hidden/clip/visible/scroll`,
+  `.overflow-y-auto/hidden/clip/visible/scroll`.
+- **Extended sizing** — viewport units `.w-svw/dvw/lvw/dvh/svh/lvh`,
+  fractions `.w-1-2/1-3/2-3/1-4/2-4/3-4`.
+- **20 new color palettes** (11 tones each: 50, 100-900, 950): slate, gray,
+  zinc, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan,
+  sky, blue, indigo, violet, pink, rose, fuchsia. Total: 220 new color values.
+- **Extended original palettes** — neutral, purple, info, warning, danger, success
+  now have 11 tones (50, 100-900, 950) instead of 7.
+- **Dark mode 11-tone inversion** — `theme("dark")` inverts all 11 shades
+  (50↔950, 100↔900, 200↔800, 300↔700, 400↔600, 500↔500) with fallback
+  for palettes that don't have all tones.
+- **Docusaurus documentation site** — `docs/` with 15+ pages covering all
+  utilities, mixins, functions and architecture. Deployed to GitHub Pages.
+- **Expanded CSS artifact** — `katanakit.dev.css` (expanded, ~11K lines) for
+  development alongside the compressed `katanakit.css`.
 
 ### Changed
 
-- Utility spacing, text-size and border-width names, previously available
-  only through the `@apply` registry, are now also generated as CSS classes
-  by `_utilities.scss` (see Added).
+- **CSS output grew from ~42KB to ~119KB** (compressed) with ~2650 unique classes.
+- **`$shades` expanded** from `(100-700)` to `(50, 100-900, 950)` for
+  Tailwind-compatible 11-tone scales.
+- **`generate-all-utilities()`** now emits 18 generators instead of 4.
+- **`$sizing-map` extended** with viewport units and fraction values.
+- **`$font-size-map` extended** with 5xl-9xl.
 
 ## [0.4.3] - 2026-09-05
 

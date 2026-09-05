@@ -1,0 +1,50 @@
+---
+sidebar_position: 30
+title: Border Style
+description: Utilities for controlling the style of an element's borders.
+---
+
+# Border Style
+
+Set the line style of an element's borders.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.border-solid` | `border-style: solid` |
+| `.border-dashed` | `border-style: dashed` |
+| `.border-dotted` | `border-style: dotted` |
+| `.border-double` | `border-style: double` |
+| `.border-hidden` | `border-style: hidden` |
+| `.border-none` | `border-style: none` |
+
+## Basic Usage
+
+```html
+<!-- Solid border -->
+<div class="border border-solid border-info-300">Solid border</div>
+
+<!-- Dashed border -->
+<div class="border border-dashed border-warning-400">Dashed border</div>
+
+<!-- Dotted border -->
+<div class="border border-dotted border-danger-300">Dotted border</div>
+
+<!-- Double border -->
+<div class="border-4 border-double border-purple-400">Double border</div>
+
+<!-- No border -->
+<div class="border-none">No border</div>
+```
+
+:::tip
+Pair `.border-dashed` or `.border-dotted` with `.border` (which sets `border-width: 1px; border-style: solid`) by also adding the color class. The border-style class will override the solid style from `.border`.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $border-style-list
+$border-style-list: (solid, dashed, dotted, double, hidden, none) !default;
+```

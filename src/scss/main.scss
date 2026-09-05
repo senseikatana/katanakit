@@ -1,17 +1,30 @@
-// Load every framework module under a namespaced alias (v, f, m, u).
-// Note: loading "mixins" also runs its module-level register-utility()
-// calls that populate the @apply registry.
-@use "reset";
-@use "variables" as v;
-@use "functions" as f;
-@use "mixins" as m;
-@use "utilities" as u;
-
 // ============================================================
 //  KATANAKIT CSS — PUBLIC ENTRY POINT
-//  Emits the complete framework stylesheet: reset, design tokens
-//  as custom properties on :root, color variables and every
-//  utility class.
+//  Emits the complete framework stylesheet in this order:
+//
+//  1. Reset / Preflight
+//  2. Design tokens (custom properties on :root)
+//  3. Color custom properties
+//  4. Color utility classes (.text-*, .bg-*, .border-*, :hover)
+//  5. Spacing utilities (.p-*, .m-*, .gap-*)
+//  6. Base effects (.shadow, .rounded, .gap)
+//  7. Typography scale (.text-xs … .text-9xl)
+//  8. Border widths (.border, .border-0/2/4/8)
+//  9. Sizing (.w-*, .h-*, .min-*, .max-*)
+// 10. Flex utilities (.flex-*, .items-*, .justify-*)
+// 11. Effects (.shadow-*, .rounded-*, .z-*, .opacity-*, .duration-*, .ease-*)
+// 12. Layout (display, position, overflow, overflow-x/y, text-align, font-weight, whitespace, overflow-wrap)
+// 13. Aspect ratio, object fit/position
+// 14. Cursor, visibility
+// 15. Typography extensions (text-transform, text-decoration, text-overflow, line-height, letter-spacing, font-family)
+// 16. List style
+// 17. Interactivity (pointer-events, resize, user-select, scroll-behavior, appearance)
+// 18. Border style
+// 19. Float, clear, isolation, box-sizing
+// 20. Table utilities
+// 21. Grid CSS classes (.grid-cols-*, .col-span-*, .row-span-*, .grid-flow-*, .container)
+// 22. Flex CSS classes (.flex-1, .grow, .shrink, .order-*)
+// 23. Position utilities (.top-*, .inset-*, etc.)
 //
 //  To compose a smaller custom stylesheet, import the modules
 //  individually instead:
@@ -20,17 +33,24 @@
 //    @use "katanakit-css/src/scss/functions" as f;
 // ============================================================
 
-// Emit design-token custom properties on :root
-// (--font-*, --shadow-*, --spacing-*, --radius-*, --z-*, --duration-*, --ease-*).
+@use "reset";
+@use "variables" as v;
+@use "functions" as f;
+@use "mixins" as m;
+@use "utilities" as u;
+
+// ── 1. Reset / Preflight ──────────────────────────────────
+// (loaded by @use "reset" above — emits box-sizing, margin/padding
+//  zeroing, typography normalization, form resets, media defaults)
+
+// ── 2. Design tokens ──────────────────────────────────────
 @include v.generate-css-tokens();
 
-// Emit color custom properties on :root
-// (--purple-500, --info-300… plus --white/--black/--transparent/--current).
+// ── 3. Color custom properties ────────────────────────────
 @include v.generate-css-vars();
 
-// Emit color utility classes: .text-*, .bg-*, .border-* and their :hover variants.
+// ── 4. Color utility classes ──────────────────────────────
 @include v.all-utilities();
 
-// Emit the opt-in utility generators: sizing, flex, effects and layout classes.
-// Call the individual mixins instead to pick and choose.
+// ── 5–23. All utility classes ─────────────────────────────
 @include u.generate-all-utilities();
