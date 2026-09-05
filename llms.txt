@@ -1,0 +1,89 @@
+# Documentation
+
+> A lightweight, modular SCSS mini-framework: design tokens, utility classes and layout mixins.
+
+## Utilities
+
+- [Border Width](https://senseikatana.github.io/utilities/border-width.md): Utilities for controlling the width of an element's borders.
+- [Display](https://senseikatana.github.io/utilities/display.md): Utilities for controlling the display type of an element.
+- [Flex Direction](https://senseikatana.github.io/utilities/flex-direction.md): Utilities for controlling the direction of flex items.
+- [Font Size](https://senseikatana.github.io/utilities/font-size.md): Utilities for controlling the font size of an element.
+- [Padding](https://senseikatana.github.io/utilities/padding.md): Utilities for controlling an element's padding.
+- [Text Color](https://senseikatana.github.io/utilities/text-color.md): Utilities for controlling the text color of an element.
+- [Width & Height](https://senseikatana.github.io/utilities/sizing.md): Utilities for setting the width and height of an element.
+- [Background Color](https://senseikatana.github.io/utilities/background-color.md): Utilities for controlling the background color of an element.
+- [Border Radius](https://senseikatana.github.io/utilities/border-radius.md): Utilities for controlling the border radius of an element.
+- [Flex Wrap](https://senseikatana.github.io/utilities/flex-wrap.md): Utilities for controlling whether flex items wrap.
+- [Font Weight](https://senseikatana.github.io/utilities/font-weight.md): Utilities for controlling the font weight of an element.
+- [Margin](https://senseikatana.github.io/utilities/margin.md): Utilities for controlling an element's margin.
+- [Position](https://senseikatana.github.io/utilities/position.md): Utilities for controlling how an element is positioned.
+- [Align Items](https://senseikatana.github.io/utilities/align-items.md): Utilities for controlling how flex items are aligned on the cross axis.
+- [Border Color](https://senseikatana.github.io/utilities/border-color.md): Utilities for controlling the border color of an element.
+- [Box Shadow](https://senseikatana.github.io/utilities/box-shadow.md): Utilities for controlling the box shadow of an element.
+- [Gap](https://senseikatana.github.io/utilities/gap.md): Utilities for controlling the gutters between grid and flex items.
+- [Overflow](https://senseikatana.github.io/utilities/overflow.md): Utilities for controlling how content overflows an element.
+- [Text Align](https://senseikatana.github.io/utilities/text-align.md): Utilities for controlling the alignment of text.
+- [Justify Content](https://senseikatana.github.io/utilities/justify-content.md): Utilities for controlling how flex items are distributed on the main axis.
+- [Opacity](https://senseikatana.github.io/utilities/opacity.md): Utilities for controlling the opacity of an element.
+- [White Space](https://senseikatana.github.io/utilities/whitespace.md): Utilities for controlling text wrapping and white space handling.
+- [Z-Index](https://senseikatana.github.io/utilities/z-index.md): Utilities for controlling the stack order of an element.
+- [Transitions](https://senseikatana.github.io/utilities/transitions.md): Utilities for controlling transition duration and timing functions.
+
+## Other
+
+- [Ancho de borde](https://senseikatana.github.io/es/utilities/border-width.md): Utilidades para controlar el ancho de los bordes de un elemento.
+- [Ancho y Alto](https://senseikatana.github.io/es/utilities/sizing.md): Utilidades para establecer el ancho y alto de un elemento.
+- [Color de texto](https://senseikatana.github.io/es/utilities/text-color.md): Utilidades para controlar el color de texto de un elemento.
+- [Design Tokens](https://senseikatana.github.io/core/tokens.md): Token maps, accessor functions and custom property generation.
+- [Direccion flex](https://senseikatana.github.io/es/utilities/flex-direction.md): Utilidades para controlar la direccion de los elementos flex.
+- [Display](https://senseikatana.github.io/es/utilities/display.md): Utilidades para controlar el tipo de display de un elemento.
+- [Funciones](https://senseikatana.github.io/es/reference/functions.md): Funciones puras auxiliares: unidades, tipografia fluida y manipulacion de color.
+- [Functions](https://senseikatana.github.io/reference/functions.md): Pure helper functions — units, fluid typography and color manipulation.
+- [Grid](https://senseikatana.github.io/es/mixins/grid.md): Mixins de layout CSS Grid: contenedores, colocacion, apilamiento y masonry.
+- [Grid](https://senseikatana.github.io/mixins/grid.md): CSS Grid layout mixins — containers, placement, stacking and masonry.
+- [Padding](https://senseikatana.github.io/es/utilities/padding.md): Utilidades para controlar el padding de un elemento.
+- [Tamano de fuente](https://senseikatana.github.io/es/utilities/font-size.md): Utilidades para controlar el tamano de fuente de un elemento.
+- [Tokens de diseno](https://senseikatana.github.io/es/core/tokens.md): Mapas de tokens, funciones de acceso y generacion de propiedades personalizadas.
+- [Color de fondo](https://senseikatana.github.io/es/utilities/background-color.md): Utilidades para controlar el color de fondo de un elemento.
+- [Colores](https://senseikatana.github.io/es/core/colors.md): Paletas de color, funciones de acceso y generacion de variables CSS.
+- [Colors](https://senseikatana.github.io/core/colors.md): Color palettes, accessor functions and CSS variable generation.
+- [Flex Wrap](https://senseikatana.github.io/es/utilities/flex-wrap.md): Utilidades para controlar si los elementos flex se envuelven.
+- [Flexbox](https://senseikatana.github.io/es/mixins/flex.md): Mixins de layout Flexbox: contenedores, espaciado y dimensiones de elementos.
+- [Flexbox](https://senseikatana.github.io/mixins/flex.md): Flexbox layout mixins — containers, gaps and item sizing.
+- [Grosor de fuente](https://senseikatana.github.io/es/utilities/font-weight.md): Utilidades para controlar el grosor de fuente de un elemento.
+- [Margin](https://senseikatana.github.io/es/utilities/margin.md): Utilidades para controlar el margin de un elemento.
+- [Posicion](https://senseikatana.github.io/es/utilities/position.md): Utilidades para controlar como se posiciona un elemento.
+- [Radio de borde](https://senseikatana.github.io/es/utilities/border-radius.md): Utilidades para controlar el radio de borde de un elemento.
+- [Align Items](https://senseikatana.github.io/es/utilities/align-items.md): Utilidades para controlar como se alinean los elementos flex en el eje transversal.
+- [Alineacion de texto](https://senseikatana.github.io/es/utilities/text-align.md): Utilidades para controlar la alineacion del texto.
+- [Breakpoints](https://senseikatana.github.io/core/breakpoints.md): Responsive breakpoint tiers, direction mixins and feature queries.
+- [Breakpoints](https://senseikatana.github.io/es/core/breakpoints.md): Niveles de breakpoint responsivo, mixins de direccion y consultas de caracteristicas.
+- [Breakpoints](https://senseikatana.github.io/es/mixins/breakpoints.md): Referencia tecnica del motor de mixins de breakpoints.
+- [Breakpoints](https://senseikatana.github.io/mixins/breakpoints.md): Technical reference of the breakpoint mixin engine.
+- [Color de borde](https://senseikatana.github.io/es/utilities/border-color.md): Utilidades para controlar el color de borde de un elemento.
+- [Gap](https://senseikatana.github.io/es/utilities/gap.md): Utilidades para controlar los separadores entre elementos grid y flex.
+- [Overflow](https://senseikatana.github.io/es/utilities/overflow.md): Utilidades para controlar como el contenido desborda un elemento.
+- [Sombra de caja](https://senseikatana.github.io/es/utilities/box-shadow.md): Utilidades para controlar la sombra de caja de un elemento.
+- [Dark Mode](https://senseikatana.github.io/core/dark-mode.md): Automatic dark theme with inverted palettes via data-theme.
+- [Ejemplos](https://senseikatana.github.io/es/reference/examples.md): Ejemplos completos funcionales: tokens, layout, modo oscuro y componentes.
+- [Espacio en blanco](https://senseikatana.github.io/es/utilities/whitespace.md): Utilidades para controlar el ajuste de texto y el manejo de espacios en blanco.
+- [Examples](https://senseikatana.github.io/reference/examples.md): Full working examples — tokens, layout, dark mode and components.
+- [Justify Content](https://senseikatana.github.io/es/utilities/justify-content.md): Utilidades para controlar como se distribuyen los elementos flex en el eje principal.
+- [Modo oscuro](https://senseikatana.github.io/es/core/dark-mode.md): Tema oscuro automatico con paletas invertidas via data-theme.
+- [Opacidad](https://senseikatana.github.io/es/utilities/opacity.md): Utilidades para controlar la opacidad de un elemento.
+- [Z-Index](https://senseikatana.github.io/es/utilities/z-index.md): Utilidades para controlar el orden de apilamiento de un elemento.
+- [@apply](https://senseikatana.github.io/core/apply.md): Compose utilities inside your SCSS with the apply registry.
+- [@apply](https://senseikatana.github.io/es/core/apply.md): Compone utilidades dentro de tu SCSS con el registro apply.
+- [Transiciones](https://senseikatana.github.io/es/utilities/transitions.md): Utilidades para controlar la duracion y funcion de temporizacion de las transiciones.
+- [API Reference](https://senseikatana.github.io/reference/api-reference.md): Complete reference of every function, mixin, map and generator.
+- [Architecture](https://senseikatana.github.io/reference/architecture.md): How KatanaKIT CSS is organized and how the build pipeline works.
+- [Arquitectura](https://senseikatana.github.io/es/reference/architecture.md): Como esta organizado KatanaKIT CSS y como funciona la canalizacion de compilacion.
+- [Getting Started](https://senseikatana.github.io/getting-started.md): Install katanakit-css and write your first styles.
+- [Hoja de ruta](https://senseikatana.github.io/es/reference/roadmap.md): Que se ha enviado y que esta planificado.
+- [KatanaKIT CSS](https://senseikatana.github.io/es.md): Un mini-framework SCSS ligero y modular: tokens de diseno, clases de utilidad y mixins de layout sin sobrecarga en tiempo de ejecucion.
+- [KatanaKIT CSS](https://senseikatana.github.io/index.md): A lightweight, modular SCSS mini-framework — design tokens, utility classes and layout mixins with zero runtime overhead.
+- [KatanaKIT CSS v0.1.0](https://senseikatana.github.io/es/versions/0-1-0.md): Instantanea de documentacion para la version 0.1.0.
+- [KatanaKIT CSS v0.1.0](https://senseikatana.github.io/versions/0-1-0.md): Documentation snapshot for version 0.1.0.
+- [Primeros pasos](https://senseikatana.github.io/es/getting-started.md): Instala katanakit-css y escribe tus primeros estilos.
+- [Referencia API](https://senseikatana.github.io/es/reference/api-reference.md): Referencia completa de cada funcion, mixin, mapa y generador.
+- [Roadmap](https://senseikatana.github.io/reference/roadmap.md): What is shipped and what is planned.

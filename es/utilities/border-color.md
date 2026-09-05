@@ -1,0 +1,68 @@
+# Color de borde
+
+Utilidades para controlar el color de borde de un elemento.
+
+# Color de borde
+
+Utilidades para controlar el color de borde de un elemento, generadas por
+`v.border-utilities()` a partir de las [paletas de color](/es/core/colors/).
+Combinadas con las utilidades de [Ancho de borde](/es/utilities/border-width/).
+
+## Referencia rapida
+
+| Paleta | 100 | 200 | 300 | 400 | 500 | 600 | 700 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| neutral | `.border-neutral-100` | `.border-neutral-200` | `.border-neutral-300` | `.border-neutral-400` | `.border-neutral-500` | `.border-neutral-600` | `.border-neutral-700` |
+| purple | `.border-purple-100` | `.border-purple-200` | `.border-purple-300` | `.border-purple-400` | `.border-purple-500` | `.border-purple-600` | `.border-purple-700` |
+| info | `.border-info-100` | `.border-info-200` | `.border-info-300` | `.border-info-400` | `.border-info-500` | `.border-info-600` | `.border-info-700` |
+| warning | `.border-warning-100` | `.border-warning-200` | `.border-warning-300` | `.border-warning-400` | `.border-warning-500` | `.border-warning-600` | `.border-warning-700` |
+| danger | `.border-danger-100` | `.border-danger-200` | `.border-danger-300` | `.border-danger-400` | `.border-danger-500` | `.border-danger-600` | `.border-danger-700` |
+| success | `.border-success-100` | `.border-success-200` | `.border-success-300` | `.border-success-400` | `.border-success-500` | `.border-success-600` | `.border-success-700` |
+
+| Especial | Clase | Propiedades |
+| --- | --- | --- |
+| black | `.border-black` | `border-color: hsl(0, 0%, 3%);` |
+| white | `.border-white` | `border-color: hsl(0, 0%, 98%);` |
+| transparent | `.border-transparent` | `border-color: transparent;` |
+| current | `.border-current` | `border-color: currentColor;` |
+
+## Uso basico
+
+<div class="kk-demo">
+  <div class="grid gap-2" style="grid-template-columns: repeat(3, 1fr)">
+    <div class="border-2 border-purple-500 text-purple-600 rounded-md p-4">purple-500</div>
+    <div class="border-2 border-info-400 text-info-500 rounded-md p-4">info-400</div>
+    <div class="border-2 border-danger-500 text-danger-600 rounded-md p-4">danger-500</div>
+    <div class="border-2 border-success-500 text-success-600 rounded-md p-4">success-500</div>
+    <div class="border-2 border-warning-500 text-warning-600 rounded-md p-4">warning-500</div>
+    <div class="border-2 border-neutral-500 text-neutral-600 rounded-md p-4">neutral-500</div>
+  </div>
+</div>
+
+```html
+<div class="border-2 border-purple-500 ...">purple-500</div>
+```
+
+## Usar currentColor
+
+`border-current` hereda el color de texto del elemento, lo que mantiene los
+bordes y las etiquetas sincronizados:
+
+```html
+<span class="border border-current text-purple-500 rounded-md p-2">badge</span>
+```
+
+## Personalizar
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+// Solo las paletas danger y success:
+@include v.border-utilities(("danger", "success"));
+
+// Todas las paletas, sin colores especiales:
+@include v.border-utilities($special: false);
+
+// Todo:
+@include v.all-utilities();
+```

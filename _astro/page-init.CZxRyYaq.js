@@ -1,0 +1,1 @@
+function e(e,t,n){if(typeof window>`u`)return;let r=window.__proseflyClientInitializers??=new Set;r.has(e)||(r.add(e),n?.(),document.addEventListener(`astro:page-load`,t),t())}export{e as t};
