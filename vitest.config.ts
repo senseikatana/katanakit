@@ -13,7 +13,7 @@ export default defineConfig({
 		},
 		tsconfigPaths: true,
 	},
-	base: "https://senseikatana.com/",
+	base: "/",
 	test: {
 		environment: "node",
 		include: ["tests/**/*.test.ts"],

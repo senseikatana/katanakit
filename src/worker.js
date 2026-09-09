@@ -3,31 +3,28 @@ export default {
 		const url = new URL(request.url);
 		let path = url.pathname;
 
-		// Remove the /packages/katanakit-js prefix if present
-		if (path.startsWith('/packages/katanakit-js')) {
-			path = path.substring('/packages/katanakit-js'.length) || '/';
-		}
-		// Also handle /katanakit-js prefix
-		else if (path.startsWith('/katanakit-js')) {
-			path = path.substring('/katanakit-js'.length) || '/';
+		// Remove the /katanakit-js prefix
+		if (path.startsWith("/katanakit-js/")) {
+			path = path.substring("/katanakit-js/".length);
+		} else if (path === "/katanakit-js") {
+			path = "";
 		}
 
-		// Try to serve the static asset
-		const assetPath = path === '/' ? '/index.html' : path;
-		const assetRequest = new Request(new URL(assetPath, url.origin), request);
-		const response = await env.ASSETS.fetch(assetRequest);
+		// Default to index.html
+		if (path === "" || path === "/") {
+			path = "index.html";
+		}
 
-		// If asset found, return it
-		if (response.status !== 404) {
+		// Try to fetch the asset
+		const assetUrl = new URL(`/${path}`, url.origin);
+		const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+
+		if (response.status === 200) {
 			return response;
 		}
 
-		// For SPA fallback, serve index.html
-		if (!path.includes('.')) {
-			const indexRequest = new Request(new URL('/index.html', url.origin), request);
-			return env.ASSETS.fetch(indexRequest);
-		}
-
-		return response;
+		// Fallback to index.html for SPA routing
+		const indexUrl = new URL("/index.html", url.origin);
+		return env.ASSETS.fetch(new Request(indexUrl, request));
 	},
 };
