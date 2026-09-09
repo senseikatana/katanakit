@@ -2,7 +2,7 @@
 
 > **useToKilometers**(`miles`, `locale?`, `digits?`): `string`
 
-Defined in: [src/core/services/formatter.service.ts:207](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/core/services/formatter.service.ts#L207)
+Defined in: [src/core/services/formatter.service.ts:207](https://github.com/senseikatana/katanakit-js/blob/5f61b578df41177e4d39d9b6d369c524de91524a/src/core/services/formatter.service.ts#L207)
 
 Pure: miles → kilometers (formatted). Round-trips with `useToMiles`.
 

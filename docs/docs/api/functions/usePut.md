@@ -2,7 +2,7 @@
 
 > **usePut**&lt;`T`&gt;(`apiName`, `endpointName`, `body?`, `urlOptions?`): `Promise`&lt;[`FetchResult`](../type-aliases/FetchResult.md)&lt;`T`&gt;&gt;
 
-Defined in: [src/core/services/http.service.ts:465](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/core/services/http.service.ts#L465)
+Defined in: [src/core/services/http.service.ts:465](https://github.com/senseikatana/katanakit-js/blob/5f61b578df41177e4d39d9b6d369c524de91524a/src/core/services/http.service.ts#L465)
 
 PUT helper over a registered API endpoint.
 
