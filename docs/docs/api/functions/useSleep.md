@@ -2,7 +2,7 @@
 
 > **useSleep**(`ms`): `Promise`&lt;`void`&gt;
 
-Defined in: [src/core/services/utils.service.ts:227](https://github.com/senseikatana/katanakit-js/blob/583f163722c75b0302ed6af94980486c31644409/src/core/services/utils.service.ts#L227)
+Defined in: [src/core/services/utils.service.ts:227](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/core/services/utils.service.ts#L227)
 
 Returns a promise that resolves after `ms` milliseconds.
 

@@ -2,7 +2,7 @@
 
 > **SeoBooleanable** = `boolean` \| `"true"` \| `"false"` \| `""` \| `0` \| `1`
 
-Defined in: [src/config/seo-meta.types.ts:11](https://github.com/senseikatana/katanakit-js/blob/583f163722c75b0302ed6af94980486c31644409/src/config/seo-meta.types.ts#L11)
+Defined in: [src/config/seo-meta.types.ts:11](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L11)
 
 Slim SEO types: typical HTML meta + Open Graph (Facebook) only.
 CamelCase keys map to `<title>` / `<meta>` / `<link rel="canonical">`.

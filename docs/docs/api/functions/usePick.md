@@ -2,7 +2,7 @@
 
 > **usePick**&lt;`T`, `K`&gt;(`obj`, `keys`): `Pick`&lt;`T`, `K`&gt;
 
-Defined in: [src/core/services/utils.service.ts:177](https://github.com/senseikatana/katanakit-js/blob/583f163722c75b0302ed6af94980486c31644409/src/core/services/utils.service.ts#L177)
+Defined in: [src/core/services/utils.service.ts:177](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/core/services/utils.service.ts#L177)
 
 Picks the listed keys from an object into a new object.
 
