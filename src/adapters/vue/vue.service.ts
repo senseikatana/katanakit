@@ -1,4 +1,14 @@
-import { isRef, type MaybeRef, onUnmounted, type Ref, ref, shallowRef, unref, watch } from "vue";
+import {
+	getCurrentInstance,
+	isRef,
+	type MaybeRef,
+	onUnmounted,
+	type Ref,
+	ref,
+	shallowRef,
+	unref,
+	watch,
+} from "vue";
 
 import { useFetch } from "../../core/services/http.service.js";
 import type { ApiError, FetchResult, UrlOptions } from "../../types/index.js";
@@ -102,13 +112,11 @@ export function useKatanaFetch<T>(
 	}
 
 	// Dispose on unmount when running inside a component setup.
-	try {
+	if (getCurrentInstance()) {
 		onUnmounted(() => {
 			disposed = true;
 			activeController?.abort();
 		});
-	} catch {
-		// Outside of a component setup context — skip lifecycle hook.
 	}
 
 	// Initial fetch on setup.

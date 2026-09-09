@@ -1,4 +1,4 @@
-import { isRef, onUnmounted, ref, shallowRef, unref, watch } from "vue";
+import { getCurrentInstance, isRef, onUnmounted, ref, shallowRef, unref, watch, } from "vue";
 import { useFetch } from "../../core/services/http.service.js";
 /**
  * Vue 3 composable that wraps KatanaKit's HTTP GET with the reactivity system.
@@ -69,14 +69,11 @@ export function useKatanaFetch(apiName, endpointName, options) {
         }, { deep: true });
     }
     // Dispose on unmount when running inside a component setup.
-    try {
+    if (getCurrentInstance()) {
         onUnmounted(() => {
             disposed = true;
             activeController?.abort();
         });
-    }
-    catch {
-        // Outside of a component setup context — skip lifecycle hook.
     }
     // Initial fetch on setup.
     void refetch();
