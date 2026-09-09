@@ -2,7 +2,7 @@
 
 > **useSeoTag**(`config`, `meta`): [`SeoTagResult`](../type-aliases/SeoTagResult.md)
 
-Defined in: [src/config/seo.service.ts:114](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo.service.ts#L114)
+Defined in: [src/config/seo.service.ts:114](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo.service.ts#L114)
 
 ## Parameters
 

@@ -1,6 +1,6 @@
 # Interface: SeoMetaArticle
 
-Defined in: [src/config/seo-meta.types.ts:37](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L37)
+Defined in: [src/config/seo-meta.types.ts:37](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L37)
 
 Article Open Graph extensions (`og:type=article`).
 
@@ -14,7 +14,7 @@ Article Open Graph extensions (`og:type=article`).
 
 > `optional` **articleAuthor?**: readonly `string`[]
 
-Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L38)
+Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L38)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/ka
 
 > `optional` **articleModifiedTime?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L39)
+Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L39)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/ka
 
 > `optional` **articlePublishedTime?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L40)
+Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L40)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/ka
 
 > `optional` **articleSection?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L41)
+Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L41)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/ka
 
 > `optional` **articleTag?**: readonly `string`[]
 
-Defined in: [src/config/seo-meta.types.ts:42](https://github.com/senseikatana/katanakit-js/blob/cc7f6fdb267e50aa7f208b256d51e23ae72de919/src/config/seo-meta.types.ts#L42)
+Defined in: [src/config/seo-meta.types.ts:42](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L42)
