@@ -2,7 +2,7 @@
 
 > **useJsonParse**&lt;`T`&gt;(`json`): `T`
 
-Defined in: [src/core/services/formatter.service.ts:148](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/core/services/formatter.service.ts#L148)
+Defined in: [src/core/services/formatter.service.ts:148](https://github.com/senseikatana/katanakit-js/blob/04891e89563504d7c59b2a5004ef20cbc07608ac/src/core/services/formatter.service.ts#L148)
 
 Pure: parse JSON (throws on invalid input — same as `JSON.parse`).
 

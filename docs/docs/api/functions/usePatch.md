@@ -2,7 +2,7 @@
 
 > **usePatch**&lt;`T`&gt;(`apiName`, `endpointName`, `body?`, `urlOptions?`): `Promise`&lt;[`FetchResult`](../type-aliases/FetchResult.md)&lt;`T`&gt;&gt;
 
-Defined in: [src/core/services/http.service.ts:494](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/core/services/http.service.ts#L494)
+Defined in: [src/core/services/http.service.ts:494](https://github.com/senseikatana/katanakit-js/blob/04891e89563504d7c59b2a5004ef20cbc07608ac/src/core/services/http.service.ts#L494)
 
 PATCH helper over a registered API endpoint.
 
