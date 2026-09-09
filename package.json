@@ -65,7 +65,7 @@
     "release:major": "yarn check && yarn bump:major && git push && git push --tags",
     "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); const p=require('./package.json'); p.version=v; require('fs').writeFileSync('package.json',JSON.stringify(p,null,2)+'\\n'); console.log('Synced to v'+v)\"",
     "docs:dev": "yarn workspace katanakit-docs run dev",
-    "docs:build": "yarn workspace katanakit-docs run build && mkdir -p dist && cp -r docs/build/* dist/build/",
+    "docs:build": "yarn workspace katanakit-docs run build",
     "docs:serve": "yarn workspace katanakit-docs run serve"
   },
   "repository": {
@@ -96,7 +96,7 @@
   "jsdelivr": "./dist/index.js",
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
-    "@prisma/orm-postgres": "^8.0.0-rc.8"
+    "@prisma/orm-postgres": "8.0.0-rc.8"
   },
   "peerDependencies": {
     "cors": ">=2.8.0",
@@ -120,14 +120,14 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
-    "@types/bun": "^1.4.1",
+    "@types/bun": "^1.4.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.5.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "prisma": "^8.0.0-rc.13",
+    "prisma": "8.0.0-rc.13",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",

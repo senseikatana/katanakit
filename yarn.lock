@@ -3449,7 +3449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect/sql-d1@npm:>=4.0.0-rc.110 || >=4.0.0":
+"@effect/sql-d1@npm:4.0.0-rc.112, @effect/sql-d1@npm:>=4.0.0-rc.110 || >=4.0.0":
   version: 4.0.0-rc.112
   resolution: "@effect/sql-d1@npm:4.0.0-rc.112"
   dependencies:
@@ -3460,7 +3460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect/sql-sqlite-do@npm:>=4.0.0-rc.110 || >=4.0.0":
+"@effect/sql-sqlite-do@npm:4.0.0-rc.112, @effect/sql-sqlite-do@npm:>=4.0.0-rc.110 || >=4.0.0":
   version: 4.0.0-rc.112
   resolution: "@effect/sql-sqlite-do@npm:4.0.0-rc.112"
   peerDependencies:
@@ -4536,7 +4536,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/react@npm:^3.0.0":
+"@mdx-js/react@npm:^3.0.0, @mdx-js/react@npm:^3.1.1":
   version: 3.1.1
   resolution: "@mdx-js/react@npm:3.1.1"
   dependencies:
@@ -5101,56 +5101,61 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/cli-engine@npm:0.2.3":
-  version: 0.2.3
-  resolution: "@prisma/cli-engine@npm:0.2.3"
+"@prisma/cli-engine@npm:0.3.0":
+  version: 0.3.0
+  resolution: "@prisma/cli-engine@npm:0.3.0"
   dependencies:
     "@clack/prompts": "npm:1.5.0"
-    "@prisma/management-api-sdk": "npm:1.55.0"
     "@stricli/core": "npm:1.3.0"
     c12: "npm:3.3.4"
     colorette: "npm:^2.0.20"
     package-manager-detector: "npm:1.8.0"
     string-width: "npm:^8.2.1"
-  checksum: 10c0/397c21563d81600f7ab1543790fa2d55e2dde6b6981f1167c12cf3a83cfc23860ff2027b1b173e2afb4c9c1379221b28aacc0a132020ca320918833de1a20ece
+  peerDependencies:
+    "@prisma/management-api-sdk": ^1.55.0
+  checksum: 10c0/959446ff161780f1e0c30a775f260d7aa9badbc6bafda8f79751b2e40b2e8920662caca73cc247a19d767919b23f99fef763e24181ac4642fd7b14ce991e7cf8
   languageName: node
   linkType: hard
 
-"@prisma/composer-cli@npm:0.13.0-dev.1":
-  version: 0.13.0-dev.1
-  resolution: "@prisma/composer-cli@npm:0.13.0-dev.1"
+"@prisma/composer-cli@npm:0.17.0":
+  version: 0.17.0
+  resolution: "@prisma/composer-cli@npm:0.17.0"
   dependencies:
-    "@prisma/composer": "npm:0.13.0-dev.1"
+    "@prisma/composer": "npm:0.17.0"
     alchemy: "npm:2.0.0-beta.74"
     c12: "npm:^3.3.4"
-    effect: "npm:4.0.0-rc.111"
+    cross-spawn: "npm:^7.0.6"
+    effect: "npm:4.0.0-rc.112"
     esbuild: "npm:^0.28.1"
   peerDependencies:
-    "@prisma/cli-engine": 0.2.2
+    "@prisma/cli-engine": 0.3.0
   bin:
     prisma-composer: dist/bin.mjs
-  checksum: 10c0/a939ea41beb1f62708235b7e36ae393fc99a4a48a355f5da15663060e5078db367b699678ac27e14e76b3161056c68fcbc8fa61daabdc31442045e448f09ea8b
+  checksum: 10c0/198c2e347046b58ca59b8c0d3084604c5833d04783a7b852b2d803eb9487fbe57f452a1d35aff4f9a43f5d90a23654ea778cb28d7bde86a4ee03b16ae10fc71d
   languageName: node
   linkType: hard
 
-"@prisma/composer@npm:0.13.0-dev.1":
-  version: 0.13.0-dev.1
-  resolution: "@prisma/composer@npm:0.13.0-dev.1"
+"@prisma/composer@npm:0.17.0":
+  version: 0.17.0
+  resolution: "@prisma/composer@npm:0.17.0"
   dependencies:
+    "@effect/sql-d1": "npm:4.0.0-rc.112"
+    "@effect/sql-sqlite-do": "npm:4.0.0-rc.112"
     "@prisma/management-api-sdk": "npm:^1.60.0"
     "@standard-schema/spec": "npm:^1.1.0"
     alchemy: "npm:2.0.0-beta.74"
     arktype: "npm:^2.2.3"
     c12: "npm:^3.3.4"
-    effect: "npm:4.0.0-rc.111"
+    cross-spawn: "npm:^7.0.6"
+    effect: "npm:4.0.0-rc.112"
     esbuild: "npm:^0.28.1"
-  checksum: 10c0/019b8336c1b0712b787870da674a10d4222df48ba901793f4fcb3ec004d28aefffce35a02b597f4b3f32f0f17a9b53ecdaf99c71c11ee450014cf4f1513fb41e
+  checksum: 10c0/a96f7369a0ca5ba97d3520601d66d4447e9fa6f39264c0f582c10f43b9ad5ae1ba84a8b50470fe11cbe9a6d391ca304d617247b3c793fb3c6fa5c98ef34f11ff
   languageName: node
   linkType: hard
 
-"@prisma/compute-sdk@npm:0.39.0":
-  version: 0.39.0
-  resolution: "@prisma/compute-sdk@npm:0.39.0"
+"@prisma/compute-sdk@npm:0.42.0":
+  version: 0.42.0
+  resolution: "@prisma/compute-sdk@npm:0.42.0"
   dependencies:
     "@vercel/nft": "npm:^1.10.2"
     better-result: "npm:^2.7.0"
@@ -5162,17 +5167,8 @@ __metadata:
     ws: "npm:^8.20.0"
     yaml: "npm:^2.8.2"
   peerDependencies:
-    "@prisma/management-api-sdk": ^1.44.0
-  checksum: 10c0/23ef798c634a01fc92a160352423ed87c68614ae7a8716e23160c8d5a1860648cc71e89637cf3f9f586dedc03e824f2106dd5c0c535e7cb4d674811039322725
-  languageName: node
-  linkType: hard
-
-"@prisma/credentials-store@npm:^7.8.0":
-  version: 7.10.0
-  resolution: "@prisma/credentials-store@npm:7.10.0"
-  dependencies:
-    xdg-app-paths: "npm:8.3.0"
-  checksum: 10c0/5ce64029833b8fdf8b78bd3a576f9bfb4b5f0bcd7af02cf4b4639233c146c125761fcedc47519bbeb4b79d716b80e95da00aa3eb9dfc7ed9b86ecf37d6cf3e23
+    "@prisma/management-api-sdk": ^1.69.0
+  checksum: 10c0/2c2c24d260554172a2d42bf560644ec489f7ffbe3a71142a21c0267ed24cc9e468292cb16ee6a0d21acf660754a903ecf6f89970a6507bbe4cee50ed91b9c8a0
   languageName: node
   linkType: hard
 
@@ -5217,12 +5213,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/management-api-sdk@npm:1.55.0":
-  version: 1.55.0
-  resolution: "@prisma/management-api-sdk@npm:1.55.0"
+"@prisma/management-api-sdk@npm:1.69.0":
+  version: 1.69.0
+  resolution: "@prisma/management-api-sdk@npm:1.69.0"
   dependencies:
     openapi-fetch: "npm:0.14.0"
-  checksum: 10c0/bb726f78e3e70c14aa73146682a1abc03014bafcc41df238c63f79d6a4504f10fcd2fe477098f1b24746f9a7da4b1b8dff046ce986a798e2957a07f6f5cd13a9
+  checksum: 10c0/ade82a6dcb620f243d166629333ebb2a5c499b1ff27b44a8f0eb09bd7db4fae7c2b90f23002c9d0ba0269e8d2f1960c4c7dd1790bd6535445028cf097f944414
   languageName: node
   linkType: hard
 
@@ -5235,12 +5231,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/orm-family-sql@npm:8.0.0-rc.8-dev.19":
-  version: 8.0.0-rc.8-dev.19
-  resolution: "@prisma/orm-family-sql@npm:8.0.0-rc.8-dev.19"
+"@prisma/orm-family-sql@npm:8.0.0-rc.8":
+  version: 8.0.0-rc.8
+  resolution: "@prisma/orm-family-sql@npm:8.0.0-rc.8"
   dependencies:
-    "@prisma/orm-framework": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-toolchain": "npm:8.0.0-rc.8-dev.19"
+    "@prisma/orm-framework": "npm:8.0.0-rc.8"
+    "@prisma/orm-toolchain": "npm:8.0.0-rc.8"
     "@standard-schema/spec": "npm:^1.1.0"
     arktype: "npm:^2.2.2"
     pathe: "npm:^2.0.3"
@@ -5251,13 +5247,13 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/b14f070592c26e917e452fa28af4c01a6c5a587ab74925fea7d8bfb715140797a8d9a4edf3a169ceba1d8600163a4d24040a9bb2a53070473bd65ce362e91272
+  checksum: 10c0/dc3e12a3cd54dc00544939a2c209741f7c10868db58039634df876294fba1480a187308860f37ae63127fcb156d2337018759ff88e9ce608d1f9526eb15620c7
   languageName: node
   linkType: hard
 
-"@prisma/orm-framework@npm:8.0.0-rc.5-dev.4":
-  version: 8.0.0-rc.5-dev.4
-  resolution: "@prisma/orm-framework@npm:8.0.0-rc.5-dev.4"
+"@prisma/orm-framework@npm:8.0.0-rc.8":
+  version: 8.0.0-rc.8
+  resolution: "@prisma/orm-framework@npm:8.0.0-rc.8"
   dependencies:
     "@standard-schema/spec": "npm:^1.1.0"
     arktype: "npm:^2.2.2"
@@ -5268,35 +5264,18 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/fd45a72255473d7bf1516a12938e16ff12f31a6c86c45dfef6e76c9c0f625b2a555d0fd2dba94f33e8c08a354d745f21c861b6c5be743ccf883aaf8c289253ba
+  checksum: 10c0/fb9d8a491984ecbb4a59e26256ed34500f95cdba0e83fb3c63e386802a70478a7b72c52025d706b451c1bd594f309c1ee2e9d7d878cd5c0a2be710e496d9694e
   languageName: node
   linkType: hard
 
-"@prisma/orm-framework@npm:8.0.0-rc.8-dev.19":
-  version: 8.0.0-rc.8-dev.19
-  resolution: "@prisma/orm-framework@npm:8.0.0-rc.8-dev.19"
+"@prisma/orm-postgres@npm:8.0.0-rc.8":
+  version: 8.0.0-rc.8
+  resolution: "@prisma/orm-postgres@npm:8.0.0-rc.8"
   dependencies:
-    "@standard-schema/spec": "npm:^1.1.0"
-    arktype: "npm:^2.2.2"
-    pathe: "npm:^2.0.3"
-    uniku: "npm:^0.5.0"
-  peerDependencies:
-    typescript: ">=5.9"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/54fd8cfb2f2e90845a1127809a67b5eb44486ebf1246e1a35ffcc9091d7b3c944fe6372f0bf7d0852daa09502dde1a63ebcc1ac36845060a34164bd8632e2845
-  languageName: node
-  linkType: hard
-
-"@prisma/orm-postgres@npm:^8.0.0-rc.8":
-  version: 8.0.0-rc.8-dev.19
-  resolution: "@prisma/orm-postgres@npm:8.0.0-rc.8-dev.19"
-  dependencies:
-    "@prisma/orm-family-sql": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-framework": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-target-postgres": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-toolchain": "npm:8.0.0-rc.8-dev.19"
+    "@prisma/orm-family-sql": "npm:8.0.0-rc.8"
+    "@prisma/orm-framework": "npm:8.0.0-rc.8"
+    "@prisma/orm-target-postgres": "npm:8.0.0-rc.8"
+    "@prisma/orm-toolchain": "npm:8.0.0-rc.8"
     "@types/pg": "npm:8.20.4"
     pathe: "npm:^2.0.3"
     pg: "npm:8.22.0"
@@ -5305,17 +5284,17 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/0491adba5d666174aff7e4e7612e2c2b2dde8f26c7811541e687a6d594507e9e6796266d7dd23b18be144a654d36d2839c92b0a31779ef6d5a47bd5929c2d8ed
+  checksum: 10c0/99d67a369cf948bf9ee6bd188df6c32ea6d0fc03e361dcba681c376fe61dadd173911e26e224f7101b398e27c403e15e6a1ad914502273d7f4f7d266b4adcd26
   languageName: node
   linkType: hard
 
-"@prisma/orm-target-postgres@npm:8.0.0-rc.8-dev.19":
-  version: 8.0.0-rc.8-dev.19
-  resolution: "@prisma/orm-target-postgres@npm:8.0.0-rc.8-dev.19"
+"@prisma/orm-target-postgres@npm:8.0.0-rc.8":
+  version: 8.0.0-rc.8
+  resolution: "@prisma/orm-target-postgres@npm:8.0.0-rc.8"
   dependencies:
-    "@prisma/orm-family-sql": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-framework": "npm:8.0.0-rc.8-dev.19"
-    "@prisma/orm-toolchain": "npm:8.0.0-rc.8-dev.19"
+    "@prisma/orm-family-sql": "npm:8.0.0-rc.8"
+    "@prisma/orm-framework": "npm:8.0.0-rc.8"
+    "@prisma/orm-toolchain": "npm:8.0.0-rc.8"
     "@standard-schema/spec": "npm:^1.1.0"
     "@types/pg": "npm:8.20.4"
     arktype: "npm:^2.2.2"
@@ -5327,50 +5306,15 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/ae767bb4b4f6f764d5dbb78e5dcb6328c8f7c98d258ebcfbd6689c5825d31364ab85c797de6208494997678d046f5c033f200ddcd2e4d1c14a68709b9c7a538d
+  checksum: 10c0/6976e712c119020781437722752537a91a6b6ce237c2cbd5db22f8acec2927e0852032fac1a626a2bd9cdcbdb266a6dbedbcb7451f0b4fcc657962848341caae
   languageName: node
   linkType: hard
 
-"@prisma/orm-toolchain@npm:8.0.0-rc.5-dev.4":
-  version: 8.0.0-rc.5-dev.4
-  resolution: "@prisma/orm-toolchain@npm:8.0.0-rc.5-dev.4"
+"@prisma/orm-toolchain@npm:8.0.0-rc.8":
+  version: 8.0.0-rc.8
+  resolution: "@prisma/orm-toolchain@npm:8.0.0-rc.8"
   dependencies:
-    "@prisma/orm-framework": "npm:8.0.0-rc.5-dev.4"
-    "@vercel/detect-agent": "npm:^1.2.4"
-    arktype: "npm:^2.2.2"
-    c12: "npm:^3.3.4"
-    ci-info: "npm:^4.3.1"
-    clipanion: "npm:4.0.0-rc.4"
-    closest-match: "npm:^1.3.3"
-    colorette: "npm:^2.0.20"
-    esbuild: "npm:^0.28.2"
-    jsonc-parser: "npm:^3.3.1"
-    package-manager-detector: "npm:^1.8.0"
-    pathe: "npm:^2.0.3"
-    prettier: "npm:^3.9.6"
-    string-width: "npm:^8.2.2"
-    strip-ansi: "npm:^7.2.0"
-    vscode-languageserver: "npm:10.1.0"
-    vscode-languageserver-textdocument: "npm:1.0.12"
-    wrap-ansi: "npm:^10.0.0"
-  peerDependencies:
-    "@prisma/cli-engine": 0.2.0
-    typescript: ">=5.9"
-    vite: ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-    vite:
-      optional: true
-  checksum: 10c0/9b2885c6047400b5786901d7e659b27b0934387a523853333a100ff8b51a49a36f52cced0d16fa743f730c56f41a7f736daf5f8b724729d258abe1d74e2f29fe
-  languageName: node
-  linkType: hard
-
-"@prisma/orm-toolchain@npm:8.0.0-rc.8-dev.19":
-  version: 8.0.0-rc.8-dev.19
-  resolution: "@prisma/orm-toolchain@npm:8.0.0-rc.8-dev.19"
-  dependencies:
-    "@prisma/orm-framework": "npm:8.0.0-rc.8-dev.19"
+    "@prisma/orm-framework": "npm:8.0.0-rc.8"
     "@vercel/detect-agent": "npm:^1.2.4"
     arktype: "npm:^2.2.2"
     c12: "npm:^3.3.4"
@@ -5397,7 +5341,7 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: 10c0/97a6b051e89f2bd5eaec2512ac38fe780718e91cf230ea0d654872e27fcdc11ab7df548904509f8868441c2092f1f4a3602af5ef2f655a8d7f733cc6b76206e9
+  checksum: 10c0/1f2ec575ed2cf65b309426ad06d59a058f24291551b00cbe60a1d03a38f115905de4616bbae39f7cd210f68288e8b26d258bfa687947d61b5e8bf9fd76a906e1
   languageName: node
   linkType: hard
 
@@ -6531,7 +6475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bun@npm:^1.4.1":
+"@types/bun@npm:^1.4.2":
   version: 1.4.2
   resolution: "@types/bun@npm:1.4.2"
   dependencies:
@@ -6845,7 +6789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^19.0.0":
+"@types/react@npm:*, @types/react@npm:^19.2.18":
   version: 19.2.18
   resolution: "@types/react@npm:19.2.18"
   dependencies:
@@ -8738,7 +8682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^2.0.0":
+"clsx@npm:^2.0.0, clsx@npm:^2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
@@ -9581,7 +9525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docusaurus-plugin-typedoc@npm:^1.4.2":
+"docusaurus-plugin-typedoc@npm:^1.4.3":
   version: 1.4.3
   resolution: "docusaurus-plugin-typedoc@npm:1.4.3"
   dependencies:
@@ -9729,14 +9673,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"effect@npm:4.0.0-rc.111":
-  version: 4.0.0-rc.111
-  resolution: "effect@npm:4.0.0-rc.111"
+"effect@npm:4.0.0-rc.112":
+  version: 4.0.0-rc.112
+  resolution: "effect@npm:4.0.0-rc.112"
   dependencies:
-    "@standard-schema/spec": "npm:^1.1.0"
     fast-check: "npm:^4.9.0"
     msgpackr: "npm:^2.0.5"
-  checksum: 10c0/530373c4bae79664f0a642dbe07d1d6582d057f8b92689134433d65131b5fd5d14f498c477a867cee1a503251430dcae84ef177b26b71e9b9d23f990bde9b72c
+  checksum: 10c0/9cf234f6bc0535cb1fb18cae5ce158c23a4c6484e054d809bab6de16abd742ac131ba83543a3c0a10a194ddf46f2b4257595d0987f7e65e2650ab753dff7a068
   languageName: node
   linkType: hard
 
@@ -10660,7 +10603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:*, fsevents@npm:~2.3.2, fsevents@npm:~2.3.3":
+"fsevents@npm:~2.3.2, fsevents@npm:~2.3.3":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
@@ -10670,7 +10613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A*#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.3#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.3#optional!builtin<compat/fsevents>":
   version: 2.3.3
   resolution: "fsevents@patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
   dependencies:
@@ -12105,16 +12048,16 @@ __metadata:
     "@docusaurus/preset-classic": "npm:3.10.2"
     "@docusaurus/tsconfig": "npm:3.10.2"
     "@docusaurus/types": "npm:3.10.2"
-    "@mdx-js/react": "npm:^3.0.0"
-    "@types/react": "npm:^19.0.0"
-    clsx: "npm:^2.0.0"
-    docusaurus-plugin-typedoc: "npm:^1.4.2"
-    prism-react-renderer: "npm:^2.3.0"
-    react: "npm:^19.0.0"
-    react-dom: "npm:^19.0.0"
+    "@mdx-js/react": "npm:^3.1.1"
+    "@types/react": "npm:^19.2.18"
+    clsx: "npm:^2.1.1"
+    docusaurus-plugin-typedoc: "npm:^1.4.3"
+    prism-react-renderer: "npm:^2.4.1"
+    react: "npm:^19.2.8"
+    react-dom: "npm:^19.2.8"
     typedoc: "npm:^0.28.20"
     typedoc-plugin-markdown: "npm:^4.13.0"
-    typescript: "npm:~6.0.2"
+    typescript: "npm:~7.0.2"
   languageName: unknown
   linkType: soft
 
@@ -12124,15 +12067,15 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:^2.5.12"
     "@js-temporal/polyfill": "npm:^0.5.1"
-    "@prisma/orm-postgres": "npm:^8.0.0-rc.8"
-    "@types/bun": "npm:^1.4.1"
+    "@prisma/orm-postgres": "npm:8.0.0-rc.8"
+    "@types/bun": "npm:^1.4.2"
     "@types/cors": "npm:^2.8.19"
     "@types/express": "npm:^5.0.6"
     "@types/node": "npm:^26.5.0"
     cors: "npm:^2.8.6"
     dotenv: "npm:^17.4.2"
     express: "npm:^5.2.1"
-    prisma: "npm:^8.0.0-rc.13"
+    prisma: "npm:8.0.0-rc.13"
     tsx: "npm:^4.23.13"
     typescript: "npm:^7.0.2"
     vite: "npm:^8.2.2"
@@ -14079,18 +14022,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"os-paths@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "os-paths@npm:7.4.0"
-  dependencies:
-    fsevents: "npm:*"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  checksum: 10c0/196b31eaba32d56780ad42674c7fab22f9cdc811c90bca0e7eb9b016ce76ad8eb4d32dc537e7eea8ca11627b6e2c709ae9a1287d7b265c3b6feb855f87579022
-  languageName: node
-  linkType: hard
-
 "p-cancelable@npm:^3.0.0":
   version: 3.0.0
   resolution: "p-cancelable@npm:3.0.0"
@@ -15457,7 +15388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prism-react-renderer@npm:^2.3.0":
+"prism-react-renderer@npm:^2.3.0, prism-react-renderer@npm:^2.4.1":
   version: 2.4.1
   resolution: "prism-react-renderer@npm:2.4.1"
   dependencies:
@@ -15469,17 +15400,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^8.0.0-rc.13":
-  version: 8.0.0-rc.9-dev.79
-  resolution: "prisma@npm:8.0.0-rc.9-dev.79"
+"prisma@npm:8.0.0-rc.13":
+  version: 8.0.0-rc.13
+  resolution: "prisma@npm:8.0.0-rc.13"
   dependencies:
     "@manypkg/tools": "npm:^2.1.2"
-    "@prisma/cli-engine": "npm:0.2.3"
-    "@prisma/composer-cli": "npm:0.13.0-dev.1"
-    "@prisma/compute-sdk": "npm:0.39.0"
-    "@prisma/credentials-store": "npm:^7.8.0"
-    "@prisma/management-api-sdk": "npm:1.55.0"
-    "@prisma/orm-toolchain": "npm:8.0.0-rc.5-dev.4"
+    "@prisma/cli-engine": "npm:0.3.0"
+    "@prisma/composer-cli": "npm:0.17.0"
+    "@prisma/compute-sdk": "npm:0.42.0"
+    "@prisma/management-api-sdk": "npm:1.69.0"
+    "@prisma/orm-toolchain": "npm:8.0.0-rc.8"
     "@vercel/detect-agent": "npm:^1.2.3"
     better-result: "npm:^2.9.2"
     dotenv: "npm:^17.4.2"
@@ -15487,7 +15417,7 @@ __metadata:
     open: "npm:^11.0.0"
   bin:
     prisma: ./dist/prisma.js
-  checksum: 10c0/de6d998eaf001eb3f5e67edc26d9829cdefadd73612d66d85612c401d4678ab18305c62726fd10290f54b101feb7ea149b4340a30bdb08b10006bb02d6921136
+  checksum: 10c0/a8b4ab99fe78df5bc95b9b508d7243efe5a0dd014ad479f3cbe1c0fb25527b3ae181e0309f3e95967766dd24166b7d9c68f10c50dcddcac423268c2e6b07b225
   languageName: node
   linkType: hard
 
@@ -15733,7 +15663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19.0.0":
+"react-dom@npm:^19.2.8":
   version: 19.2.8
   resolution: "react-dom@npm:19.2.8"
   dependencies:
@@ -15865,7 +15795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.0.0, react@npm:^19.2.0":
+"react@npm:^19.2.0, react@npm:^19.2.8":
   version: 19.2.8
   resolution: "react@npm:19.2.8"
   checksum: 10c0/5f86bdb56426652fd6d989d30a6f2e603c057272c47c9ca3a3fbe190a3a39ee9ccce937d63cfc039717abed1b8891d6a499134bc35311acc07eafdacd86537cd
@@ -17748,7 +17678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^7.0.2":
+"typescript@npm:^7.0.2, typescript@npm:~7.0.2":
   version: 7.0.2
   resolution: "typescript@npm:7.0.2"
   dependencies:
@@ -17819,17 +17749,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~6.0.2":
-  version: 6.0.3
-  resolution: "typescript@npm:6.0.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/4a25ff5045b984370f48f196b3a0120779b1b343d40b9a68d114ea5e5fff099809b2bb777576991a63a5cd59cf7bffd96ff6fe10afcefbcb8bd6fb96ad4b6606
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^7.0.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^7.0.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~7.0.2#optional!builtin<compat/typescript>":
   version: 7.0.2
   resolution: "typescript@patch:typescript@npm%3A7.0.2#optional!builtin<compat/typescript>::version=7.0.2&hash=3bafbf"
   dependencies:
@@ -17897,16 +17817,6 @@ __metadata:
   bin:
     tsc: bin/tsc
   checksum: 10c0/6b3cdc369cd829d46e00734ea64233ee84419c2825ad8fe408915adde77abced4b7a2401f7eed517d54a7a4f5d1c1869753cb99018df1c2159c761d9f33483a6
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A~6.0.2#optional!builtin<compat/typescript>":
-  version: 6.0.3
-  resolution: "typescript@patch:typescript@npm%3A6.0.3#optional!builtin<compat/typescript>::version=6.0.3&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/2f25c74e65663c248fa1ade2b8459d9ce5372ff9dad07067310f132966ebec1d93f6c42f0baf77a6b6a7a91460463f708e6887013aaade22111037457c6b25df
   languageName: node
   linkType: hard
 
@@ -18848,36 +18758,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xdg-app-paths@npm:8.3.0":
-  version: 8.3.0
-  resolution: "xdg-app-paths@npm:8.3.0"
-  dependencies:
-    fsevents: "npm:*"
-    xdg-portable: "npm:^10.6.0"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  checksum: 10c0/84d9a80dc7ca2dc327fc89f7dca96cee5638006197e98fd0778d3ab80624bd09803358021b51c58a7e20e55b365355c7b5cff4e45ab3e0aa10227b3dd104a62f
-  languageName: node
-  linkType: hard
-
 "xdg-basedir@npm:^5.0.1, xdg-basedir@npm:^5.1.0":
   version: 5.1.0
   resolution: "xdg-basedir@npm:5.1.0"
   checksum: 10c0/c88efabc71ffd996ba9ad8923a8cc1c7c020a03e2c59f0ffa72e06be9e724ad2a0fccef488757bc6ed3d8849d753dd25082d1035d95cb179e79eae4d034d0b80
-  languageName: node
-  linkType: hard
-
-"xdg-portable@npm:^10.6.0":
-  version: 10.6.0
-  resolution: "xdg-portable@npm:10.6.0"
-  dependencies:
-    fsevents: "npm:*"
-    os-paths: "npm:^7.4.0"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  checksum: 10c0/e632280445c5042d7a4b04d332c5481ee49735f443e7d2e5e8fba9a5a5a664fcee6b9f699d729069c7e39eca5124c7fa8f0e6f2dc00aee68a687253ccadc7255
   languageName: node
   linkType: hard
 
