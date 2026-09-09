@@ -1,7 +1,11 @@
 {
 	"compilerOptions": {
 		"target": "ES2022",
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"lib": [
+			"ES2022",
+			"DOM",
+			"DOM.Iterable"
+		],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"strict": true,
@@ -10,18 +14,35 @@
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
 		"types": [
-   "bun",
-   "node"
-  ],
+			"node"
+		],
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
-		"outDir": "dist",
+		"outDir": "dist/katanakit-js/",
 		"rootDir": "src",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": [
+				"./src/*"
+			],
+			"@/docs/*": [
+				"./docs/*"
+			],
+			"@/adapters/*": [
+				"./src/adapters/*"
+			],
+			"@/config/*": [
+				"./src/config/*"
+			]
 		}
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules", "dist", "examples", "tests"]
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"examples",
+		"tests"
+	]
 }

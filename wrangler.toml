@@ -1,6 +1,9 @@
 name = "katanakit-js"
 main = "src/worker.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2026-09-09"
+workers_dev = true
+
+route = { pattern = "senseikatana.com/katanakit-js/*", zone_name = "senseikatana.com" }
 
 [assets]
 directory = "./dist/katanakit-js"

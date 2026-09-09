@@ -2,7 +2,7 @@
 
 > **useUpperCase**(`text`, `locale?`): `string`
 
-Defined in: [src/core/services/formatter.service.ts:47](https://github.com/senseikatana/katanakit-js/blob/f3e8aa63995d22bcc8253b02a108a1169d9a2cb9/src/core/services/formatter.service.ts#L47)
+Defined in: [src/core/services/formatter.service.ts:47](https://github.com/senseikatana/katanakit-js/blob/5f61b578df41177e4d39d9b6d369c524de91524a/src/core/services/formatter.service.ts#L47)
 
 Pure: locale-aware upper case (trims whitespace).
 

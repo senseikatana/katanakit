@@ -6,39 +6,39 @@
   "workspaces": [
     "docs"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/katanakit-js/index.js",
+  "module": "./dist/katanakit-js/index.js",
+  "types": "./dist/katanakit-js/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/katanakit-js/index.d.ts",
+      "import": "./dist/katanakit-js/index.js",
+      "default": "./dist/katanakit-js/index.js"
     },
     "./adapters/express": {
-      "types": "./dist/adapters/express/index.d.ts",
-      "import": "./dist/adapters/express/index.js",
-      "default": "./dist/adapters/express/index.js"
+      "types": "./dist/katanakit-js/adapters/express/index.d.ts",
+      "import": "./dist/katanakit-js/adapters/express/index.js",
+      "default": "./dist/katanakit-js/adapters/express/index.js"
     },
     "./adapters/nuxt": {
-      "types": "./dist/adapters/nuxt/index.d.ts",
-      "import": "./dist/adapters/nuxt/index.js",
-      "default": "./dist/adapters/nuxt/index.js"
+      "types": "./dist/katanakit-js/adapters/nuxt/index.d.ts",
+      "import": "./dist/katanakit-js/adapters/nuxt/index.js",
+      "default": "./dist/katanakit-js/adapters/nuxt/index.js"
     },
     "./adapters/vue": {
-      "types": "./dist/adapters/vue/index.d.ts",
-      "import": "./dist/adapters/vue/index.js",
-      "default": "./dist/adapters/vue/index.js"
+      "types": "./dist/katanakit-js/adapters/vue/index.d.ts",
+      "import": "./dist/katanakit-js/adapters/vue/index.js",
+      "default": "./dist/katanakit-js/adapters/vue/index.js"
     },
     "./adapters/astro": {
-      "types": "./dist/adapters/astro/index.d.ts",
-      "import": "./dist/adapters/astro/index.js",
-      "default": "./dist/adapters/astro/index.js"
+      "types": "./dist/katanakit-js/adapters/astro/index.d.ts",
+      "import": "./dist/katanakit-js/adapters/astro/index.js",
+      "default": "./dist/katanakit-js/adapters/astro/index.js"
     },
     "./prisma": {
-      "types": "./dist/prisma/index.d.ts",
-      "import": "./dist/prisma/index.js",
-      "default": "./dist/prisma/index.js"
+      "types": "./dist/katanakit-js/prisma/index.d.ts",
+      "import": "./dist/katanakit-js/prisma/index.js",
+      "default": "./dist/katanakit-js/prisma/index.js"
     },
     "./package.json": "./package.json"
   },
