@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-pages-${{ github.ref }}
+  group: cloudflare-workers-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -41,9 +41,9 @@ jobs:
       - name: Build docs
         run: yarn docs:build
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/katanakit-js --project-name=katanakit-js
+          command: deploy
