@@ -1,6 +1,6 @@
 {
   "name": "katanakit-js",
-  "version": "2.13.7",
+  "version": "2.13.8",
   "description": "KatanaKit — a sharp, framework-agnostic TypeScript service toolkit organized with hexagonal architecture.",
   "type": "module",
   "workspaces": [
@@ -57,13 +57,13 @@
     "check": "biome check ./src && tsc --noEmit && vitest run",
     "fix": "biome check --write ./src && tsc --noEmit && vitest run",
     "build": "yarn run check && tsc -p tsconfig.json",
-    "bump:patch": "yarn version patch && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "bump:minor": "yarn version minor && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "bump:major": "yarn version major && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "release": "yarn check && yarn bump:patch && yarn npm publish --provenance && git push && git push --tags",
-    "release:minor": "yarn check && yarn bump:minor && yarn npm publish --provenance && git push && git push --tags",
-    "release:major": "yarn check && yarn bump:major && yarn npm publish --provenance && git push && git push --tags",
-    "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); const p=require('./package.json'); p.version=v; require('fs').writeFileSync('package.json',JSON.stringify(p,null,2)+'\\n'); console.log('Synced to v'+v)\"",
+    "bump:patch": "yarn version patch --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
+    "bump:minor": "yarn version minor --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
+    "bump:major": "yarn version major --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
+    "release": "yarn check && yarn bump:patch && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "release:minor": "yarn check && yarn bump:minor && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "release:major": "yarn check && yarn bump:major && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); ['package.json','docs/package.json'].forEach(f=>{const p=require('./'+f); p.version=v; require('fs').writeFileSync(f,JSON.stringify(p,null,2)+'\\n')}); console.log('Synced to v'+v)\"",
     "docs:dev": "yarn workspace katanakit-docs run dev",
     "docs:build": "yarn workspace katanakit-docs run build",
     "docs:serve": "yarn workspace katanakit-docs run serve"
