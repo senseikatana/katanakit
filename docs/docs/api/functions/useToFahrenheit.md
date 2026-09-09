@@ -2,7 +2,7 @@
 
 > **useToFahrenheit**(`celsius`, `locale?`, `digits?`): `string`
 
-Defined in: [src/core/services/formatter.service.ts:188](https://github.com/senseikatana/katanakit-js/blob/5f61b578df41177e4d39d9b6d369c524de91524a/src/core/services/formatter.service.ts#L188)
+Defined in: [src/core/services/formatter.service.ts:188](https://github.com/senseikatana/katanakit-js/blob/9310a985a7d82a0388897b9122168139eed9e426/src/core/services/formatter.service.ts#L188)
 
 Pure: °C → °F (formatted).
 

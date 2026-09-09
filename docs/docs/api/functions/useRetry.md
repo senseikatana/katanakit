@@ -2,7 +2,7 @@
 
 > **useRetry**&lt;`T`&gt;(`fn`, `retries?`, `delayMs?`): `Promise`&lt;`T`&gt;
 
-Defined in: [src/core/services/utils.service.ts:246](https://github.com/senseikatana/katanakit-js/blob/f3e8aa63995d22bcc8253b02a108a1169d9a2cb9/src/core/services/utils.service.ts#L246)
+Defined in: [src/core/services/utils.service.ts:246](https://github.com/senseikatana/katanakit-js/blob/9310a985a7d82a0388897b9122168139eed9e426/src/core/services/utils.service.ts#L246)
 
 Retries an async function with a fixed delay between attempts.
 
