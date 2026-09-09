@@ -33,6 +33,10 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 !.yarn/versions
 .pnp.*
 
+# Docs workspace (uses root yarn.lock)
+docs/yarn.lock
+docs/.yarn/
+
 # Generated TypeDoc markdown (produced by docs build / docs:dev)
 docs/docs/api/
 
