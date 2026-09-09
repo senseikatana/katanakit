@@ -6,39 +6,39 @@
   "workspaces": [
     "docs"
   ],
-  "main": "./dist/katanakit-js/index.js",
-  "module": "./dist/katanakit-js/index.js",
-  "types": "./dist/katanakit-js/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/katanakit-js/index.d.ts",
-      "import": "./dist/katanakit-js/index.js",
-      "default": "./dist/katanakit-js/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./adapters/express": {
-      "types": "./dist/katanakit-js/adapters/express/index.d.ts",
-      "import": "./dist/katanakit-js/adapters/express/index.js",
-      "default": "./dist/katanakit-js/adapters/express/index.js"
+      "types": "./dist/adapters/express/index.d.ts",
+      "import": "./dist/adapters/express/index.js",
+      "default": "./dist/adapters/express/index.js"
     },
     "./adapters/nuxt": {
-      "types": "./dist/katanakit-js/adapters/nuxt/index.d.ts",
-      "import": "./dist/katanakit-js/adapters/nuxt/index.js",
-      "default": "./dist/katanakit-js/adapters/nuxt/index.js"
+      "types": "./dist/adapters/nuxt/index.d.ts",
+      "import": "./dist/adapters/nuxt/index.js",
+      "default": "./dist/adapters/nuxt/index.js"
     },
     "./adapters/vue": {
-      "types": "./dist/katanakit-js/adapters/vue/index.d.ts",
-      "import": "./dist/katanakit-js/adapters/vue/index.js",
-      "default": "./dist/katanakit-js/adapters/vue/index.js"
+      "types": "./dist/adapters/vue/index.d.ts",
+      "import": "./dist/adapters/vue/index.js",
+      "default": "./dist/adapters/vue/index.js"
     },
     "./adapters/astro": {
-      "types": "./dist/katanakit-js/adapters/astro/index.d.ts",
-      "import": "./dist/katanakit-js/adapters/astro/index.js",
-      "default": "./dist/katanakit-js/adapters/astro/index.js"
+      "types": "./dist/adapters/astro/index.d.ts",
+      "import": "./dist/adapters/astro/index.js",
+      "default": "./dist/adapters/astro/index.js"
     },
     "./prisma": {
-      "types": "./dist/katanakit-js/prisma/index.d.ts",
-      "import": "./dist/katanakit-js/prisma/index.js",
-      "default": "./dist/katanakit-js/prisma/index.js"
+      "types": "./dist/prisma/index.d.ts",
+      "import": "./dist/prisma/index.js",
+      "default": "./dist/prisma/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -59,12 +59,12 @@
     "build": "yarn run check && tsc -p tsconfig.json",
     "release": "yarn build && npm version",
     "docs:dev": "yarn workspace katanakit-docs run dev",
-    "docs:build": "yarn workspace katanakit-docs run build && mkdir -p dist/katanakit-js && cp -r docs/build/* dist/katanakit-js/",
+    "docs:build": "yarn workspace katanakit-docs run build && mkdir -p dist && cp -r docs/build/* dist/build/",
     "docs:serve": "yarn workspace katanakit-docs run serve"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:senseikatana/katanakit-js.git"
+    "url": "git@github.com:senseikatana.git"
   },
   "keywords": [
     "api",
@@ -84,7 +84,7 @@
   "author": "senseikatana - Sergio Jurado",
   "license": "MIT",
   "bugs": {
-    "url": "https://senseikatana.github.io/katanakit-js/issues"
+    "url": "https://senseikatana.github.io/issues"
   },
   "unpkg": "./dist/index.js",
   "jsdelivr": "./dist/index.js",
