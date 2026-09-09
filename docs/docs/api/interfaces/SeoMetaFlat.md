@@ -1,6 +1,6 @@
 # Interface: SeoMetaFlat
 
-Defined in: [src/config/seo-meta.types.ts:48](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L48)
+Defined in: [src/config/seo-meta.types.ts:48](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L48)
 
 Flat meta: HTML head essentials + Facebook Open Graph.
 
@@ -14,7 +14,7 @@ Flat meta: HTML head essentials + Facebook Open Graph.
 
 > `optional` **articleAuthor?**: readonly `string`[]
 
-Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L38)
+Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L38)
 
 #### Inherited from
 
@@ -26,7 +26,7 @@ Defined in: [src/config/seo-meta.types.ts:38](https://github.com/senseikatana/ka
 
 > `optional` **articleModifiedTime?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L39)
+Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L39)
 
 #### Inherited from
 
@@ -38,7 +38,7 @@ Defined in: [src/config/seo-meta.types.ts:39](https://github.com/senseikatana/ka
 
 > `optional` **articlePublishedTime?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L40)
+Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L40)
 
 #### Inherited from
 
@@ -50,7 +50,7 @@ Defined in: [src/config/seo-meta.types.ts:40](https://github.com/senseikatana/ka
 
 > `optional` **articleSection?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L41)
+Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L41)
 
 #### Inherited from
 
@@ -62,7 +62,7 @@ Defined in: [src/config/seo-meta.types.ts:41](https://github.com/senseikatana/ka
 
 > `optional` **articleTag?**: readonly `string`[]
 
-Defined in: [src/config/seo-meta.types.ts:42](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L42)
+Defined in: [src/config/seo-meta.types.ts:42](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L42)
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ Defined in: [src/config/seo-meta.types.ts:42](https://github.com/senseikatana/ka
 
 > `optional` **author?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:63](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L63)
+Defined in: [src/config/seo-meta.types.ts:63](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L63)
 
 Meta author.
 
@@ -84,7 +84,7 @@ Meta author.
 
 > `optional` **canonical?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:68](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L68)
+Defined in: [src/config/seo-meta.types.ts:68](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L68)
 
 Explicit canonical URL → `<link rel="canonical">`.
 Prefer this over `url` when you know the preferred address.
@@ -95,7 +95,7 @@ Prefer this over `url` when you know the preferred address.
 
 > `optional` **charset?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:74](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L74)
+Defined in: [src/config/seo-meta.types.ts:74](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L74)
 
 ***
 
@@ -103,7 +103,7 @@ Defined in: [src/config/seo-meta.types.ts:74](https://github.com/senseikatana/ka
 
 > `optional` **description?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:59](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L59)
+Defined in: [src/config/seo-meta.types.ts:59](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L59)
 
 Page summary → `<meta name="description">`.
 Prefer this for the page; use `ogDescription` only to override the share preview.
@@ -114,7 +114,7 @@ Prefer this for the page; use `ogDescription` only to override the share preview
 
 > `optional` **keywords?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:61](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L61)
+Defined in: [src/config/seo-meta.types.ts:61](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L61)
 
 Meta keywords (legacy; optional).
 
@@ -124,7 +124,7 @@ Meta keywords (legacy; optional).
 
 > `optional` **ogDescription?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:90](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L90)
+Defined in: [src/config/seo-meta.types.ts:90](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L90)
 
 Open Graph description (`og:description`). Defaults to `description` when omitted.
 
@@ -134,7 +134,7 @@ Open Graph description (`og:description`). Defaults to `description` when omitte
 
 > `optional` **ogImage?**: `string` \| [`SeoArrayable`](../type-aliases/SeoArrayable.md)&lt;[`SeoOgImageObject`](SeoOgImageObject.md)&gt;
 
-Defined in: [src/config/seo-meta.types.ts:97](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L97)
+Defined in: [src/config/seo-meta.types.ts:97](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L97)
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: [src/config/seo-meta.types.ts:97](https://github.com/senseikatana/ka
 
 > `optional` **ogImageAlt?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:103](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L103)
+Defined in: [src/config/seo-meta.types.ts:103](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L103)
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: [src/config/seo-meta.types.ts:103](https://github.com/senseikatana/k
 
 > `optional` **ogImageHeight?**: `string` \| `number`
 
-Defined in: [src/config/seo-meta.types.ts:102](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L102)
+Defined in: [src/config/seo-meta.types.ts:102](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L102)
 
 ***
 
@@ -158,7 +158,7 @@ Defined in: [src/config/seo-meta.types.ts:102](https://github.com/senseikatana/k
 
 > `optional` **ogImageSecureUrl?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:99](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L99)
+Defined in: [src/config/seo-meta.types.ts:99](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L99)
 
 ***
 
@@ -166,7 +166,7 @@ Defined in: [src/config/seo-meta.types.ts:99](https://github.com/senseikatana/ka
 
 > `optional` **ogImageType?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:100](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L100)
+Defined in: [src/config/seo-meta.types.ts:100](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L100)
 
 ***
 
@@ -174,7 +174,7 @@ Defined in: [src/config/seo-meta.types.ts:100](https://github.com/senseikatana/k
 
 > `optional` **ogImageUrl?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:98](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L98)
+Defined in: [src/config/seo-meta.types.ts:98](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L98)
 
 ***
 
@@ -182,7 +182,7 @@ Defined in: [src/config/seo-meta.types.ts:98](https://github.com/senseikatana/ka
 
 > `optional` **ogImageWidth?**: `string` \| `number`
 
-Defined in: [src/config/seo-meta.types.ts:101](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L101)
+Defined in: [src/config/seo-meta.types.ts:101](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L101)
 
 ***
 
@@ -190,7 +190,7 @@ Defined in: [src/config/seo-meta.types.ts:101](https://github.com/senseikatana/k
 
 > `optional` **ogLocale?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:92](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L92)
+Defined in: [src/config/seo-meta.types.ts:92](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L92)
 
 ***
 
@@ -198,7 +198,7 @@ Defined in: [src/config/seo-meta.types.ts:92](https://github.com/senseikatana/ka
 
 > `optional` **ogSiteName?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:96](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L96)
+Defined in: [src/config/seo-meta.types.ts:96](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L96)
 
 Open Graph site name (`og:site_name`). Defaults to `siteTitle` when omitted.
 
@@ -208,7 +208,7 @@ Open Graph site name (`og:site_name`). Defaults to `siteTitle` when omitted.
 
 > `optional` **ogTitle?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:86](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L86)
+Defined in: [src/config/seo-meta.types.ts:86](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L86)
 
 Open Graph title (`og:title`). Defaults to the resolved page `title` when omitted.
 
@@ -218,7 +218,7 @@ Open Graph title (`og:title`). Defaults to the resolved page `title` when omitte
 
 > `optional` **ogType?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:91](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L91)
+Defined in: [src/config/seo-meta.types.ts:91](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L91)
 
 ***
 
@@ -226,7 +226,7 @@ Defined in: [src/config/seo-meta.types.ts:91](https://github.com/senseikatana/ka
 
 > `optional` **ogUrl?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:82](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L82)
+Defined in: [src/config/seo-meta.types.ts:82](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L82)
 
 Open Graph page URL (`og:url`).
 Falls back to `canonical` → `url` → `site`.
@@ -237,7 +237,7 @@ Falls back to `canonical` → `url` → `site`.
 
 > `optional` **robots?**: `string` \| [`SeoRobotsObject`](SeoRobotsObject.md)
 
-Defined in: [src/config/seo-meta.types.ts:76](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L76)
+Defined in: [src/config/seo-meta.types.ts:76](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L76)
 
 ***
 
@@ -245,7 +245,7 @@ Defined in: [src/config/seo-meta.types.ts:76](https://github.com/senseikatana/ka
 
 > `optional` **title?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:54](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L54)
+Defined in: [src/config/seo-meta.types.ts:54](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L54)
 
 Page document title → `<title>`.
 Not the site brand (`siteTitle`). When both differ, the helper usually
@@ -257,7 +257,7 @@ renders `"Page | Brand"`.
 
 > `optional` **url?**: `string`
 
-Defined in: [src/config/seo-meta.types.ts:73](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L73)
+Defined in: [src/config/seo-meta.types.ts:73](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L73)
 
 Absolute page URL. Fallback for canonical / `og:url` when those are omitted
 (resolution order: `ogUrl` → `canonical` → `url` → `site`).
@@ -268,4 +268,4 @@ Absolute page URL. Fallback for canonical / `og:url` when those are omitted
 
 > `optional` **viewport?**: `string` \| `Record`&lt;`string`, `string` \| `number` \| `undefined`&gt;
 
-Defined in: [src/config/seo-meta.types.ts:75](https://github.com/senseikatana/katanakit-js/blob/383d6a100560d2a9a7041d90cd0ed5082a876890/src/config/seo-meta.types.ts#L75)
+Defined in: [src/config/seo-meta.types.ts:75](https://github.com/senseikatana/katanakit-js/blob/067d3da0ca4f0dd58cc57102a312c6a9921819cb/src/config/seo-meta.types.ts#L75)
