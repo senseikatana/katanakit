@@ -1,6 +1,6 @@
 # Interface: SeoRobotsObject
 
-Defined in: [src/config/seo-meta.types.ts:26](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L26)
+Defined in: [src/config/seo-meta.types.ts:26](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L26)
 
 Robots as string or simple object.
 
@@ -10,7 +10,7 @@ Robots as string or simple object.
 
 > `optional` **follow?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:28](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L28)
+Defined in: [src/config/seo-meta.types.ts:28](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L28)
 
 ***
 
@@ -18,7 +18,7 @@ Defined in: [src/config/seo-meta.types.ts:28](https://github.com/senseikatana/ka
 
 > `optional` **index?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:27](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L27)
+Defined in: [src/config/seo-meta.types.ts:27](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L27)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [src/config/seo-meta.types.ts:27](https://github.com/senseikatana/ka
 
 > `optional` **noarchive?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:32](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L32)
+Defined in: [src/config/seo-meta.types.ts:32](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L32)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [src/config/seo-meta.types.ts:32](https://github.com/senseikatana/ka
 
 > `optional` **nofollow?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:30](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L30)
+Defined in: [src/config/seo-meta.types.ts:30](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L30)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [src/config/seo-meta.types.ts:30](https://github.com/senseikatana/ka
 
 > `optional` **noindex?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:29](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L29)
+Defined in: [src/config/seo-meta.types.ts:29](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L29)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [src/config/seo-meta.types.ts:29](https://github.com/senseikatana/ka
 
 > `optional` **none?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:31](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L31)
+Defined in: [src/config/seo-meta.types.ts:31](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L31)
 
 ***
 
@@ -58,4 +58,4 @@ Defined in: [src/config/seo-meta.types.ts:31](https://github.com/senseikatana/ka
 
 > `optional` **nosnippet?**: [`SeoBooleanable`](../type-aliases/SeoBooleanable.md)
 
-Defined in: [src/config/seo-meta.types.ts:33](https://github.com/senseikatana/katanakit-js/blob/a86a4ede2a0d7e81874bbd477970d7a9a311f35c/src/config/seo-meta.types.ts#L33)
+Defined in: [src/config/seo-meta.types.ts:33](https://github.com/senseikatana/katanakit-js/blob/7613d3b0c0dd2f7fb4e119c92fa0a340c28b3dc9/src/config/seo-meta.types.ts#L33)

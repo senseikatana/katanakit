@@ -59,7 +59,7 @@
     "build": "yarn run check && tsc -p tsconfig.json",
     "release": "yarn build && npm version",
     "docs:dev": "yarn workspace katanakit-docs run dev",
-    "docs:build": "yarn workspace katanakit-docs run build",
+    "docs:build": "yarn workspace katanakit-docs run build && mkdir -p dist/katanakit-js && cp -r docs/build/* dist/katanakit-js/",
     "docs:serve": "yarn workspace katanakit-docs run serve"
   },
   "repository": {

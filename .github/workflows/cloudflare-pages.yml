@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Install docs dependencies
+        run: cd docs && yarn install --immutable
+
       - name: Build docs
         run: yarn docs:build
 
@@ -43,4 +46,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs/build --project-name=katanakit-docs
+          command: pages deploy dist/katanakit-js --project-name=katanakit-js

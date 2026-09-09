@@ -12,7 +12,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://senseikatana.github.io',
+  url: 'https://senseikatana.com',
   baseUrl: '/katanakit-js/',
 
   organizationName: 'senseikatana',
