@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [2.14.1] - 2026-09-10
+
+### Changed
+
+- **Pinned all dependency versions** to exact (removed `^`/`~` ranges) for deterministic installs and supply chain safety.
+- Added `resolutions` for transitive floating deps: `pathe@2.0.3`, `jsbi@4.3.2`.
+
+### Removed
+
+- Removed unused `@types/bun` dev dependency.
+
+### Added
+
+- Added `socket.yml` for Socket.dev supply chain security configuration.
+
 ## [2.14.0] - 2026-09-10
 
 ### Added

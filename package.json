@@ -1,6 +1,6 @@
 {
   "name": "katanakit-js",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "KatanaKit — a sharp, framework-agnostic TypeScript service toolkit organized with hexagonal architecture.",
   "type": "module",
   "workspaces": [
