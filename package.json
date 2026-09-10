@@ -35,7 +35,7 @@
     "CHANGELOG.md"
   ],
   "sass": "src/scss/main.scss",
-  "style": "dist/css/katanakit.css",
+  "style": "dist/css/globals.min.css",
   "engines": {
     "node": ">=18"
   },
@@ -46,9 +46,9 @@
   "scripts": {
     "dev": "concurrently -n demo,docs -c blue,green \"yarn demo\" \"cd docs && yarn start\"",
     "build": "concurrently \"yarn build:css\" \"yarn build:expanded\"",
-    "build:css": "sass src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed",
-    "build:expanded": "sass src/scss/main.scss dist/css/katanakit.expanded.css --no-source-map --style=expanded",
-    "build:purge": "sass src/scss/main.scss dist/css/katanakit.purged.css --no-source-map --style=compressed && postcss dist/css/katanakit.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
+    "build:css": "sass src/scss/main.scss dist/css/globals.min.css --no-source-map --style=compressed",
+    "build:expanded": "sass src/scss/main.scss dist/css/globals.css --no-source-map --style=expanded",
+    "build:purge": "sass src/scss/main.scss dist/css/globals.purged.css --no-source-map --style=compressed && postcss dist/css/globals.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
     "build:docs": "./scripts/build-docs-css.sh",
     "demo": "vite --config vite.config.mts",
     "demo:build": "vite build --config vite.config.mts",

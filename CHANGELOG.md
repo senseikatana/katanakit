@@ -7,11 +7,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_No changes yet._
+
+## [0.12.2] - 2026-09-10
+
 ### Added
 
-- **CSS dev build** — `yarn build:css:dev` generates `dist/css/katanakit.dev.css`
-  (expanded, 11351 lines) for development in VSCode alongside the compressed
-  production build (`katanakit.css`, 119KB).
+- **`concurrently`** — dev and build scripts now run tasks in parallel via
+  `concurrently` (`yarn dev` runs demo + docs simultaneously; `yarn build`
+  compiles compressed and expanded CSS in parallel).
+- **`engines` field** — `package.json` now declares `node >= 18`.
+- **`publishConfig.provenance`** — npm publishes include provenance attestation
+  for supply-chain security.
+- **`sync-versions` script** — new `scripts/sync-versions.sh` for aligning
+  version strings across `package.json` and documentation.
+- **Dependabot** — added `.github/dependabot.yml` for automated dependency
+  updates.
+
+### Changed
+
+- **Script renames** — `build:css:expanded` → `build:expanded`,
+  `build:css:purge` → `build:purge`, `docs:build` → `build:docs`.
+- **Removed `sudo`** from `release`, `build:docs` and `sync-versions` scripts
+  (no longer needed with the new setup).
+- **Dev workflow** — `yarn dev` now starts both the Vite demo server and the
+  docs dev server concurrently instead of docs only.
+- **Dependencies updated** — `sass` 1.103→1.104, `postcss` 8.5.26→8.5.28,
+  `astro` 7.3.1→7.3.2, `@types/node` 26→22, added `@astrojs/mdx`,
+  `@prosefly/astro-components`, `@prosefly/astro-theme-lotus`.
+- **Repository URL** — normalized to `git+ssh://` format in `package.json`.
+- **CI workflows** — updated pipeline configuration across deploy-docs,
+  npm-publish, release and static workflows.
+
+### Removed
+
+- **`dist/css/katanakit.dev.css`** — deleted the expanded dev CSS artifact.
+  Use `build:expanded` to regenerate it locally when needed.
+- **`build:css:dev` script** — no longer exists; replaced by `build:expanded`.
+
+### Fixed
+
+- **CSS formatting** — adjusted formatting in 2 source files for consistency.
+
+## [0.4.3] - 2026-09-05
+
+### Added
+
+- **Lotus theme migration** — migrated documentation from Starlight to
+  `@prosefly/astro-theme-lotus` (Astro 7 + Tailwind v4) for improved
+  design and functionality.
+- **DOCX export script** — added script to export documentation to DOCX
+  format with updated table of contents.
+- **GitHub Pages deployment** — automated deployment to gh-pages branch
+  for GitHub Pages hosting at `https://senseikatana.github.io/katanakit-css/`.
+
+### Changed
+
+- **Dependencies** — updated to Astro 7, Tailwind CSS v4, and latest
+  versions of all dependencies.
+- **Build configuration** — optimized build process with separate output
+  directory to avoid permission conflicts.
+
+### Fixed
+
+- **CI configuration** — removed old Starlight `astro.config.mjs` that
+  was causing CI errors during deployment.
+- **Starlight components** — removed remaining Starlight components that
+  were incompatible with the new Lotus theme.
+
+### Removed
+
+- **Starlight theme** — completely removed Starlight theme and all
+  related components in favor of Lotus theme.
 
 ## [0.2.0] - 2026-09-05
 
@@ -76,38 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`$sizing-map` extended** with viewport units and fraction values.
 - **`$font-size-map` extended** with 5xl-9xl.
 
-## [0.4.3] - 2026-09-05
-
-### Added
-
-- **Lotus theme migration** — migrated documentation from Starlight to
-  `@prosefly/astro-theme-lotus` (Astro 7 + Tailwind v4) for improved
-  design and functionality.
-- **DOCX export script** — added script to export documentation to DOCX
-  format with updated table of contents.
-- **GitHub Pages deployment** — automated deployment to gh-pages branch
-  for GitHub Pages hosting at `https://senseikatana.github.io/katanakit-css/`.
-
-### Changed
-
-- **Dependencies** — updated to Astro 7, Tailwind CSS v4, and latest
-  versions of all dependencies.
-- **Build configuration** — optimized build process with separate output
-  directory to avoid permission conflicts.
-
-### Fixed
-
-- **CI configuration** — removed old Starlight `astro.config.mjs` that
-  was causing CI errors during deployment.
-- **Starlight components** — removed remaining Starlight components that
-  were incompatible with the new Lotus theme.
-
-### Removed
-
-- **Starlight theme** — completely removed Starlight theme and all
-  related components in favor of Lotus theme.
-
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-09-04
 
 Initial release of `katanakit-css` — a lightweight, modular SCSS
 mini-framework: design tokens, utility classes and layout mixins (grid, flex,
@@ -221,3 +257,11 @@ matches what the code actually generates:
   source of truth).
 - **Reset** — cleaned up so it only emits the documented reset defaults; no
   leftover identity palette tones are wired into it.
+
+---
+
+[Unreleased]: https://github.com/senseikatana/katanakit-css/compare/v0.12.2...HEAD
+[0.12.2]: https://github.com/senseikatana/katanakit-css/compare/v0.12.1...v0.12.2
+[0.4.3]: https://github.com/senseikatana/katanakit-css/compare/v0.2.0...v0.4.3
+[0.2.0]: https://github.com/senseikatana/katanakit-css/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/senseikatana/katanakit-css/releases/tag/v0.1.0

@@ -108,9 +108,11 @@ yarn build
 Runs:
 
 1. `yarn build:css` — Sass CLI compiles `src/scss/main.scss` into
-   `dist/css/katanakit.css` (compressed, no source map). This is the npm
+   `dist/css/globals.min.css` (compressed, no source map). This is the npm
    artifact.
-2. `yarn build:demo` — Vite builds the demo into `demo-dist/` (PostCSS +
+2. `yarn build:expanded` — Sass CLI compiles `src/scss/main.scss` into
+   `dist/css/globals.css` (expanded, for development/debugging).
+3. `yarn build:demo` — Vite builds the demo into `demo-dist/` (PostCSS +
    PurgeCSS).
 
 For local iteration:
@@ -120,7 +122,7 @@ yarn dev       # Vite dev server on http://localhost:4321 (HMR)
 yarn preview   # preview demo-dist/
 ```
 
-`dist/css/katanakit.css` and `demo-dist/` are gitignored build outputs.
+`dist/css/globals.min.css`, `dist/css/globals.css` and `demo-dist/` are gitignored build outputs.
 The npm artifact reaches consumers through the package `files` field
 (`dist/css`), so re-run `yarn build:css` whenever the SCSS output changes.
 
@@ -134,7 +136,7 @@ Public API changes must be mirrored in the docs:
   `docs/API-Reference.md` (verify values against the compiled output).
 - Update the README feature list, quick start and the "generated vs registry"
   tables when the surface changes.
-- Record user-visible changes under `[0.1.0] - Unreleased` in
+- Record user-visible changes under `[Unreleased]` in
   `CHANGELOG.md` (Added / Fixed / Changed sections, Keep a Changelog format).
 
 If a doc example contains SCSS, compile it before committing — every example

@@ -7,7 +7,7 @@
 #
 #  What it does:
 #    1. Bumps version in package.json (yarn version)
-#    2. Compiles dist/css/katanakit.css
+#    2. Compiles dist/css/globals.min.css
 #    3. Syncs versions.json from git tags
 #    4. Commits, tags, pushes
 #    5. Creates a GitHub release with auto-generated notes
@@ -47,7 +47,7 @@ bash "$SCRIPT_DIR/sync-versions.sh"
 
 # 4. Commit, tag, push
 echo "==> Committing and tagging..."
-git add package.json dist/css/katanakit.css
+git add package.json dist/css/globals.min.css
 git commit -m "release: $TAG"
 git tag "$TAG"
 

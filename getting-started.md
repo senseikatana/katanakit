@@ -20,7 +20,7 @@ The full, code-verified API surface lives in the
 - A **Sass compiler** (Dart Sass is what this project is tested against) when
   you consume the SCSS source. `sass` is a devDependency of the repo, but it
   is your responsibility in downstream projects.
-- The **precompiled stylesheet** (`dist/css/katanakit.css`) needs no tooling.
+- The **precompiled stylesheet** (`dist/css/globals.min.css`) needs no tooling.
 
 There is **no runtime**: `katanakit-css` is pure build-time SCSS/CSS.
 
@@ -38,7 +38,8 @@ yarn add katanakit-css
 
 | Entry                                   | What you get                                                          |
 | --------------------------------------- | --------------------------------------------------------------------- |
-| `dist/css/katanakit.css`                | Compiled, minified **full sheet** (reset + tokens + utilities).       |
+| `dist/css/globals.min.css`              | Compiled, minified **full sheet** (reset + tokens + utilities).       |
+| `dist/css/globals.css`                  | Expanded version for development/debugging.                           |
 | `katanakit-css/src/scss/main`           | Full sheet as SCSS you compile yourself (adds browser prefixes, custom purging, tree-shaking of SCSS modules). |
 | `katanakit-css/src/scss/*`              | Individual modules you compose into a custom sheet.                   |
 
@@ -52,13 +53,13 @@ no legacy `@import` anywhere.
 Link it or import it:
 
 ```html
-<link rel="stylesheet" href="/node_modules/dist/css/katanakit.css" />
+<link rel="stylesheet" href="/node_modules/dist/css/globals.min.css" />
 ```
 
 Or import it from your JavaScript entry in a bundler-based app:
 
 ```js
-import "katanakit-css/dist/css/katanakit.css";
+import "katanakit-css/dist/css/globals.min.css";
 ```
 
 The sheet already contains every utility class the framework can generate, so

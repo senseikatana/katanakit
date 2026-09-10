@@ -73,7 +73,7 @@ malicious SCSS — keep them under the same trust as the rest of your styles.
   `style="…"` or dynamically injected `<style>` bypasses some URL/scheme
   filters.
 - **Subresource integrity** — if you load the precompiled
-  `dist/css/katanakit.css` from a CDN, add an `integrity` attribute.
+  `dist/css/globals.min.css` from a CDN, add an `integrity` attribute.
 
 ---
 
@@ -99,8 +99,7 @@ If you believe you have found a security issue:
 3. Include a minimal reproduction, the affected version, and whether the issue
    is build-time (SCSS input) or runtime (compiled CSS usage).
 
-Because there is no supported stable release yet, fixes land in the
-`0.1.0` line and are described in [CHANGELOG.md](CHANGELOG.md).
+Because fixes land in the current release line and are described in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -108,7 +107,7 @@ Because there is no supported stable release yet, fixes land in the
 
 | Version | Status |
 | --- | --- |
-| `0.1.0` (unreleased, `main`) | Supported — current development |
+| `0.12.2` | Supported — latest release |
 
 There is no automated security testing yet; consider that when evaluating the
 library for high-risk environments.

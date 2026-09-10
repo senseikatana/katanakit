@@ -4,7 +4,7 @@ A lightweight, modular **SCSS mini-framework**: design tokens, utility classes
 and layout mixins (grid, flex, breakpoints) with an `@apply`-style system.
 Zero runtime overhead — it compiles to plain static CSS.
 
-> `katanakit-css` is **version 0.1.0** (unreleased) and is a different,
+> `katanakit-css` is version **0.12.2** and is a different,
 > sibling project to the TypeScript library `katanakit-js`. Everything on this
 > page refers to the **CSS/SCSS** framework in this repository.
 
@@ -43,7 +43,7 @@ Zero runtime overhead — it compiles to plain static CSS.
   (`--font-*`, `--shadow-*`, `--container-*`, `--spacing-*`, `--radius-*`,
   `--z-*`, `--duration-*`, `--ease-*`).
 - **Color system** — six semantic palettes (`neutral`, `purple`, `info`,
-  `warning`, `danger`, `success`) with **7 tones each** (100–700), plus four
+  `warning`, `danger`, `success`) with **11 tones each** (50, 100–900, 950), plus four
   special colors (`white`, `black`, `transparent`, `current`). CSS variables,
   utility classes (text, background, border, hover) and theme support.
 - **Utility class generation from maps** — padding and margin in every
@@ -95,7 +95,7 @@ The package exposes two consumption entry points (see `package.json`):
 
 | Field    | Value                            | Purpose                          |
 | -------- | -------------------------------- | -------------------------------- |
-| `style`  | `dist/css/katanakit.css`         | precompiled, minified full sheet |
+| `style`  | `dist/css/globals.min.css`      | precompiled, minified full sheet |
 | `sass`   | `src/scss/main.scss`             | SCSS entry for `@use`            |
 | `files`  | `src/scss`, `dist/css`, `README` | what gets published              |
 
@@ -107,20 +107,20 @@ Published files include `src/scss`, `dist/css`, `README.md`, `LICENSE` and
 Use the framework directly from jsDelivr without installing anything:
 
 ```html
-<!-- Latest version (compressed, 119KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/katanakit.css" />
+<!-- Latest version (compressed, minified) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/globals.min.css" />
 
 <!-- Specific version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@0.9.1/dist/css/katanakit.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@0.12.2/dist/css/globals.min.css" />
 
-<!-- Expanded (for development/debugging, 148KB) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/katanakit.expanded.css" />
+<!-- Expanded (for development/debugging, uncompressed) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katanakit-css@latest/dist/css/globals.css" />
 ```
 
 You can also use unpkg:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/katanakit-css@latest/dist/css/katanakit.css" />
+<link rel="stylesheet" href="https://unpkg.com/katanakit-css@latest/dist/css/globals.min.css" />
 ```
 
 ---
@@ -132,14 +132,14 @@ You can also use unpkg:
 Reference the bundled stylesheet directly:
 
 ```html
-<link rel="stylesheet" href="/node_modules/katanakit-css/dist/css/katanakit.css" />
+<link rel="stylesheet" href="/node_modules/katanakit-css/dist/css/globals.min.css" />
 ```
 
 Or import it from your JavaScript entry (bundlers resolve the CSS file for
 you):
 
 ```js
-import "katanakit-css/dist/css/katanakit.css";
+import "katanakit-css/dist/css/globals.min.css";
 ```
 
 This sheet contains everything: the reset, all token custom properties, all
@@ -560,7 +560,7 @@ production build of the same page, purged by PurgeCSS.
 | ------------------- | ----------------------------------------------------------------------------- |
 | `yarn dev`          | `vite` — dev server on port 4321 with HMR                                     |
 | `yarn build`        | `build:css && build:versions && build:demo`                                   |
-| `yarn build:css`    | Sass CLI → `dist/css/katanakit.css` (compressed, no source map)               |
+| `yarn build:css`    | Sass CLI → `dist/css/globals.min.css` (compressed, no source map)            |
 | `yarn build:versions` | Sass CLI → `public/versions/<tag>.css` for the demo version switcher        |
 | `yarn build:demo`   | `vite build` → `demo-dist/` with PurgeCSS (`variables: false` keeps tokens)   |
 | `yarn preview`      | `vite preview` — preview the `demo-dist` build                                |
@@ -587,7 +587,8 @@ katanakit-css/
 │   ├── _utilities.scss        # maps + todos los generadores de clases (opt-in)
 │   └── components/
 │       └── _index.scss        # example components built with @apply
-├── dist/css/katanakit.css        # npm artifact (compressed full sheet)
+├── dist/css/globals.min.css    # npm artifact (compressed full sheet)
+├── dist/css/globals.css        # expanded version (development/debugging)
 ├── demo-dist/                    # production build of the demo (PurgeCSS)
 ├── public/versions/              # compiled per-version CSS for the demo switcher
 ├── index.html + demo/main.js     # local demo served by Vite
