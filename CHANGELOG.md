@@ -2,29 +2,34 @@
 
 All notable changes to this project are documented in this file.
 
-## [2.2.1] - Unreleased
+## [2.14.0] - 2026-09-10
 
 ### Added
 
-- **Vue adapter** — new `katanakit-js/adapters/vue` subpath exporting the `useKatanaFetch` composable, which bridges KatanaKit Safe Results to Vue 3 reactivity (`data`, `error`, `loading`, `refetch`). Accepts a reactive `Ref` of `UrlOptions` and refetches automatically on change. `vue` is an optional peer dependency.
-- **Nuxt adapter** — new `katanakit-js/adapters/nuxt` subpath exporting three pure helpers that bridge KatanaKit's Safe Results to Nuxt/Nitro server routes: `useUnwrap`, `useSafeResponse`, `useEventResponse`. They avoid a hard dependency on `h3` (which ships with Nuxt).
-- **Site config and SEO module** — new `src/config/` layer with `siteConfig`/`SiteConfig` and pure SEO helpers (`useGenerateMetaTags`, `useTitle`, `useRssHeadLink`), re-exported from the main barrel. Includes HTML/attribute escaping and JSON-LD breakout protection.
-- **`publish:*` scripts** — `publish:patch`, `publish:minor`, `publish:major` (tagged `beta`) with a `prepublishOnly` gate that runs Biome, tests and the build before publishing.
-- New Vitest suites for RSS, Nuxt, SEO and Vue services (60 tests across 8 files).
+- **Kitt AI agent system** — OpenAI-compatible provider with tool-calling loop, session management, and conversation store. Built on a generic `AgentService` that handles system prompts, tool registration, and iterative LLM interaction until task completion.
+- **REST assistant adapter** (`katanakit-js/adapters/assistant`) — `POST /chat` for sending messages, `GET /sessions` for listing conversations, `DELETE /sessions/:id` for cleanup. Includes auth guard, per-session context, and conversation persistence.
+- **Telegram adapter** (`katanakit-js/adapters/telegram`) — long-polling bot via `getUpdates`, `sendMessage` reply with Markdown formatting, BotFather integration guide. Configurable polling interval and error handling.
+- **WhatsApp adapter** (`katanakit-js/adapters/whatsapp`) — Meta Cloud API webhook receiver, HMAC signature verification (`X-Hub-Signature-256`), rate limiting (60 req/min), and async message processing with `messages.update` / `messages.received` event types.
+- **Prisma conversation store** — `Conversation` + `Message` models in `prisma/schema.prisma` with session tracking, timestamps, and message history. New `assistant.store.ts` service for create/list/get/delete operations.
+- **GitHub Actions CI** — `.github/workflows/ci.yml` runs lint, typecheck, build, and 114 tests on Node 22 and 24.
+- **Rate limiting** — `express-rate-limit` on assistant routes (20 req/min) and WhatsApp webhook (60 req/min) with standard rate-limit headers.
+- **`examples/assistant/`** — full demo with knowledge base, system prompt, and session management.
+- **`examples/agent/`** — agent demo showing tool-calling loop with multiple registered tools.
+- New test suites: `agent.service.test.ts`, `assistant.service.test.ts`, `telegram.service.test.ts`, `whatsapp.service.test.ts`, `express.server.test.ts` — 114 tests total.
 
 ### Changed
 
-- **Renamed the npm package** from `katanakit-dev` to `katanakit-js` (version bumped to 2.2.1). The `exports` map now exposes the root entry plus three framework subpaths: `katanakit-js/adapters/express`, `katanakit-js/adapters/nuxt` and `katanakit-js/adapters/vue`.
-- **Restructured the project** with hexagonal architecture into `types/`, `core/services/`, `infrastructure/` (browser/runtime adapters), `adapters/` (Astro, Express, Nuxt, Vue), `config/` (site config + SEO), and `prisma/`.
-- Exposed the public API through barrel files (`src/index.ts` and per-layer `index.ts`).
-- Added Vitest unit tests for the HTTP client, logger, storage, geometry, errors, and reactive services (60 tests across 8 files).
+- **Express server restructured** — idempotent `create()`/`finalize()` pattern prevents double-initialization; `rawBody` capture via `verify` callback for signature verification; route ordering fix so static paths match before parameterized routes.
+- **Type definitions expanded** — new agent, assistant, and adapter types in `src/types/index.ts` covering `AgentConfig`, `ToolDefinition`, `SessionMessage`, `AssistantConfig`, `TelegramConfig`, `WhatsAppConfig`, and webhook event types.
+- **Prisma schema updated** — new `Conversation` and `Message` models; schema types regenerated.
 
 ### Fixed
 
-- **Pure ESM `.js` exports** — all relative imports in `src/` now use explicit `.js` extensions (`module: nodenext`), so Node's ESM loader and bundlers resolve the package cleanly.
-- **`WorkerService` pool correlation** — `useRunPool` now correlates responses by echoing a `taskId` from the worker blob, fixing concurrent race conditions.
-- **`useEncrypt` salt** — generates a random 128-bit salt when none is provided instead of relying on a fixed default.
-- **SEO JSON-LD escaping** — `<`, `>`, and `&` are escaped inside the `application/ld+json` script to prevent `</script>` breakout.
+- **Timing-safe HMAC comparison** — WhatsApp signature verification uses `crypto.timingSafeEqual` instead of string `===` to prevent timing attacks.
+- **HTTPS enforcement** — WhatsApp webhook rejects non-HTTPS requests in production.
+- **Path confinement** — file operations in storage service restricted to project root to prevent directory traversal.
+- **Per-tool error capture** — agent tool failures are captured individually without crashing the entire tool-calling loop.
+- **Build output directory** — `outDir` in `tsconfig.json` corrected; `yarn clean` ensures clean builds before each release.
 
 ## [2.0.0] - 2026-09-03
 
