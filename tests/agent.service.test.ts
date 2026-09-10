@@ -64,13 +64,11 @@ describe("AiAgent", () => {
 	});
 
 	it("sends the Bearer token and returns the assistant content", async () => {
-		const fetchMock = vi
-			.fn()
-			.mockResolvedValue(
-				jsonResponse({
-					choices: [{ message: { content: "Solar! Solar! Solar!" }, finish_reason: "stop" }],
-				}),
-			);
+		const fetchMock = vi.fn().mockResolvedValue(
+			jsonResponse({
+				choices: [{ message: { content: "Solar! Solar! Solar!" }, finish_reason: "stop" }],
+			}),
+		);
 		vi.stubGlobal("fetch", fetchMock);
 
 		const result = await useChat([{ role: "user", content: "energy?" }]);

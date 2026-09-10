@@ -88,7 +88,8 @@ describe("Express server channel routing", () => {
 		await new Promise<void>((resolvePromise) => {
 			server = app.listen(0, "127.0.0.1", () => resolvePromise());
 		});
-		const port = (server?.address() as { port: number }).port;
+		const addr = server?.address();
+		const port = typeof addr === "object" && addr ? addr.port : 0;
 
 		// 1. Known route works
 		const chat = await request(port, "POST", "/assistant/chat", { message: "hello" });

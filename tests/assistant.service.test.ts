@@ -29,13 +29,11 @@ describe("Assistant", () => {
 	it("creates a session and returns a reply", async () => {
 		vi.stubGlobal(
 			"fetch",
-			vi
-				.fn()
-				.mockResolvedValue(
-					jsonResponse({
-						choices: [{ message: { content: "Hello from Kitt" }, finish_reason: "stop" }],
-					}),
-				),
+			vi.fn().mockResolvedValue(
+				jsonResponse({
+					choices: [{ message: { content: "Hello from Kitt" }, finish_reason: "stop" }],
+				}),
+			),
 		);
 
 		const result = await useReply(undefined, "Hi");

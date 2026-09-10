@@ -1,10 +1,5 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
-import {
-	type Response as ExpressResponse,
-	type Request,
-	type RequestHandler,
-	Router,
-} from "express";
+import { type Response as ExpressResponse, type Request, Router } from "express";
 import rateLimit from "express-rate-limit";
 
 import { useReply } from "../../core/services/assistant.service.js";
