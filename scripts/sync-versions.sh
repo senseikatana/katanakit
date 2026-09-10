@@ -2,15 +2,14 @@
 # ============================================================
 #  scripts/sync-versions.sh — Generate versions.json from tags
 #
-#  Reads all v* tags from git and writes site/src/content/versions.json.
-#  Used by the release script and by the GitHub Actions workflow
-#  before building the docs site.
+#  Reads all v* tags from git and writes versions.json to docs/.
+#  Used by the release script and by the GitHub Actions workflow.
 # ============================================================
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-OUTPUT="$ROOT/site/src/content/versions.json"
+OUTPUT="$ROOT/versions.json"
 
 cd "$ROOT"
 

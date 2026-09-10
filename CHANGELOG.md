@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.12.4] - 2026-09-10
+
+### Changed
+
+- **CSS output files renamed**
+  - `dist/css/katanakit.css` → `dist/css/globals.min.css` (compressed, minified)
+  - `dist/css/katanakit.expanded.css` → `dist/css/globals.css` (expanded, development)
+
+### Fixed
+
+- **CHANGELOG structure** — corrected to follow reverse chronological order.
+- **Version references** — fixed stale version strings throughout documentation.
+
+### Documentation
+
+- Updated all references across README, CONTRIBUTING, SECURITY, and
+  `getting-started.md` to use new CSS file names.
+- Updated CDN links to point to `globals.min.css` / `globals.css`.
+
 ## [0.12.2] - 2026-09-10
 
 ### Added

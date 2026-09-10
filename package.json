@@ -1,6 +1,6 @@
 {
   "name": "katanakit-css",
-  "version": "0.12.4",
+  "version": "0.12.5",
   "description": "KatanaKIT CSS — a lightweight, modular SCSS mini-framework: design tokens, utility classes and layout mixins (grid, flex, breakpoints) with a @apply-style system. Zero runtime overhead.",
   "keywords": [
     "scss",
@@ -49,7 +49,6 @@
     "build:css": "sass src/scss/main.scss dist/css/globals.min.css --no-source-map --style=compressed",
     "build:expanded": "sass src/scss/main.scss dist/css/globals.css --no-source-map --style=expanded",
     "build:purge": "sass src/scss/main.scss dist/css/globals.purged.css --no-source-map --style=compressed && postcss dist/css/globals.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
-    "build:docs": "./scripts/build-docs-css.sh",
     "demo": "vite --config vite.config.mts",
     "demo:build": "vite build --config vite.config.mts",
     "test": "vitest run",
@@ -59,19 +58,12 @@
     "sync-versions": "./scripts/sync-versions.sh"
   },
   "devDependencies": {
-    "@astrojs/mdx": "^8.0.1",
     "@fullhuman/postcss-purgecss": "^8.0.0",
-    "@prosefly/astro-components": "^0.6.2",
-    "@prosefly/astro-theme-lotus": "^0.7.3",
-    "@tailwindcss/cli": "^4.3.3",
-    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.20.1",
-    "astro": "^7.3.2",
     "autoprefixer": "^10.5.5",
     "concurrently": "^10.0.5",
     "postcss": "^8.5.28",
     "sass": "^1.104.0",
-    "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
     "vite-plugin-purgecss": "^0.2.13",
