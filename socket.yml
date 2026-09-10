@@ -1,0 +1,33 @@
+version: 2
+
+projectIgnorePaths:
+  - "docs"
+  - "examples"
+  - "dist"
+  - ".github"
+  - ".vscode"
+  - "*.md"
+
+triggerPaths:
+  - "package.json"
+  - "yarn.lock"
+
+issueRules:
+  didYouMean: true
+  installScripts: true
+  telemetry: true
+  troll: true
+  malware: true
+  hasNativeCode: true
+  shellScriptOverride: true
+  gitDependency: true
+  httpDependency: true
+  invalidPackageJSON: true
+  unresolvedRequire: true
+
+githubApp:
+  enabled: true
+  pullRequestAlertsEnabled: true
+  dependencyOverviewEnabled: true
+  projectReportsEnabled: true
+  disableCommentsAndCheckRuns: false
