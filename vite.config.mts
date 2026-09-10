@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     port: PORT,
     open: false,
-    host: true,
+    host: 'localhost',
     cors: true,
     hmr: true,
   },

@@ -6,7 +6,7 @@
 #    bash scripts/release.sh [patch|minor|major]
 #
 #  What it does:
-#    1. Bumps version in package.json (npm version)
+#    1. Bumps version in package.json (yarn version)
 #    2. Compiles dist/css/katanakit.css
 #    3. Syncs versions.json from git tags
 #    4. Commits, tags, pushes
@@ -20,11 +20,18 @@ ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$ROOT"
 
+# Validate bump type
+if [[ ! "$BUMP" =~ ^(patch|minor|major|prepatch|preminor|premajor|prerelease)$ ]]; then
+  echo "ERROR: Invalid bump type: $BUMP" >&2
+  echo "Usage: bash scripts/release.sh [patch|minor|major]" >&2
+  exit 1
+fi
+
 echo "==> Current version: $(node -p "require('./package.json').version")"
 echo "==> Bump type: $BUMP"
 
-# 1. Bump version (creates commit + tag)
-npm version "$BUMP" --no-git-tag-version
+# 1. Bump version (yarn 4 native)
+yarn version "$BUMP" --no-git-tag-version
 
 NEW_VERSION=$(node -p "require('./package.json').version")
 TAG="v$NEW_VERSION"
@@ -32,7 +39,7 @@ echo "==> New version: $NEW_VERSION (tag: $TAG)"
 
 # 2. Build CSS artifact
 echo "==> Building CSS..."
-"$ROOT/node_modules/.bin/sass" src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed
+yarn build:css
 
 # 3. Sync versions.json
 echo "==> Syncing versions.json..."
@@ -40,7 +47,7 @@ bash "$SCRIPT_DIR/sync-versions.sh"
 
 # 4. Commit, tag, push
 echo "==> Committing and tagging..."
-git add package.json dist/css/katanakit.css site/src/content/versions.json
+git add package.json dist/css/katanakit.css
 git commit -m "release: $TAG"
 git tag "$TAG"
 
@@ -58,5 +65,4 @@ gh release create "$TAG" \
 echo ""
 echo "✅ Release $TAG created!"
 echo "   GitHub: https://github.com/senseikatana/katanakit-css/releases/tag/$TAG"
-echo "   npm:    npm publish (run manually when ready)"
-echo "   Docs:   GitHub Actions will deploy automatically"
+echo "   npm:    Auto-publishing via GitHub Actions..."

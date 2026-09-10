@@ -1,6 +1,6 @@
 {
   "name": "katanakit-css",
-  "version": "0.12.3",
+  "version": "0.12.2",
   "description": "KatanaKIT CSS — a lightweight, modular SCSS mini-framework: design tokens, utility classes and layout mixins (grid, flex, breakpoints) with a @apply-style system. Zero runtime overhead.",
   "keywords": [
     "scss",
@@ -36,38 +36,39 @@
   ],
   "sass": "src/scss/main.scss",
   "style": "dist/css/katanakit.css",
+  "engines": {
+    "node": ">=18"
+  },
   "publishConfig": {
-    "provenance": false
+    "provenance": true,
+    "access": "public"
   },
   "scripts": {
-    "dev": "cd docs && yarn start",
-    "docs:build": "cd docs && yarn build",
-    "docs:serve": "cd docs && yarn serve",
-    "docs:clear": "cd docs && yarn clear",
-    "docs:deploy": "cd docs && yarn deploy",
-    "docs:swizzle": "cd docs && yarn swizzle",
-    "docs:write-translations": "cd docs && yarn write-translations",
-    "docs:write-heading-ids": "cd docs && yarn write-heading-ids",
-    "build": "yarn run build:css && yarn run build:css:expanded",
+    "dev": "concurrently -n demo,docs -c blue,green \"yarn demo\" \"cd docs && yarn start\"",
+    "build": "concurrently \"yarn build:css\" \"yarn build:expanded\"",
     "build:css": "sass src/scss/main.scss dist/css/katanakit.css --no-source-map --style=compressed",
-    "build:css:expanded": "sass src/scss/main.scss dist/css/katanakit.expanded.css --no-source-map --style=expanded",
-    "build:css:purge": "sass src/scss/main.scss dist/css/katanakit.purged.css --no-source-map --style=compressed && postcss dist/css/katanakit.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
-    "build:docs-css": "sudo ./scripts/build-docs-css.sh",
+    "build:expanded": "sass src/scss/main.scss dist/css/katanakit.expanded.css --no-source-map --style=expanded",
+    "build:purge": "sass src/scss/main.scss dist/css/katanakit.purged.css --no-source-map --style=compressed && postcss dist/css/katanakit.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
+    "build:docs": "./scripts/build-docs-css.sh",
     "demo": "vite --config vite.config.mts",
     "demo:build": "vite build --config vite.config.mts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "release": "sudo ./scripts/release.sh",
-    "sync-versions": "sudo ./scripts/sync-versions.sh"
+    "release": "./scripts/release.sh",
+    "sync-versions": "./scripts/sync-versions.sh"
   },
   "devDependencies": {
+    "@astrojs/mdx": "^8.0.1",
     "@fullhuman/postcss-purgecss": "^8.0.0",
+    "@prosefly/astro-components": "^0.6.2",
+    "@prosefly/astro-theme-lotus": "^0.7.3",
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.20.1",
     "astro": "^7.3.2",
     "autoprefixer": "^10.5.5",
+    "concurrently": "^10.0.5",
     "postcss": "^8.5.28",
     "sass": "^1.104.0",
     "tailwindcss": "^4.3.3",
@@ -76,9 +77,5 @@
     "vite-plugin-purgecss": "^0.2.13",
     "vitest": "^5.0.0"
   },
-  "dependencies": {
-    "@astrojs/mdx": "^8.0.1",
-    "@prosefly/astro-components": "^0.6.2",
-    "@prosefly/astro-theme-lotus": "^0.7.3"
-  }
+  "packageManager": "yarn@4.18.0"
 }

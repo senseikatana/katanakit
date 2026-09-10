@@ -21,6 +21,13 @@ echo '  { "tag": "latest", "label": "latest", "path": "/" },' >> "$OUTPUT"
 FIRST=true
 while IFS= read -r tag; do
   [ -z "$tag" ] && continue
+
+  # Validate tag format (vX.Y.Z)
+  if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+    echo "WARNING: Skipping invalid tag format: $tag" >&2
+    continue
+  fi
+
   version="${tag#v}"
   safe=$(echo "$version" | tr '.' '-')
 
