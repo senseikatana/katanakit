@@ -58,6 +58,147 @@ if (result.ok) {
 }
 ```
 
+## HTTP Client — API Manager
+
+The core of KatanaKit is a **typed, registry-based HTTP client**. You register
+your APIs once, then fetch by name — the client builds URLs, handles serialization,
+and returns a **Safe Result** (`{ ok, data, error }`) that never throws on HTTP errors.
+
+### 1. Register your APIs
+
+```ts
+import { useInitApis } from "katanakit-js";
+
+useInitApis({
+  // A public REST API
+  jsonplaceholder: {
+    baseUri: "https://jsonplaceholder.typicode.com",
+    endpoints: {
+      posts: "/posts",
+      postById: "/posts/:id",
+    },
+    // Applied automatically to specific endpoints (overridable per-call)
+    defaultQueryParams: {
+      posts: { _limit: 10 },
+    },
+  },
+
+  // Your own backend
+  myApi: {
+    baseUri: "https://api.myapp.com/v1",
+    endpoints: {
+      users: "/users",
+      userById: "/users/:id",
+      createUser: "/users",
+    },
+  },
+});
+```
+
+### 2. GET — list and read
+
+```ts
+import { useGetApi } from "katanakit-js";
+
+// List (uses defaultQueryParams: _limit=10)
+const list = await useGetApi<{ id: number; title: string }[]>("jsonplaceholder", "posts");
+if (list.ok) console.log(list.data);
+
+// Read by ID — :id is replaced by params
+const post = await useGetApi<{ title: string }>("jsonplaceholder", "postById", {
+  params: { id: 1 },
+});
+if (post.ok) console.log(post.data.title);
+
+// Override default query params
+const filtered = await useGetApi("jsonplaceholder", "posts", {
+  query: { _limit: 5, userId: 1 },
+});
+```
+
+### 3. POST, PUT, PATCH, DELETE
+
+```ts
+import { usePost, usePut, usePatch, useDelete } from "katanakit-js";
+
+// POST — body is auto-serialized to JSON
+const created = await usePost<{ id: number }>("myApi", "createUser", {
+  name: "Alice",
+  email: "alice@example.com",
+});
+
+// PUT — full replacement (body + path params)
+const updated = await usePut("myApi", "userById", { name: "Bob" }, { params: { id: 42 } });
+
+// PATCH — partial update
+const patched = await usePatch("myApi", "userById", { name: "Charlie" }, { params: { id: 42 } });
+
+// DELETE
+const deleted = await useDelete("myApi", "userById", { params: { id: 42 } });
+```
+
+### 4. Auth tokens — inject headers per call
+
+There's no global interceptor — pass `headers` directly. This keeps things explicit and testable.
+
+```ts
+const result = await useFetch("myApi", "users", {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
+```
+
+### 5. Error handling — the Safe Result pattern
+
+Every fetch returns `{ ok, data, error, status, url }`. No try/catch needed for HTTP failures.
+
+```ts
+const result = await useGetApi("myApi", "userById", { params: { id: 99999 } });
+
+if (result.ok) {
+  // result.data is typed
+  console.log(result.data);
+} else {
+  // result.error is always structured
+  console.log(result.error.status);   // 404
+  console.log(result.error.message);  // "HTTP Error: Not Found"
+  console.log(result.error.details);  // parsed response body (if any)
+  console.log(result.url);            // the URL that was called
+}
+```
+
+### 6. Build URLs without fetching
+
+```ts
+import { useBuildUrl } from "katanakit-js";
+
+const url = useBuildUrl("jsonplaceholder", "postById", {
+  params: { id: 7 },
+  query: { _limit: 3 },
+});
+// "https://jsonplaceholder.typicode.com/posts/7?_limit=3"
+```
+
+### 7. FormData and raw bodies
+
+`usePost`/`usePut`/`usePatch` auto-detect `FormData`, `Blob`, `URLSearchParams`,
+`ArrayBuffer`, `ReadableStream`, and `string` — these are sent as-is without
+forcing `Content-Type: application/json`.
+
+```ts
+const form = new FormData();
+form.append("file", blob);
+await usePost("myApi", "upload", form);
+```
+
+### Full example
+
+See [`examples/api-manager/demo.ts`](examples/api-manager/) for a runnable demo
+covering all CRUD operations, auth injection, URL building, and error handling
+against a real API (JSONPlaceholder).
+
 ## Features
 
 - **Safe Results** — HTTP (and other fallible) operations return `{ data, error, ok }` instead of throwing

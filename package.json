@@ -73,6 +73,7 @@
     "telegram:dev": "tsx src/adapters/telegram/main.ts",
     "whatsapp:dev": "tsx src/adapters/whatsapp/main.ts",
     "assistant:demo": "tsx examples/assistant/demo.ts",
+    "api:demo": "tsx examples/api-manager/demo.ts",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "check": "biome check ./src && tsc --noEmit && vitest run",
     "fix": "biome check --write ./src && tsc --noEmit && vitest run",
