@@ -6554,6 +6554,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/express-rate-limit@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@types/express-rate-limit@npm:6.0.2"
+  dependencies:
+    express-rate-limit: "npm:*"
+  checksum: 10c0/079dcea4a65242e7777ffd36e336dc86762988eb91534d8c691e0d2856bb12e5c28d5b8812641f51e2f86bdd2994da23b7cff683453cf20d78501bd0b13a70ba
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:*, @types/express-serve-static-core@npm:^5.0.0":
   version: 5.1.3
   resolution: "@types/express-serve-static-core@npm:5.1.3"
@@ -10188,6 +10197,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-rate-limit@npm:*":
+  version: 8.7.0
+  resolution: "express-rate-limit@npm:8.7.0"
+  dependencies:
+    debug: "npm:^4.4.3"
+    ip-address: "npm:^10.2.0"
+  peerDependencies:
+    express: ">= 4.11"
+  checksum: 10c0/a83aca1af73280e07695bcb989d40835691b3cbec411782ac56a49d20555008acdcfedd8235c2df63ad8fd60288a9e1a73760a10bba3b3a8160b270f417b05b8
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.22.1":
   version: 4.22.2
   resolution: "express@npm:4.22.2"
@@ -11497,6 +11518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ip-address@npm:^10.2.0":
+  version: 10.7.0
+  resolution: "ip-address@npm:10.7.0"
+  checksum: 10c0/bb6f514708b84ec75ad4d8156f3d571a5b8e592a15359386100f4f8d7366a4b7723d54b88a30d80b3f51ca5f4dee239e94ef4b53765b9c41a8ea46b421307d14
+  languageName: node
+  linkType: hard
+
 "ipaddr.js@npm:1.9.1":
   version: 1.9.1
   resolution: "ipaddr.js@npm:1.9.1"
@@ -12071,6 +12099,7 @@ __metadata:
     "@types/bun": "npm:^1.4.2"
     "@types/cors": "npm:^2.8.19"
     "@types/express": "npm:^5.0.6"
+    "@types/express-rate-limit": "npm:^6.0.2"
     "@types/node": "npm:^26.5.0"
     cors: "npm:^2.8.6"
     dotenv: "npm:^17.4.2"

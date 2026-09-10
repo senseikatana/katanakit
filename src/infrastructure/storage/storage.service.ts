@@ -60,41 +60,10 @@ function createWebStorageStrategy(storage: Storage): StorageStrategy {
 // ============================================================
 
 /**
- * In-memory `Storage` implementation used as an SSR / private-mode fallback.
- * Each instance owns its own Map — never share one across requests.
- */
-class MemoryStorage implements Storage {
-	private store = new Map<string, string>();
-
-	get length(): number {
-		return this.store.size;
-	}
-
-	clear(): void {
-		this.store.clear();
-	}
-
-	getItem(key: string): string | null {
-		return this.store.get(key) ?? null;
-	}
-
-	key(index: number): string | null {
-		return Array.from(this.store.keys())[index] ?? null;
-	}
-
-	removeItem(key: string): void {
-		this.store.delete(key);
-	}
-
-	setItem(key: string, value: string): void {
-		this.store.set(key, value);
-	}
-}
-
-/**
- * Creates a new in-memory `Storage` instance.
+ * Creates a new in-memory `Storage` instance used as an SSR / private-mode
+ * fallback. Each call owns its own Map — never share one across requests.
  *
- * @returns A fresh `MemoryStorage` that conforms to the Web Storage API.
+ * @returns An object conforming to the Web Storage API.
  *
  * @example
  * ```ts
@@ -103,7 +72,28 @@ class MemoryStorage implements Storage {
  * ```
  */
 export function createMemoryStorage(): Storage {
-	return new MemoryStorage();
+	const store = new Map<string, string>();
+
+	return {
+		get length(): number {
+			return store.size;
+		},
+		clear(): void {
+			store.clear();
+		},
+		getItem(key: string): string | null {
+			return store.get(key) ?? null;
+		},
+		key(index: number): string | null {
+			return Array.from(store.keys())[index] ?? null;
+		},
+		removeItem(key: string): void {
+			store.delete(key);
+		},
+		setItem(key: string, value: string): void {
+			store.set(key, value);
+		},
+	};
 }
 
 // ============================================================

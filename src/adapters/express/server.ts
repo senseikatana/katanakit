@@ -1,3 +1,4 @@
+import type { IncomingMessage } from "node:http";
 import cors from "cors";
 import express, { type Application, type NextFunction, type Request, type Response } from "express";
 
@@ -7,9 +8,25 @@ import router from "./router.js";
 /** Module-level state for the Express server. */
 let app: Application | null = null;
 let started = false;
+let finalized = false;
+
+/** An HTTP request augmented with the raw JSON body captured during parsing. */
+type RequestWithRawBody = IncomingMessage & { rawBody?: Buffer };
+
+/**
+ * Returns the raw request body buffer captured by the JSON parser, if any.
+ * Needed to verify webhook signatures (e.g. `X-Hub-Signature-256`).
+ *
+ * @param request - The Express request.
+ * @returns The raw body buffer, or `undefined` when not available.
+ */
+export function useGetRawBody(request: Request): Buffer | undefined {
+	return (request as unknown as RequestWithRawBody).rawBody;
+}
 
 /**
  * Set up CORS, JSON body parser and URL-encoded middleware.
+ * The JSON parser also captures the raw body for signature verification.
  *
  * @param expressApp - Express application instance
  *
@@ -31,7 +48,14 @@ function useExpressSetupMiddlewares(expressApp: Application): void {
 		}),
 	);
 	expressApp.disable("x-powered-by");
-	expressApp.use(express.json({ limit: "100kb" }));
+	expressApp.use(
+		express.json({
+			limit: "100kb",
+			verify: (req, _res, buf) => {
+				(req as RequestWithRawBody).rawBody = buf;
+			},
+		}),
+	);
 	expressApp.use(express.urlencoded({ extended: true, limit: "100kb" }));
 }
 
@@ -58,7 +82,8 @@ function useExpressSetupRoutes(expressApp: Application): void {
 }
 
 /**
- * Set up global error handling and 404 fallback.
+ * Set up global error handling and 404 fallback. Register this AFTER all
+ * channel routers are mounted so it does not shadow them.
  *
  * @param expressApp - Express application instance
  *
@@ -70,7 +95,7 @@ function useExpressSetupRoutes(expressApp: Application): void {
  */
 function useExpressSetupErrorHandling(expressApp: Application): void {
 	expressApp.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-		console.error("Unhandled error:", err);
+		useLogger("error", "Unhandled error:", err);
 		res.status(500).json({ error: "Internal Server Error" });
 	});
 
@@ -80,14 +105,17 @@ function useExpressSetupErrorHandling(expressApp: Application): void {
 }
 
 /**
- * Create and configure the Express application.
+ * Create and configure the Express application. Mount channel routers on the
+ * returned app BEFORE calling {@link useExpressFinalize} / {@link useExpressStart},
+ * otherwise the 404 catch-all will shadow them.
  *
  * @returns Configured Express Application instance
  *
  * @example
  * ```ts
  * const expressApp = useExpressCreate();
- * // App is ready with middleware, routes and error handling
+ * expressApp.use("/assistant", useCreateAssistantRouter());
+ * useExpressStart();
  * ```
  */
 export const useExpressCreate = (): Application => {
@@ -96,13 +124,30 @@ export const useExpressCreate = (): Application => {
 	app = express();
 	useExpressSetupMiddlewares(app);
 	useExpressSetupRoutes(app);
-	useExpressSetupErrorHandling(app);
 
 	return app;
 };
 
 /**
+ * Registers the error handler and 404 catch-all. Idempotent. Call this after
+ * mounting every channel router so it runs last. {@link useExpressStart}
+ * invokes it automatically.
+ *
+ * @example
+ * ```ts
+ * useExpressGetApp().use("/assistant", useCreateAssistantRouter());
+ * useExpressFinalize();
+ * ```
+ */
+export const useExpressFinalize = (): void => {
+	if (finalized) return;
+	finalized = true;
+	useExpressSetupErrorHandling(useExpressCreate());
+};
+
+/**
  * Start the Express HTTP server. Idempotent — subsequent calls are no-ops.
+ * Finalizes error handling before listening.
  *
  * @param port - Port to listen on (default: 3000)
  * @param host - Host to bind to (default: "localhost")
@@ -117,6 +162,7 @@ export const useExpressStart = (port = 3000, host = "localhost"): void => {
 	if (started) return;
 	started = true;
 
+	useExpressFinalize();
 	const expressApp = useExpressCreate();
 
 	expressApp.listen(port, host, () => {

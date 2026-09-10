@@ -7,8 +7,9 @@
  * outside a component by awaiting a manual `refetch`. In a real component the
  * refs are unwrapped automatically in templates, e.g. `{{ pokemon.name }}`.
  */
-import { useInit, useGet } from "@/core/services/http.service";
+
 import { useKatanaFetch } from "@/adapters/vue";
+import { useGet, useInit } from "@/core/services/http.service";
 
 interface Pokemon {
 	name: string;
@@ -24,11 +25,9 @@ async function main(): Promise<void> {
 	});
 
 	// 1. Reactive fetch — the composable calls `useGet` once on setup.
-	const { data, error, loading, refetch } = useKatanaFetch<Pokemon>(
-		"pokeapi",
-		"pokemonById",
-		{ params: { id: 25 } },
-	);
+	const { data, error, loading, refetch } = useKatanaFetch<Pokemon>("pokeapi", "pokemonById", {
+		params: { id: 25 },
+	});
 
 	// Wait for the in-flight request to settle, then read the reactive state.
 	await refetch();

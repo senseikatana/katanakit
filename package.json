@@ -35,6 +35,21 @@
       "import": "./dist/adapters/astro/index.js",
       "default": "./dist/adapters/astro/index.js"
     },
+    "./adapters/assistant": {
+      "types": "./dist/adapters/assistant/index.d.ts",
+      "import": "./dist/adapters/assistant/index.js",
+      "default": "./dist/adapters/assistant/index.js"
+    },
+    "./adapters/telegram": {
+      "types": "./dist/adapters/telegram/index.d.ts",
+      "import": "./dist/adapters/telegram/index.js",
+      "default": "./dist/adapters/telegram/index.js"
+    },
+    "./adapters/whatsapp": {
+      "types": "./dist/adapters/whatsapp/index.d.ts",
+      "import": "./dist/adapters/whatsapp/index.js",
+      "default": "./dist/adapters/whatsapp/index.js"
+    },
     "./prisma": {
       "types": "./dist/prisma/index.d.ts",
       "import": "./dist/prisma/index.js",
@@ -54,15 +69,20 @@
   },
   "scripts": {
     "dev": "tsx src/adapters/express/main.ts",
+    "assistant:dev": "tsx src/adapters/assistant/main.ts",
+    "telegram:dev": "tsx src/adapters/telegram/main.ts",
+    "whatsapp:dev": "tsx src/adapters/whatsapp/main.ts",
+    "assistant:demo": "tsx examples/assistant/demo.ts",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "check": "biome check ./src && tsc --noEmit && vitest run",
     "fix": "biome check --write ./src && tsc --noEmit && vitest run",
-    "build": "yarn run check && tsc -p tsconfig.json",
+    "build": "yarn clean && yarn run check && tsc -p tsconfig.json",
     "bump:patch": "yarn version patch --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
     "bump:minor": "yarn version minor --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
     "bump:major": "yarn version major --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "release": "yarn check && yarn bump:patch && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
-    "release:minor": "yarn check && yarn bump:minor && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
-    "release:major": "yarn check && yarn bump:major && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "release": "yarn build && yarn bump:patch && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "release:minor": "yarn build && yarn bump:minor && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
+    "release:major": "yarn build && yarn bump:major && yarn npm publish && git push && git push --tags && gh release create \"v$(node -p \"require('./package.json').version\")\" --generate-notes",
     "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); ['package.json','docs/package.json'].forEach(f=>{const p=require('./'+f); p.version=v; require('fs').writeFileSync(f,JSON.stringify(p,null,2)+'\\n')}); console.log('Synced to v'+v)\"",
     "docs:dev": "yarn workspace katanakit-docs run dev",
     "docs:build": "yarn workspace katanakit-docs run build",
@@ -123,6 +143,7 @@
     "@types/bun": "^1.4.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/express-rate-limit": "^6.0.2",
     "@types/node": "^26.5.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

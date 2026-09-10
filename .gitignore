@@ -19,6 +19,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .env 
 !.env.example
 
+# Assistant demo runtime notes
+examples/assistant/notes.jsonl
+
 # caches
 .eslintcache
 .cache

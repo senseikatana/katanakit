@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+	type UseSeoMetaOptions,
 	useGenerateMetaTags,
 	useHeadTags,
 	useRssHeadLink,
@@ -7,7 +8,6 @@ import {
 	useSeoTag,
 	useSeoTags,
 	useTitle,
-	type UseSeoMetaOptions,
 } from "@/config/seo.service";
 import { type SiteConfig, siteConfig } from "@/config/site.config";
 
@@ -169,9 +169,7 @@ describe("seo.service", () => {
 			expect(seo.siteTitle).toBe("My Site");
 			expect(seo.html).toContain("<title>Blog Post | My Site</title>");
 			expect(seo.html).toContain('rel="alternate"');
-			expect(seo.tags.some((t) => t.tag === "title" && t.text === "Blog Post | My Site")).toBe(
-				true,
-			);
+			expect(seo.tags.some((t) => t.tag === "title" && t.text === "Blog Post | My Site")).toBe(true);
 			expect(seo.tags.some((t) => t.tag === "link" && t.attrs?.rel === "alternate")).toBe(true);
 		});
 

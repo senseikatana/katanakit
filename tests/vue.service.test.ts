@@ -1,8 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
-
-import { useInit } from "@/core/services/http.service";
 import { useKatanaFetch } from "@/adapters/vue/vue.service";
+import { useInit } from "@/core/services/http.service";
 
 function jsonResponse(body: unknown, status = 200): Response {
 	return new Response(JSON.stringify(body), {
@@ -18,7 +17,10 @@ describe("Vue adapter — useKatanaFetch", () => {
 
 	it("resolves data into reactive state on success", async () => {
 		useInit({ api: { baseUri: "https://example.com", endpoints: { list: "/list" } } });
-		vi.stubGlobal("fetch", vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({ items: [1, 2, 3] }))));
+		vi.stubGlobal(
+			"fetch",
+			vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({ items: [1, 2, 3] }))),
+		);
 
 		const { data, error, loading, refetch } = useKatanaFetch<{ items: number[] }>("api", "list");
 
@@ -31,7 +33,10 @@ describe("Vue adapter — useKatanaFetch", () => {
 
 	it("captures the safe error on failure without throwing", async () => {
 		useInit({ api: { baseUri: "https://example.com", endpoints: { missing: "/missing" } } });
-		vi.stubGlobal("fetch", vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({}, 404))));
+		vi.stubGlobal(
+			"fetch",
+			vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({}, 404))),
+		);
 
 		const { data, error, loading, refetch } = useKatanaFetch("api", "missing");
 

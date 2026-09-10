@@ -19,7 +19,7 @@
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
-		"outDir": "dist/katanakit-js/",
+		"outDir": "dist",
 		"rootDir": "src",
 		"paths": {
 			"@/*": [

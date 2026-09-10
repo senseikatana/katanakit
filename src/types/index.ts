@@ -664,6 +664,155 @@ export interface IRssService {
 }
 
 /* -------------------------------------------------------------------------- */
+/* AI / Agent                                                                  */
+/* -------------------------------------------------------------------------- */
+
+/** Role of a chat message in the OpenAI-compatible protocol. */
+export type AiRole = "system" | "user" | "assistant" | "tool";
+
+/** Function invocation requested by the model when using tools. */
+export interface AiFunctionCall {
+	name: string;
+	arguments: string;
+}
+
+/** A single tool call emitted by the model (OpenAI-compatible wire shape). */
+export interface AiToolCall {
+	id: string;
+	type: "function";
+	function: AiFunctionCall;
+}
+
+/**
+ * A chat message. `tool_calls` and `tool_call_id` use snake_case on purpose:
+ * they mirror the OpenAI-compatible protocol so messages pass through unchanged.
+ */
+export interface AiMessage {
+	role: AiRole;
+	content: string | null;
+	tool_calls?: AiToolCall[];
+	tool_call_id?: string;
+	name?: string;
+}
+
+/** Provider configuration for an OpenAI-compatible chat/agent endpoint. */
+export interface AiProviderConfig {
+	apiKey: string;
+	baseUrl: string;
+	model: string;
+	/** Default system prompt. Falls back to {@link KITT_SYSTEM_PROMPT}. */
+	systemPrompt?: string;
+}
+
+/** Options for a single chat completion. */
+export interface AiChatOptions {
+	temperature?: number;
+	maxTokens?: number;
+	topP?: number;
+	signal?: AbortSignal;
+	/** Overrides the provider `systemPrompt` for this request. */
+	systemPrompt?: string;
+}
+
+/** Safe error returned on non-2xx or network failures. */
+export interface AiError {
+	message: string;
+	status: number;
+	details?: unknown;
+}
+
+/** Safe result (discriminated union) without throwing. */
+export type AiResult<T = string> =
+	| { data: T; error: null; ok: true }
+	| { data: null; error: AiError; ok: false };
+
+/**
+ * A tool the agent can invoke. `parameters` is a JSON Schema object
+ * describing the expected input.
+ */
+export interface AiTool {
+	name: string;
+	description: string;
+	parameters: Record<string, unknown>;
+	execute(input: unknown): unknown | Promise<unknown>;
+}
+
+/** One round of tool execution inside the agent loop. */
+export interface AgentStep {
+	toolCalls: AiToolCall[];
+	toolResults: unknown[];
+}
+
+/** Payload returned by a successful {@link useRunAgent} call. */
+export interface AgentData {
+	finalMessage: string;
+	steps: AgentStep[];
+}
+
+/** Safe result of an agent run. */
+export type AgentResult = AiResult<AgentData>;
+
+/** Options for running the tool-calling agent loop. */
+export interface AgentRunOptions extends AiChatOptions {
+	tools?: AiTool[];
+	maxSteps?: number;
+	/** Prior conversation (system messages are ignored; a system prompt is prepended). */
+	history?: AiMessage[];
+}
+
+/** Contract of the AI/agent facade. */
+export interface IAiService {
+	useInitAgent(config: Partial<AiProviderConfig>): void;
+	useChat(messages: AiMessage[], options?: AiChatOptions): Promise<AiResult<string>>;
+	useRunAgent(goal: string, options?: AgentRunOptions): Promise<AgentResult>;
+}
+
+/** Persistence contract for assistant conversations. */
+export interface ConversationStore {
+	useCreate(channel?: string): Promise<string>;
+	useExists(sessionId: string): Promise<boolean>;
+	useAppend(sessionId: string, message: AiMessage): Promise<void>;
+	useGetHistory(sessionId: string): Promise<AiMessage[]>;
+	useReset(sessionId: string): Promise<void>;
+}
+
+/** Configuration for the assistant facade. */
+export interface AssistantInitConfig extends Partial<AiProviderConfig> {
+	store?: ConversationStore;
+	tools?: AiTool[];
+	maxSteps?: number;
+}
+
+/** Options for a single assistant reply. */
+export interface AssistantReplyOptions extends AiChatOptions {
+	tools?: AiTool[];
+	maxSteps?: number;
+}
+
+/** Payload returned by a successful assistant reply. */
+export interface AssistantReply {
+	reply: string;
+	sessionId: string;
+}
+
+/** Safe result of an assistant reply. */
+export type AssistantResult = AiResult<AssistantReply>;
+
+/** Contract of the assistant facade. */
+export interface IAssistantService {
+	useInitAssistant(config?: AssistantInitConfig): void;
+	useReply(
+		sessionId: string | undefined,
+		text: string,
+		options?: AssistantReplyOptions,
+	): Promise<AssistantResult>;
+	useCreateSession(channel?: string): Promise<string>;
+	useSessionExists(sessionId: string): Promise<boolean>;
+	useGetHistory(sessionId: string): Promise<AiMessage[]>;
+	useResetSession(sessionId: string): Promise<void>;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Express                                                                     */
 /* -------------------------------------------------------------------------- */
 

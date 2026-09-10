@@ -7,4 +7,10 @@ export {
 	useExpressUpdateProduct,
 } from "./products.controller.js";
 export { default as router } from "./router.js";
-export { useExpressCreate, useExpressGetApp, useExpressStart } from "./server.js";
+export {
+	useExpressCreate,
+	useExpressFinalize,
+	useExpressGetApp,
+	useExpressStart,
+	useGetRawBody,
+} from "./server.js";

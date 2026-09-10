@@ -1,9 +1,15 @@
 /**
- * Example: generate Astro `getStaticPaths` routes with AstroService.
+ * Example: generate Astro `getStaticPaths` routes.
  *
  * Run with: `bun run examples/astro/demo.ts`
  */
-import { AstroService } from "@/adapters/astro";
+import {
+	useAstroExtractUniqueValues,
+	useAstroFindEntry,
+	useAstroGeneratePagination,
+	useAstroGetStaticPaths,
+	useAstroPathsFromValues,
+} from "@/adapters/astro";
 import type { CollectionEntryLike } from "@/types";
 
 interface BlogPostData {
@@ -15,21 +21,21 @@ type BlogPostEntry = CollectionEntryLike<BlogPostData>;
 
 const mockGetCollection = async (_name: string): Promise<BlogPostEntry[]> => [
 	{ id: "1", slug: "hello-world", data: { title: "Hello World", tags: ["javascript", "astro"] } },
-	{ id: "2", slug: "typescript-guide", data: { title: "TypeScript Guide", tags: ["typescript", "astro"] } },
-	{ id: "3", slug: "singleton-pattern", data: { title: "Singleton Pattern", tags: ["architecture", "typescript"] } },
+	{
+		id: "2",
+		slug: "typescript-guide",
+		data: { title: "TypeScript Guide", tags: ["typescript", "astro"] },
+	},
+	{
+		id: "3",
+		slug: "singleton-pattern",
+		data: { title: "Singleton Pattern", tags: ["architecture", "typescript"] },
+	},
 ];
 
-const {
-	useGetStaticPaths,
-	useFindEntry,
-	useGeneratePagination,
-	usePathsFromValues,
-	useExtractUniqueValues,
-}: AstroService = AstroService.getInstance();
-
 async function main(): Promise<void> {
-	// 1. useGetStaticPaths with Safe Result ({ data, error, ok }).
-	const result = await useGetStaticPaths(mockGetCollection, "blog", {
+	// 1. useAstroGetStaticPaths with Safe Result ({ data, error, ok }).
+	const result = await useAstroGetStaticPaths(mockGetCollection, "blog", {
 		param: "slug",
 		valueFrom: (entry) => entry.slug ?? entry.id,
 		propsFrom: (entry) => entry.data,
@@ -45,20 +51,20 @@ async function main(): Promise<void> {
 	// 2. Load the collection for the synchronous utilities.
 	const posts = await mockGetCollection("blog");
 
-	// 3. useFindEntry
-	const singlePost = useFindEntry(posts, "hello-world");
+	// 3. useAstroFindEntry
+	const singlePost = useAstroFindEntry(posts, "hello-world");
 	console.log("Found post:", singlePost?.data?.title);
 
-	// 4. useGeneratePagination
-	const paginated = useGeneratePagination(posts, 2, "page");
+	// 4. useAstroGeneratePagination
+	const paginated = useAstroGeneratePagination(posts, 2, "page");
 	console.log("Generated pages:", paginated.length);
 
-	// 5. useExtractUniqueValues
-	const uniqueTags = useExtractUniqueValues(posts, (post) => post.data?.tags ?? []);
+	// 5. useAstroExtractUniqueValues
+	const uniqueTags = useAstroExtractUniqueValues(posts, (post) => post.data?.tags ?? []);
 	console.log("Unique tags:", uniqueTags);
 
-	// 6. usePathsFromValues
-	const tagRoutes = usePathsFromValues(uniqueTags, "tag");
+	// 6. useAstroPathsFromValues
+	const tagRoutes = useAstroPathsFromValues(uniqueTags, "tag");
 	console.log("Tag routes:", tagRoutes);
 }
 
