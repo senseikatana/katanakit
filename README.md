@@ -195,7 +195,7 @@ await usePost("myApi", "upload", form);
 
 ### Full example
 
-See [`examples/api-manager/demo.ts`](examples/api-manager/) for a runnable demo
+See [`examples/api-manager/demo.ts`](https://github.com/senseikatana/katanakit-js/tree/main/examples/api-manager) for a runnable demo
 covering all CRUD operations, auth injection, URL building, and error handling
 against a real API (JSONPlaceholder).
 
@@ -291,7 +291,7 @@ Also on the main barrel:
 | `useResetSession` | `(sessionId) => Promise<void>` |
 | `useCreateMemoryStore` | `() => ConversationStore` |
 
-Then start a channel (see below). Copy keys from [`.env.example`](.env.example):
+Then start a channel (see below). Copy keys from [`.env.example`](https://github.com/senseikatana/katanakit-js/blob/main/.env.example):
 
 ```env
 DASHSCOPE_API_KEY=
@@ -426,7 +426,7 @@ owns the database, run `prisma contract emit` then `prisma db init` in that app.
 
 ### Real use case
 
-[`examples/assistant/`](examples/assistant/) is a generic digital assistant with two demo tools:
+[`examples/assistant/`](https://github.com/senseikatana/katanakit-js/tree/main/examples/assistant) is a generic digital assistant with two demo tools:
 `readFile` on `knowledge-base.md` and `saveNote` to `notes.jsonl`.
 
 ```bash
