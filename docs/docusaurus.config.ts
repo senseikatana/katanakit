@@ -69,11 +69,26 @@ const config: Config = {
 					position: "left",
 					label: "Docs",
 				},
-				{
-					href: "https://github.com/senseikatana/katanakit-js",
-					label: "GitHub",
-					position: "right",
-				},
+			{
+				type: "dropdown",
+				label: "Releases",
+				position: "right",
+				items: [
+					{
+						label: "Release notes",
+						href: "https://github.com/senseikatana/katanakit-js/releases",
+					},
+					{
+						label: "Tags",
+						href: "https://github.com/senseikatana/katanakit-js/tags",
+					},
+				],
+			},
+			{
+				href: "https://github.com/senseikatana/katanakit-js",
+				label: "GitHub",
+				position: "right",
+			},
 			],
 		},
 		footer: {
