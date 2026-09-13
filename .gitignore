@@ -9,6 +9,7 @@ bun.lockb
 !.env.example
 !.eslintrc.json
 !.biomeignore
+!.firebaserc
 !biome.json
 !.github/
 
@@ -65,6 +66,14 @@ Thumbs.db
 
 # Versiones compiladas por build:versions (artefacto de build)
 public/versions/*.css
+
+# Demo build output (se construye en CI, no commitear)
+demo/dist/
+
+# Google Cloud service account keys — NUNCA commitear
+katanakit-css-*.json
+service-account*.json
+*-service-account.json
 
 # Keep folder placeholders
 !.gitkeep
