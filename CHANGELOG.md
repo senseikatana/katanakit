@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [2.14.2] - 2026-09-13
+
+### Added
+
+- **Katana UI documentation** — new docs section describing the planned framework-agnostic UI kit: vision, layered architecture, full inventory (dashboards, e-commerce, apps, auth, blocks, layouts, interactions, charts and themes), LLM files strategy and delivery roadmap.
+- **Navbar theme switch** — the docs site replaces the default color mode button with a checkbox switch (swizzled `ColorModeToggle`) with keyboard focus, reduced-motion support and pre-hydration styling.
+
+### Changed
+
+- Docs sidebar includes a UI Kit category, and the toolkit roadmap links to it.
+
 ## [2.14.1] - 2026-09-10
 
 ### Changed
