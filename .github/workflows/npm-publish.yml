@@ -30,14 +30,13 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
 
-      - uses: pnpm/action-setup@a71fae5e8f87e4b87c5cc63b5a70036845438c94  # v4.0.0
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
         with:
           node-version: 22
-          cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
