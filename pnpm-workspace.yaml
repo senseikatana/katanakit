@@ -1,0 +1,13 @@
+packages:
+  - docs
+
+allowBuilds:
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  msgpackr-extract: true
+  workerd: true
+
+overrides:
+  pathe: 2.0.3
+  jsbi: 4.3.2

@@ -2,7 +2,7 @@ services:
   - type: static_site
     name: katanakit-docs
     branch: deploy
-    buildCommand: yarn install && yarn run docs:build
+    buildCommand: pnpm install && pnpm run docs:build
     staticPublishPath: ./docs/build
     nodeVersion: 22.18.0
     domains:
