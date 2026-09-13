@@ -18,8 +18,20 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    version: '2.15.0',
+    version: '3.0.0',
     kind: 'latest',
+    date: 'September 13, 2026',
+    tag: 'v3.0.0',
+    summary: 'Add access-control service and rename Prisma User to Account',
+    highlights: [
+      'Add access-control service and rename Prisma User to Account',
+      '**docs:** Automate release cards, changelog and navbar from git tags',
+      'Clarify merge-into-dev-first workflow',
+    ],
+  },
+  {
+    version: '2.15.0',
+    kind: 'minor',
     date: 'September 13, 2026',
     tag: 'v2.15.0',
     summary: 'Add QueryClient with cache, retry, dedup and Vue composables',
@@ -103,19 +115,6 @@ export const releases: Release[] = [
       '**functions:** Update documentation in 38 files',
       '**functions:** Update documentation in 37 files',
       '**package.json:** Update dependencies or build settings in 2 files',
-    ],
-  },
-  {
-    version: '2.13.2',
-    kind: 'minor',
-    date: 'September 9, 2026',
-    tag: 'v2.13.2',
-    summary: '**routing:** Update worker and route configuration',
-    highlights: [
-      '**routing:** Update worker and route configuration',
-      '**functions:** Update documentation in 37 files',
-      '**functions:** Update documentation in 37 files',
-      '**scripts:** Update pipeline configuration in 6 files',
     ],
   },
 ];
