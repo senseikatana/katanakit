@@ -29,7 +29,7 @@ In the browser, use jsDelivr **`/+esm`** so named exports and dependencies resol
 | **esm.sh** | `https://esm.sh/katanakit-js` |
 | **Raw ESM file** | `https://cdn.jsdelivr.net/npm/katanakit-js/dist/index.js` (needs bundler or import map) |
 
-Pin a version in production (e.g. `@2.8.0/+esm`). There is no IIFE/UMD build.
+Pin a version in production (e.g. `@2.14.2/+esm`). There is no IIFE/UMD build.
 
 ## Quick Start
 
@@ -222,6 +222,7 @@ or `result.error`.
 
 ```ts
 import { useInitAgent, useChat, useRunAgent } from "katanakit-js";
+import fs from "node:fs/promises";
 
 // Register once. apiKey falls back to process.env.DASHSCOPE_API_KEY.
 useInitAgent({ model: "qwen3.8-max" });
@@ -302,6 +303,7 @@ TELEGRAM_BOT_TOKEN=
 WHATSAPP_TOKEN=
 WHATSAPP_PHONE_NUMBER_ID=
 WHATSAPP_VERIFY_TOKEN=
+WHATSAPP_APP_SECRET=
 DATABASE_URL=
 ```
 
@@ -481,7 +483,7 @@ import { useUnwrap } from "katanakit-js/adapters/nuxt";         // Nuxt only
 </script>
 ```
 
-See [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/getting-started) for full recipes.
+See [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-started/) for full recipes.
 
 ## Framework Adapters
 
@@ -497,11 +499,14 @@ See [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/ge
 
 ## Documentation
 
-- [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/getting-started)
-- [Architecture](https://senseikatana.github.io/katanakit-js/docs/guides/architecture)
-- [API Reference](https://senseikatana.github.io/katanakit-js/docs/api)
-- [Roadmap](https://senseikatana.github.io/katanakit-js/docs/guides/roadmap)
-- [Changelog](https://senseikatana.github.io/katanakit-js/docs/changelog)
+The docs site is deployed with Render at [senseikatana.com/katanakit-js](https://senseikatana.com/katanakit-js/).
+
+- [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-started/)
+- [Architecture](https://senseikatana.com/katanakit-js/docs/guides/architecture/)
+- [UI Kit (Katana UI)](https://senseikatana.com/katanakit-js/docs/ui-kit/)
+- [API Reference](https://senseikatana.com/katanakit-js/docs/api/)
+- [Roadmap](https://senseikatana.com/katanakit-js/docs/guides/roadmap/)
+- [Changelog](https://senseikatana.com/katanakit-js/docs/changelog/)
 
 ## License
 

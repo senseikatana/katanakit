@@ -43,15 +43,30 @@ docs/.yarn/
 # Generated TypeDoc markdown (produced by docs build / docs:dev)
 docs/docs/api/
 
-# IDEs
-.idea
-.zcode/
+# IDEs and AI tools
+.idea/
 .vscode/
+.zcode/
 .atl/
+.agents/local/
 .opencode/
 .cursor/
 .claude/
 .devin/
+.codex/
+.windsurf/
+.continue/
+.aider/
+.gemini/
+.cline/
+.roo/
+.kiro/
+.specstory/
+.wrangler/tmp/
+*.cursorrules
+.windsurfrules
+.clinerules
+.roomodes
 
 # MacOS
 .DS_Store
