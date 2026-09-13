@@ -25,11 +25,6 @@ All notable changes to this project are documented in this file.
 ### Changed
 
 - **Docs releases automated** — `scripts/sync-docs-releases.mjs` generates the homepage release cards, the docs changelog and the navbar Releases dropdown from git tags + Conventional Commits. `yarn docs:build` syncs first; CI runs `yarn docs:check` and fails on drift. The navbar now lists the latest 8 release tags with direct links to GitHub.
-
-## [2.15.1] - 2026-09-13
-
-### Changed
-
 - **Merge-into-dev-first workflow** — feature branches must be merged into `dev` (`git checkout dev && git merge <branch>`) before any PR; PRs to `main` come only from `dev`. Documented in `AGENTS.md`.
 
 ## [2.15.0] - 2026-09-13
