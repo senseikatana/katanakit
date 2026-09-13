@@ -77,7 +77,7 @@ Zero runtime overhead — it compiles to plain static CSS.
 - **Node.js + a Sass compiler** to consume the SCSS source (Dart Sass is the
   only compiler exercised; `sass` is a devDependency). The precompiled CSS in
   `dist/` needs no tooling at all.
-- To run the local demo or the test suite you also need `yarn` (or npm).
+- To run the local demo or the test suite you also need `pnpm` (or npm).
 - Compatible with any bundler/build that can run Sass; Vite is used for the
   demo but is **not** required to use the library.
 
@@ -86,9 +86,9 @@ Zero runtime overhead — it compiles to plain static CSS.
 ## Installation
 
 ```bash
-npm install katanakit-css
+pnpm add katanakit-css
 # or
-yarn add katanakit-css
+npm install katanakit-css
 ```
 
 The package exposes two consumption entry points (see `package.json`):
@@ -541,15 +541,15 @@ used by the demo entry `src/scss/demo.scss`:
 ## Run the demo locally
 
 ```bash
-yarn install
-yarn dev          # Vite dev server on http://localhost:4321 (HMR over src/scss)
+pnpm install
+pnpm dev          # Vite dev server on http://localhost:4321 (HMR over src/scss)
 ```
 
 The demo page is `index.html`; `demo/main.js` imports `src/scss/demo.scss`
 (full framework + example components) and starts the **version switcher**
 (`demo/version-switcher.js`): the `<select>` at the top of the page toggles
 between the live dev SCSS and published builds compiled by
-`yarn build:versions` into `public/versions/<tag>.css`. `demo-dist/` is the
+`pnpm build:versions` into `public/versions/<tag>.css`. `demo-dist/` is the
 production build of the same page, purged by PurgeCSS.
 
 ---
@@ -558,16 +558,16 @@ production build of the same page, purged by PurgeCSS.
 
 | Script              | Command / effect                                                              |
 | ------------------- | ----------------------------------------------------------------------------- |
-| `yarn dev`          | `vite` — dev server on port 4321 with HMR                                     |
-| `yarn build`        | `build:css && build:versions && build:demo`                                   |
-| `yarn build:css`    | Sass CLI → `dist/css/globals.min.css` (compressed, no source map)            |
-| `yarn build:versions` | Sass CLI → `public/versions/<tag>.css` for the demo version switcher        |
-| `yarn build:demo`   | `vite build` → `demo-dist/` with PurgeCSS (`variables: false` keeps tokens)   |
-| `yarn preview`      | `vite preview` — preview the `demo-dist` build                                |
-| `yarn test`         | `vitest run` — 26 tests over fixtures in `test/fixtures/`                     |
-| `yarn test:watch`   | `vitest` — watch mode                                                         |
-| `yarn docs:dev`     | `astro dev --root site` — documentation site dev server                       |
-| `yarn docs:build`   | `astro build --root site` — build the documentation site                      |
+| `pnpm dev`          | `vite` — dev server on port 4321 with HMR                                     |
+| `pnpm build`        | `build:css && build:versions && build:demo`                                   |
+| `pnpm build:css`    | Sass CLI → `dist/css/globals.min.css` (compressed, no source map)            |
+| `pnpm build:versions` | Sass CLI → `public/versions/<tag>.css` for the demo version switcher        |
+| `pnpm build:demo`   | `vite build` → `demo-dist/` with PurgeCSS (`variables: false` keeps tokens)   |
+| `pnpm preview`      | `vite preview` — preview the `demo-dist` build                                |
+| `pnpm test`         | `vitest run` — 26 tests over fixtures in `test/fixtures/`                     |
+| `pnpm test:watch`   | `vitest` — watch mode                                                         |
+| `pnpm docs:dev`     | `docusaurus start` — documentation site dev server                            |
+| `pnpm docs:build`   | `docusaurus build` — build the documentation site                             |
 
 PostCSS runs **autoprefixer** during the Vite builds.
 
@@ -589,14 +589,12 @@ katanakit-css/
 │       └── _index.scss        # example components built with @apply
 ├── dist/css/globals.min.css    # npm artifact (compressed full sheet)
 ├── dist/css/globals.css        # expanded version (development/debugging)
-├── demo-dist/                    # production build of the demo (PurgeCSS)
-├── public/versions/              # compiled per-version CSS for the demo switcher
-├── index.html + demo/main.js     # local demo served by Vite
-├── test/                         # vitest suite + fixtures (26 tests)
-├── site/                         # Astro + Starlight documentation site
-├── docs/                         # Getting-Started, API-Reference, Architecture, Roadmap
-├── colors-palette.md             # author's brand palette (reference only)
-├── package.json · vite.config.js · postcss.config.cjs · vitest.config.ts
+├── demo-dist/                  # production build of the demo (PurgeCSS)
+├── index.html + demo/main.js   # local demo served by Vite
+├── test/                       # vitest suite + fixtures (26 tests)
+├── docs/                       # Docusaurus documentation site
+├── examples/                   # SCSS usage examples (components, layout, theme, tokens)
+├── package.json · pnpm-lock.yaml · vite.config.mts · postcss.config.cjs · vitest.config.ts
 ```
 
 ---

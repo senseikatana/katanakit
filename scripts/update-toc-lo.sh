@@ -4,7 +4,7 @@
 # ya lo traiga rellenado (y para renderizar a PDF) se actualiza aquí con
 # LibreOffice usando un perfil temporal desechable.
 #
-# Uso: bash scripts/update-toc-lo.sh   (invocado por `yarn docs:docx`)
+# Uso: bash scripts/update-toc-lo.sh   (invocado por `pnpm docs:docx`)
 
 set -euo pipefail
 

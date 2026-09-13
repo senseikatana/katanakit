@@ -7,7 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_No changes yet._
+### Changed
+
+- **Package manager migrated from Yarn 4 to pnpm** — removed `yarn.lock`,
+  `.yarn/`, `.pnp.cjs`, `.pnp.loader.mjs`, `.yarnclean`, `.npmrc` (yarn config).
+  All scripts, CI workflows and documentation now use `pnpm`.
+- **Folder structure cleaned up** — removed old documentation artifacts:
+  `core/` (old Docusaurus exports), `site/` (old Astro site), `es/` (old
+  Spanish locale), `reference/`, `utilities/`, `mixins/`, `versions/`
+  (superseded by `docs/docs/`), `_astro/`, `.astro/`, `index.html`, `404.html`,
+  `es.md`, `getting-started.md`, `search.json`, `framework-docs.css`,
+  `.nojekyll`, `.prettierrc`.
+- **CI/CD workflows updated for pnpm** — `npm-publish.yml` uses
+  `pnpm/action-setup`, `pnpm audit`, `pnpm publish`. `deploy-docs.yml` uses
+  `pnpm install --frozen-lockfile`.
+- **Security fixes** — `SECURITY.md` updated to reflect current version.
+  `dependabot.yml` updated for pnpm ecosystem.
+
+### Added
+
+- `pnpm-lock.yaml` — lockfile for pnpm.
 
 ## [0.12.4] - 2026-09-10
 

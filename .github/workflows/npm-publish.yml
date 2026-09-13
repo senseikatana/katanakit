@@ -6,7 +6,7 @@
 #
 #  Steps:
 #    1. Checkout code at the release tag
-#    2. Install dependencies
+#    2. Setup pnpm and install dependencies
 #    3. Security audit
 #    4. Build CSS artifacts
 #    5. Run tests
@@ -30,17 +30,21 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
 
+      - uses: pnpm/action-setup@a71fae5e8f87e4b87c5cc63b5a70036845438c94  # v4.0.0
+        with:
+          version: 9
+
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
         with:
           node-version: 22
-          cache: yarn
+          cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: corepack enable && yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Security audit
-        run: yarn npm audit --all --recursive --severity moderate
+        run: pnpm audit --audit-level=moderate
         continue-on-error: true
 
       - name: Validate npm auth
@@ -49,12 +53,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build CSS artifacts
-        run: yarn build
+        run: pnpm build
 
       - name: Run tests
-        run: yarn test
+        run: pnpm test
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: pnpm publish --provenance --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

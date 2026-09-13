@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite';
 import purgecss from 'vite-plugin-purgecss';
 
-const PORT = Number(process.env.PORT) || 4322;
+const PORT = Number(process.env.PORT) || 4321;
 
 export default defineConfig({
-  // Demo lives in demo/ — run with: yarn demo
+  // Demo lives in demo/ — run with: pnpm demo
   root: 'demo',
   publicDir: '../public',
   server: {

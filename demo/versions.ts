@@ -1,7 +1,7 @@
 // ============================================================
 //  demo/versions.ts — Catálogo de versiones publicadas del
 //  framework. Cada entrada apunta al CSS compilado que genera
-//  `yarn build:versions` en public/versions/<tag>.css.
+//  `pnpm build:versions` en public/versions/<tag>.css.
 //
 //  Al publicar una versión nueva:
 //  1. `sass src/scss/main.scss public/versions/<tag>.css`

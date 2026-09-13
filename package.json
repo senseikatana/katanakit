@@ -44,8 +44,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "concurrently -n demo,docs -c blue,green \"yarn demo\" \"cd docs && yarn start\"",
-    "build": "concurrently \"yarn build:css\" \"yarn build:expanded\"",
+    "dev": "concurrently -n demo,docs -c blue,green \"pnpm demo\" \"cd docs && pnpm start\"",
+    "build": "concurrently \"pnpm build:css\" \"pnpm build:expanded\"",
     "build:css": "sass src/scss/main.scss dist/css/globals.min.css --no-source-map --style=compressed",
     "build:expanded": "sass src/scss/main.scss dist/css/globals.css --no-source-map --style=expanded",
     "build:purge": "sass src/scss/main.scss dist/css/globals.purged.css --no-source-map --style=compressed && postcss dist/css/globals.purged.css --replace --use autoprefixer --use @fullhuman/postcss-purgecss",
@@ -68,6 +68,5 @@
     "vite": "^8.2.2",
     "vite-plugin-purgecss": "^0.2.13",
     "vitest": "^5.0.0"
-  },
-  "packageManager": "yarn@4.18.0"
+  }
 }

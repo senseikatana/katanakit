@@ -28,22 +28,26 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@a71fae5e8f87e4b87c5cc63b5a70036845438c94  # v4.0.0
+        with:
+          version: 9
+
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
         with:
           node-version: 22
-          cache: yarn
+          cache: pnpm
 
       - name: Install root dependencies
-        run: corepack enable && yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build CSS artifact (npm)
-        run: yarn build:css
+        run: pnpm build:css
 
       - name: Install docs dependencies
-        run: cd docs && yarn install --frozen-lockfile
+        run: cd docs && pnpm install --frozen-lockfile
 
       - name: Build Docusaurus site
-        run: cd docs && yarn build
+        run: cd docs && pnpm build
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e  # v4.0.0

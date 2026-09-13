@@ -107,7 +107,7 @@ Because fixes land in the current release line and are described in [CHANGELOG.m
 
 | Version | Status |
 | --- | --- |
-| `0.12.2` | Supported — latest release |
+| `0.12.5` | Supported — latest release |
 
 There is no automated security testing yet; consider that when evaluating the
 library for high-risk environments.

@@ -6,7 +6,7 @@
 #    bash scripts/release.sh [patch|minor|major]
 #
 #  What it does:
-#    1. Bumps version in package.json (yarn version)
+#    1. Bumps version in package.json (pnpm version)
 #    2. Compiles dist/css/globals.min.css
 #    3. Syncs versions.json from git tags
 #    4. Commits, tags, pushes
@@ -30,8 +30,8 @@ fi
 echo "==> Current version: $(node -p "require('./package.json').version")"
 echo "==> Bump type: $BUMP"
 
-# 1. Bump version (yarn 4 native)
-yarn version "$BUMP" --no-git-tag-version
+# 1. Bump version (pnpm)
+pnpm version "$BUMP" --no-git-tag-version
 
 NEW_VERSION=$(node -p "require('./package.json').version")
 TAG="v$NEW_VERSION"
@@ -39,7 +39,7 @@ echo "==> New version: $NEW_VERSION (tag: $TAG)"
 
 # 2. Build CSS artifact
 echo "==> Building CSS..."
-yarn build:css
+pnpm build:css
 
 # 3. Sync versions.json
 echo "==> Syncing versions.json..."

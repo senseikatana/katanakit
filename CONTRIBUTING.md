@@ -6,8 +6,8 @@ jump in quickly.
 
 Please also read:
 
-- [docs/Architecture.md](docs/Architecture.md) — module graph and build flow.
-- [docs/API-Reference.md](docs/API-Reference.md) — the public API surface.
+- [docs/docs/reference/architecture.mdx](docs/docs/reference/architecture.mdx) — module graph and build flow.
+- [docs/docs/reference/api-reference.mdx](docs/docs/reference/api-reference.mdx) — the public API surface.
 - [CHANGELOG.md](CHANGELOG.md) — how changes are recorded.
 
 ---
@@ -55,10 +55,10 @@ These rules keep the codebase consistent. Follow them for any contribution.
 ```bash
 git clone git@github.com:senseikatana/katanakit-css.git
 cd katanakit-css
-yarn install
+pnpm install
 ```
 
-Recommended: Node.js 20+ and Yarn 1.x (or npm). Dart Sass is the only
+Recommended: Node.js 20+ and pnpm. Dart Sass is the only
 compiler the suite runs against.
 
 ---
@@ -66,19 +66,19 @@ compiler the suite runs against.
 ## Running the tests
 
 ```bash
-yarn test
+pnpm test
 ```
 
-This runs the Node built-in test runner over `test/**/*.test.mjs`
-(`node --test`). The tests compile SCSS **in memory** through the Sass JS API
+This runs the Vitest test runner over `test/**/*.test.ts`
+(`vitest run`). The tests compile SCSS **in memory** through the Sass JS API
 and assert on the generated CSS:
 
-- `test/core.test.mjs` — compiles `src/scss/main.scss` and
+- `test/core.test.ts` — compiles `src/scss/main.scss` and
   `src/scss/demo.scss`; checks tokens, generated classes and demo components.
-- `test/api-smoke.test.mjs` — compiles `test/fixtures/api-smoke.scss` and
+- `test/api-smoke.test.ts` — compiles `test/fixtures/api-smoke.scss` and
   asserts on the public API surface (breakpoint aliases, grid placement and
   stacking, dark-theme inversion).
-- `test/functions.test.mjs` — compiles
+- `test/functions.test.ts` — compiles
   `test/fixtures/functions-regression.scss` and asserts exact function
   outputs.
 
@@ -102,29 +102,29 @@ automated style gate in the repo scripts.
 ## Building
 
 ```bash
-yarn build
+pnpm build
 ```
 
 Runs:
 
-1. `yarn build:css` — Sass CLI compiles `src/scss/main.scss` into
+1. `pnpm build:css` — Sass CLI compiles `src/scss/main.scss` into
    `dist/css/globals.min.css` (compressed, no source map). This is the npm
    artifact.
-2. `yarn build:expanded` — Sass CLI compiles `src/scss/main.scss` into
+2. `pnpm build:expanded` — Sass CLI compiles `src/scss/main.scss` into
    `dist/css/globals.css` (expanded, for development/debugging).
-3. `yarn build:demo` — Vite builds the demo into `demo-dist/` (PostCSS +
+3. `pnpm build:demo` — Vite builds the demo into `demo-dist/` (PostCSS +
    PurgeCSS).
 
 For local iteration:
 
 ```bash
-yarn dev       # Vite dev server on http://localhost:4321 (HMR)
-yarn preview   # preview demo-dist/
+pnpm dev       # Vite dev server on http://localhost:4321 (HMR)
+pnpm preview   # preview demo-dist/
 ```
 
 `dist/css/globals.min.css`, `dist/css/globals.css` and `demo-dist/` are gitignored build outputs.
 The npm artifact reaches consumers through the package `files` field
-(`dist/css`), so re-run `yarn build:css` whenever the SCSS output changes.
+(`dist/css`), so re-run `pnpm build:css` whenever the SCSS output changes.
 
 ---
 
@@ -133,7 +133,7 @@ The npm artifact reaches consumers through the package `files` field
 Public API changes must be mirrored in the docs:
 
 - Add/adjust signatures, maps and generated classes in
-  `docs/API-Reference.md` (verify values against the compiled output).
+  `docs/docs/reference/api-reference.mdx` (verify values against the compiled output).
 - Update the README feature list, quick start and the "generated vs registry"
   tables when the surface changes.
 - Record user-visible changes under `[Unreleased]` in
@@ -151,7 +151,7 @@ in the docs is expected to build with the real code.
 2. Make the change. Keep the diff focused; if a feature touches several
    modules, consider splitting it.
 3. Add or update tests and fixtures.
-4. Run `yarn test` and `yarn build`.
+4. Run `pnpm test` and `pnpm build`.
 5. Update the CHANGELOG and any affected docs in the same PR.
 6. Open the PR against `main`. In the description, explain the change, link
    the issue you address and list which modules/docs/tests were touched.
