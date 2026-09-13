@@ -18,8 +18,21 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    version: '3.0.0',
+    version: '3.0.1',
     kind: 'latest',
+    date: 'September 13, 2026',
+    tag: 'v3.0.1',
+    summary: 'Address v3.0.0 audit findings',
+    highlights: [
+      'Address v3.0.0 audit findings',
+      '**changelog:** Fold unreleased 2.15.1 entry into 3.0.0',
+      'Sync release cards for v3.0.0',
+      '**BREAKING** Migrate from Yarn 4 to pnpm 12',
+    ],
+  },
+  {
+    version: '3.0.0',
+    kind: 'major',
     date: 'September 13, 2026',
     tag: 'v3.0.0',
     summary: 'Add access-control service and rename Prisma User to Account',
@@ -103,18 +116,6 @@ export const releases: Release[] = [
     highlights: [
       '**docs:** Update documentation in 4 files',
       '**functions:** Update documentation in 37 files',
-    ],
-  },
-  {
-    version: '2.13.3',
-    kind: 'minor',
-    date: 'September 9, 2026',
-    tag: 'v2.13.3',
-    summary: '**functions:** Update documentation in 38 files',
-    highlights: [
-      '**functions:** Update documentation in 38 files',
-      '**functions:** Update documentation in 37 files',
-      '**package.json:** Update dependencies or build settings in 2 files',
     ],
   },
 ];
