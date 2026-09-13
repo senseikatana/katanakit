@@ -199,6 +199,61 @@ See [`examples/api-manager/demo.ts`](https://github.com/senseikatana/katanakit-j
 covering all CRUD operations, auth injection, URL building, and error handling
 against a real API (JSONPlaceholder).
 
+## QueryClient — Cached Data Fetching
+
+The QueryClient is a data-fetching and caching layer built on the reactive kernel.
+It integrates with the API manager — your `queryFn` typically calls `useGetApi` or
+`useFetch` and returns the Safe Result.
+
+```ts
+import { QueryClient, useQueryClient } from "katanakit-js";
+import { useGetApi } from "katanakit-js";
+
+// Initialize once (global singleton).
+const qc = useQueryClient();
+
+// Fetch with cache, stale-while-revalidate, retry, and dedup.
+const pokemon = await qc.fetchQuery<Pokemon>({
+  queryKey: ["pokemon", 25],
+  queryFn: () => useGetApi<Pokemon>("pokeapi", "pokemonById", { params: { id: 25 } }),
+  staleTime: 60_000,      // Cache is fresh for 60s.
+  retry: 3,                // Retry 3 times on failure.
+  refetchOnWindowFocus: true,
+});
+```
+
+### Vue composables
+
+```vue
+<script setup>
+import { useQuery, useMutation, useQueryClient } from "katanakit-js/adapters/vue";
+import { useGetApi, usePost } from "katanakit-js";
+
+const qc = useQueryClient();
+
+const { data, isLoading, error, refetch } = useQuery({
+  queryKey: () => ["users"],
+  queryFn: () => useGetApi<User[]>("myApi", "users"),
+  staleTime: 30_000,
+});
+
+const { mutate, isLoading: mutating } = useMutation({
+  mutationFn: (name: string) => usePost("myApi", "createUser", { name }),
+  onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
+});
+</script>
+```
+
+### Features
+
+- **Cache with GC** — unused queries are garbage-collected after `cacheTime` (default: 5 min).
+- **Stale-while-revalidate** — returns cached data immediately, refetches in background.
+- **Retry with exponential backoff** — configurable `retry` count and `retryDelay`.
+- **Deduplication** — concurrent requests for the same key share a single fetch.
+- **Query invalidation** — `invalidateQueries` marks queries stale and refetches active ones.
+- **Direct cache updates** — `setQueryData` for optimistic updates.
+- **Prefetch** — `prefetchQuery` anticipates user actions.
+
 ## Features
 
 - **Safe Results** — HTTP (and other fallible) operations return `{ data, error, ok }` instead of throwing
