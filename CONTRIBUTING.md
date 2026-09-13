@@ -151,3 +151,4 @@ archived for the version selector.
 - [ ] Tests added/updated for the change.
 - [ ] Documentation and `CHANGELOG.md` updated if the public API changed.
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
+- [ ] Pre-commit hook ran clean (Husky + lint-staged autofixes staged files on commit).
