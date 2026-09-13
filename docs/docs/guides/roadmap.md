@@ -79,6 +79,8 @@ Legend: `[x]` done · `[ ]` planned.
 
 ## Later
 
+- [ ] UI kit (Katana UI) — tokens, headless primitives, layouts and app pages.
+      See the [UI Kit section](../ui-kit/index.md).
 - [ ] Deno / Cloudflare Workers compatibility pass.
 - [ ] More geometry (3D solids) and unit-system conversions.
 - [ ] i18n and relative-time output for `DatesService.useDiff`.

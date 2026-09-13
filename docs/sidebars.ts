@@ -11,6 +11,21 @@ const sidebars: SidebarsConfig = {
 			collapsed: false,
 			items: ["guides/getting-started", "guides/architecture", "guides/roadmap"],
 		},
+		{
+			type: "category",
+			label: "UI Kit",
+			collapsed: true,
+			link: {
+				type: "doc",
+				id: "ui-kit/index",
+			},
+			items: [
+				"ui-kit/architecture",
+				"ui-kit/inventory",
+				"ui-kit/llm-files",
+				"ui-kit/roadmap",
+			],
+		},
 		"changelog",
 		{
 			type: "category",
