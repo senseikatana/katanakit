@@ -32,7 +32,7 @@ let tempTitleOriginal: string | undefined;
  * @example
  * ```ts
  * const { width, height } = useGetViewportSize();
- * if (width < 768) { /* mobile *​/ }
+ * if (width < 768) { // mobile
  * ```
  */
 export const useGetViewportSize = (): ViewportSize => {

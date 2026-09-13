@@ -7,6 +7,7 @@ export * from "./services/generator.service.js";
 export * from "./services/geometry.service.js";
 export * from "./services/http.service.js";
 export * from "./services/logger.service.js";
+export * from "./services/query.service.js";
 export * from "./services/reactive.service.js";
 export * from "./services/timing.service.js";
 export * from "./services/utils.service.js";

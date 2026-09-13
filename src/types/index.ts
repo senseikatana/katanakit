@@ -562,8 +562,7 @@ export interface AstroServiceError {
 
 /** Safe Result (discriminated union without throwing). */
 export type AstroServiceResult<T> =
-	| { data: T; error: null; ok: true }
-	| { data: null; error: AstroServiceError; ok: false };
+	{ data: T; error: null; ok: true } | { data: null; error: AstroServiceError; ok: false };
 
 /** Contract of the Astro facade. */
 export interface IAstroService {
@@ -723,8 +722,7 @@ export interface AiError {
 
 /** Safe result (discriminated union) without throwing. */
 export type AiResult<T = string> =
-	| { data: T; error: null; ok: true }
-	| { data: null; error: AiError; ok: false };
+	{ data: T; error: null; ok: true } | { data: null; error: AiError; ok: false };
 
 /**
  * A tool the agent can invoke. `parameters` is a JSON Schema object

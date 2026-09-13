@@ -218,8 +218,8 @@ and the client is not exported from the main barrel.
 
 ## Development tooling
 
-- `yarn check` — Biome + typecheck + tests (gate before build/publish).
-- `yarn fix` — same as `check` with Biome auto-fix.
+- `yarn check` — ESLint + Prettier + typecheck + tests (gate before build/publish).
+- `yarn fix` — same as `check` with ESLint + Prettier auto-fix.
 - `yarn build` — `check` then `tsc` → `dist/`.
 - `yarn release -- <patch|minor|major>` — `build` → version bump → publish.
 - `yarn docs -- <dev|build|serve>` — docs site (`build` runs `check` + clear first).

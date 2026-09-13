@@ -29,7 +29,7 @@ In the browser, use jsDelivr **`/+esm`** so named exports and dependencies resol
 | **esm.sh** | `https://esm.sh/katanakit-js` |
 | **Raw ESM file** | `https://cdn.jsdelivr.net/npm/katanakit-js/dist/index.js` (needs bundler or import map) |
 
-Pin a version in production (e.g. `@2.8.0/+esm`). There is no IIFE/UMD build.
+Pin a version in production (e.g. `@2.14.2/+esm`). There is no IIFE/UMD build.
 
 ## Quick Start
 
@@ -199,6 +199,61 @@ See [`examples/api-manager/demo.ts`](https://github.com/senseikatana/katanakit-j
 covering all CRUD operations, auth injection, URL building, and error handling
 against a real API (JSONPlaceholder).
 
+## QueryClient — Cached Data Fetching
+
+The QueryClient is a data-fetching and caching layer built on the reactive kernel.
+It integrates with the API manager — your `queryFn` typically calls `useGetApi` or
+`useFetch` and returns the Safe Result.
+
+```ts
+import { QueryClient, useQueryClient } from "katanakit-js";
+import { useGetApi } from "katanakit-js";
+
+// Initialize once (global singleton).
+const qc = useQueryClient();
+
+// Fetch with cache, stale-while-revalidate, retry, and dedup.
+const pokemon = await qc.fetchQuery<Pokemon>({
+  queryKey: ["pokemon", 25],
+  queryFn: () => useGetApi<Pokemon>("pokeapi", "pokemonById", { params: { id: 25 } }),
+  staleTime: 60_000,      // Cache is fresh for 60s.
+  retry: 3,                // Retry 3 times on failure.
+  refetchOnWindowFocus: true,
+});
+```
+
+### Vue composables
+
+```vue
+<script setup>
+import { useQuery, useMutation, useQueryClient } from "katanakit-js/adapters/vue";
+import { useGetApi, usePost } from "katanakit-js";
+
+const qc = useQueryClient();
+
+const { data, isLoading, error, refetch } = useQuery({
+  queryKey: () => ["users"],
+  queryFn: () => useGetApi<User[]>("myApi", "users"),
+  staleTime: 30_000,
+});
+
+const { mutate, isLoading: mutating } = useMutation({
+  mutationFn: (name: string) => usePost("myApi", "createUser", { name }),
+  onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
+});
+</script>
+```
+
+### Features
+
+- **Cache with GC** — unused queries are garbage-collected after `cacheTime` (default: 5 min).
+- **Stale-while-revalidate** — returns cached data immediately, refetches in background.
+- **Retry with exponential backoff** — configurable `retry` count and `retryDelay`.
+- **Deduplication** — concurrent requests for the same key share a single fetch.
+- **Query invalidation** — `invalidateQueries` marks queries stale and refetches active ones.
+- **Direct cache updates** — `setQueryData` for optimistic updates.
+- **Prefetch** — `prefetchQuery` anticipates user actions.
+
 ## Features
 
 - **Safe Results** — HTTP (and other fallible) operations return `{ data, error, ok }` instead of throwing
@@ -222,6 +277,7 @@ or `result.error`.
 
 ```ts
 import { useInitAgent, useChat, useRunAgent } from "katanakit-js";
+import fs from "node:fs/promises";
 
 // Register once. apiKey falls back to process.env.DASHSCOPE_API_KEY.
 useInitAgent({ model: "qwen3.8-max" });
@@ -302,6 +358,7 @@ TELEGRAM_BOT_TOKEN=
 WHATSAPP_TOKEN=
 WHATSAPP_PHONE_NUMBER_ID=
 WHATSAPP_VERIFY_TOKEN=
+WHATSAPP_APP_SECRET=
 DATABASE_URL=
 ```
 
@@ -481,7 +538,7 @@ import { useUnwrap } from "katanakit-js/adapters/nuxt";         // Nuxt only
 </script>
 ```
 
-See [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/getting-started) for full recipes.
+See [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-started/) for full recipes.
 
 ## Framework Adapters
 
@@ -497,11 +554,14 @@ See [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/ge
 
 ## Documentation
 
-- [Getting Started](https://senseikatana.github.io/katanakit-js/docs/guides/getting-started)
-- [Architecture](https://senseikatana.github.io/katanakit-js/docs/guides/architecture)
-- [API Reference](https://senseikatana.github.io/katanakit-js/docs/api)
-- [Roadmap](https://senseikatana.github.io/katanakit-js/docs/guides/roadmap)
-- [Changelog](https://senseikatana.github.io/katanakit-js/docs/changelog)
+The docs site is deployed with Render at [senseikatana.com/katanakit-js](https://senseikatana.com/katanakit-js/).
+
+- [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-started/)
+- [Architecture](https://senseikatana.com/katanakit-js/docs/guides/architecture/)
+- [UI Kit (Katana UI)](https://senseikatana.com/katanakit-js/docs/ui-kit/)
+- [API Reference](https://senseikatana.com/katanakit-js/docs/api/)
+- [Roadmap](https://senseikatana.com/katanakit-js/docs/guides/roadmap/)
+- [Changelog](https://senseikatana.com/katanakit-js/docs/changelog/)
 
 ## License
 

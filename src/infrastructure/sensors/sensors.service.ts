@@ -1,5 +1,4 @@
 import { useLogger } from "../../core/services/logger.service.js";
-
 import type { BatteryManager, GeoPosition } from "../../types/index.js";
 
 // ============================================================
