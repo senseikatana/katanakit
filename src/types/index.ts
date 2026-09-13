@@ -811,6 +811,66 @@ export interface IAssistantService {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Access control (roles & capabilities)                                       */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Built-in roles, ordered from most to least privileged.
+ *
+ * - `owner` — the site owner; the only role that can manage roles and perform
+ *   system-level operations. There should be exactly one owner.
+ * - `admin` — day-to-day administration: manage members and moderate anything.
+ * - `editor` — publish and manage any content.
+ * - `author` — create and manage only their own content.
+ * - `member` — registered account; can use the assistant and read content.
+ * - `guest` — anonymous default; read-only, never persisted.
+ */
+export type AccessRole = "owner" | "admin" | "editor" | "author" | "member" | "guest";
+
+/**
+ * Namespaced capabilities derived from the project domain.
+ * Format: `<domain>:<action>[:<scope>]`.
+ */
+export type AccessCapability =
+	| "content:create"
+	| "content:publish"
+	| "content:edit:own"
+	| "content:edit:any"
+	| "content:delete:own"
+	| "content:delete:any"
+	| "conversations:use"
+	| "conversations:moderate"
+	| "members:manage"
+	| "roles:assign"
+	| "system:admin";
+
+/** A role definition: slug, human label and the capabilities it grants. */
+export interface AccessRoleDefinition {
+	slug: AccessRole;
+	label: string;
+	capabilities: AccessCapability[];
+}
+
+/**
+ * Structural subject for access checks. Decoupled from the persistence layer:
+ * any object with an id and a role list can be checked (e.g. a Prisma
+ * `Account` row, a JWT payload, or a test fixture).
+ */
+export interface AccessSubject {
+	id: string | number;
+	roles: AccessRole[];
+}
+
+/** Contract of the access-control facade. Pure, no I/O. */
+export interface IAccessService {
+	useCan(subject: AccessSubject, capability: AccessCapability): boolean;
+	useHasRole(subject: AccessSubject, role: AccessRole): boolean;
+	useCapabilitiesFor(role: AccessRole): AccessCapability[];
+	useRegisterRole(definition: AccessRoleDefinition): void;
+	useRoles(): AccessRoleDefinition[];
+}
+
+/* -------------------------------------------------------------------------- */
 /* Express                                                                     */
 /* -------------------------------------------------------------------------- */
 

@@ -38,7 +38,7 @@
  * const db = usePrismaClient();
  *
  * // Query using Prisma Next API
- * const users = await db.public.User.findMany();
+ * const accounts = await db.public.Account.findMany();
  * ```
  *
  * @module prisma/use-prisma
@@ -63,7 +63,7 @@ let client: ReturnType<typeof postgres<Contract>> | null = null;
  * ```ts
  * // Basic usage (reads DATABASE_URL from env)
  * const db = usePrismaClient();
- * const users = await db.public.User.findMany();
+ * const accounts = await db.public.Account.findMany();
  *
  * // With custom URL
  * const db = usePrismaClient("postgresql://localhost:5432/test");

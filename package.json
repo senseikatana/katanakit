@@ -1,6 +1,6 @@
 {
   "name": "katanakit-js",
-  "version": "2.14.2",
+  "version": "2.15.0",
   "description": "KatanaKit — a sharp, framework-agnostic TypeScript service toolkit organized with hexagonal architecture.",
   "type": "module",
   "workspaces": [
@@ -87,7 +87,9 @@
     "notes": "node scripts/generate-release-notes.mjs",
     "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); ['package.json','docs/package.json'].forEach(f=>{const p=require('./'+f); p.version=v; require('fs').writeFileSync(f,JSON.stringify(p,null,2)+'\\n')}); console.log('Synced to v'+v)\"",
     "docs:dev": "yarn workspace katanakit-docs run dev",
-    "docs:build": "yarn workspace katanakit-docs run build",
+    "docs:sync": "node scripts/sync-docs-releases.mjs --limit=8",
+    "docs:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
+    "docs:build": "yarn docs:sync && yarn workspace katanakit-docs run build",
     "docs:serve": "yarn workspace katanakit-docs run serve",
     "prepare": "husky"
   },

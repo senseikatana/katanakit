@@ -18,6 +18,9 @@ jobs:
         node-version: [22, 24]
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history + tags: docs:sync reads every tag for release cards.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -25,3 +28,4 @@ jobs:
       - run: yarn install --immutable
       - run: yarn check
       - run: yarn build
+      - run: yarn docs:check
