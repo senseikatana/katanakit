@@ -4,10 +4,16 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [2.15.0] - 2026-09-13
+
 ### Added
 
 - **QueryClient** — `QueryClient` + `QueryCache` built on the reactive kernel. Features: cache with GC, query keys, stale-while-revalidate, retry with exponential backoff, deduplication, invalidation, refetch-on-window-focus, and `prefetchQuery`. Integrates with the existing API manager (`useFetch`, `useGetApi`) and Safe Results pattern.
 - **Vue `useQuery` / `useMutation` composables** — reactive composables in `katanakit-js/adapters/vue` that wrap the QueryClient with Vue 3 reactivity (`data`, `error`, `isLoading`, `status`, `refetch`, `mutate`).
+
+### Added (Tests)
+
+- 13 new tests for QueryClient (`tests/query.service.test.ts`) — 127 tests total.
 
 ## [2.14.2] - 2026-09-13
 
