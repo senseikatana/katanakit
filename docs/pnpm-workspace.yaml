@@ -1,6 +1,10 @@
 # docs/ is a standalone pnpm project (not part of the root workspace).
 # This file stops pnpm's upward workspace lookup at docs/ and approves
 # the postinstall build scripts Docusaurus needs.
+# NOTE: `packages` is required — pnpm v9 errors with
+# "packages field missing or empty" without it.
+packages:
+  - '.'
 allowBuilds:
   '@swc/core': true
   core-js: true
