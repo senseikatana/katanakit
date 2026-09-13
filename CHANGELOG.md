@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Access-control service** — pure role/capability registry in `src/core/services/access.service.ts` with hierarchy-based inheritance: `owner` > `admin` > `editor` > `author` > `member` > `guest`. Exposes `useCan`, `useHasRole`, `useCapabilitiesFor`, `useRegisterRole`, `useRoles` and `useResetRoles`. Types (`AccessRole`, `AccessCapability`, `AccessRoleDefinition`, `AccessSubject`, `IAccessService`) live in `src/types/`.
+- **Express access guard** — `useRequireCapability(capability, resolveSubject)` in `katanakit-js/adapters/express` builds a `RequestHandler` that returns 401 for anonymous requests and 403 when the capability is missing. Plugs into the existing `guard` seam of the assistant router; unwired by default.
+
+### Changed
+
+- **Prisma model `User` renamed to `Account`** (`@@map("accounts")`); `Post.author` now points to `Account`. Generated artifacts (`schema.d.ts`, `schema.json`) re-emitted via `prisma contract emit`.
+- **Docs releases automated** — `scripts/sync-docs-releases.mjs` generates the homepage release cards, the docs changelog and the navbar Releases dropdown from git tags + Conventional Commits. `yarn docs:build` syncs first; CI runs `yarn docs:check` and fails on drift. The navbar now lists the latest 8 release tags with direct links to GitHub.
+
 ## [2.15.1] - 2026-09-13
 
 ### Changed

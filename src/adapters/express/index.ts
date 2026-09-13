@@ -1,3 +1,4 @@
+export { useRequireCapability } from "./access.guard.js";
 export { app, useGetApp, useStart } from "./app.js";
 export {
 	useExpressCreateProduct,
