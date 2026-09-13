@@ -74,12 +74,12 @@ Useful scripts:
 
 | Command | Description |
 | ------- | ----------- |
-| `yarn check` | ESLint + Prettier + typecheck + tests (gate before build/publish) |
-| `yarn fix` | Same as `check` with ESLint + Prettier auto-fix |
-| `yarn build` | `check` then compile to `dist/` |
-| `yarn release -- <patch\|minor\|major>` | `build` → version bump → publish |
-| `yarn docs -- <dev\|build\|serve>` | Docs site (`build` runs `check` + clear first) |
-| `yarn dev` | Express example server |
+| `pnpm check` | ESLint + Prettier + typecheck + tests (gate before build/publish) |
+| `pnpm fix` | Same as `check` with ESLint + Prettier auto-fix |
+| `pnpm build` | `check` then compile to `dist/` |
+| `pnpm release -- <patch\|minor\|major>` | `build` → version bump → publish |
+| `pnpm docs -- <dev\|build\|serve>` | Docs site (`build` runs `check` + clear first) |
+| `pnpm dev` | Express example server |
 
 `build` and `release` never compile or publish unless `check` passes.
 
@@ -110,9 +110,9 @@ When you change a public API:
 ### Running the docs locally
 
 ```bash
-yarn docs -- dev    # starts Docusaurus dev server
-yarn docs -- build  # builds the static site (runs check + clear first)
-yarn docs -- serve  # serves the built site locally
+pnpm docs -- dev    # starts Docusaurus dev server
+pnpm docs -- build  # builds the static site (runs check + clear first)
+pnpm docs -- serve  # serves the built site locally
 ```
 
 ### How versioning works
@@ -129,9 +129,9 @@ and keeps a [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)-style
 the `release` script to cut a release:
 
 ```bash
-yarn release -- patch   # build (check + compile) + bump patch + publish
-yarn release -- minor   # same for minor
-yarn release -- major   # same for major
+pnpm release -- patch   # build (check + compile) + bump patch + publish
+pnpm release -- minor   # same for minor
+pnpm release -- major   # same for major
 ```
 
 The release workflow on GitHub Actions creates a tag and GitHub release on every

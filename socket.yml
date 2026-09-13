@@ -10,7 +10,7 @@ projectIgnorePaths:
 
 triggerPaths:
   - "package.json"
-  - "yarn.lock"
+  - "pnpm-lock.yaml"
 
 issueRules:
   didYouMean: true

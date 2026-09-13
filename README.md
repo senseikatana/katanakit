@@ -9,7 +9,7 @@ npm install katanakit-js
 # or
 bun add katanakit-js
 # or
-yarn add katanakit-js
+pnpm add katanakit-js
 ```
 
 ### CDN (ESM)
@@ -366,10 +366,10 @@ DATABASE_URL=
 
 | Script | Starts |
 |--------|--------|
-| `yarn assistant:dev` | REST assistant. Uses Prisma when `DATABASE_URL` is set. |
-| `yarn telegram:dev` | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`. |
-| `yarn whatsapp:dev` | WhatsApp webhook. Requires `WHATSAPP_*`. |
-| `yarn assistant:demo` | Demo in `examples/assistant/`. Set `KITT_CHANNEL=rest\|telegram\|whatsapp`. |
+| `pnpm assistant:dev` | REST assistant. Uses Prisma when `DATABASE_URL` is set. |
+| `pnpm telegram:dev` | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`. |
+| `pnpm whatsapp:dev` | WhatsApp webhook. Requires `WHATSAPP_*`. |
+| `pnpm assistant:demo` | Demo in `examples/assistant/`. Set `KITT_CHANNEL=rest\|telegram\|whatsapp`. |
 
 ### REST
 
@@ -429,7 +429,7 @@ await useStartTelegramPolling();
 2. Send `/newbot` — choose a name and a username.
 3. Copy the token.
 4. Set `TELEGRAM_BOT_TOKEN`.
-5. Run `yarn telegram:dev` (long polling, no public URL).
+5. Run `pnpm telegram:dev` (long polling, no public URL).
 6. Optional webhook: expose HTTPS and call `useHandleTelegramUpdate(update)` on inbound updates.
 
 ### WhatsApp (Meta Cloud API)
@@ -452,7 +452,7 @@ useStartWhatsApp();
 2. Add the WhatsApp product.
 3. Copy the temporary or permanent token, the Phone number ID, and the **App Secret**.
 4. Set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`, and `WHATSAPP_APP_SECRET`.
-5. Run `yarn whatsapp:dev`.
+5. Run `pnpm whatsapp:dev`.
 6. Expose public HTTPS (Cloudflare Tunnel or ngrok) to `GET`/`POST` `/whatsapp/webhook`.
 7. In Meta, set the webhook URL and verify token; subscribe to `messages`.
 
@@ -487,7 +487,7 @@ owns the database, run `prisma contract emit` then `prisma db init` in that app.
 `readFile` on `knowledge-base.md` and `saveNote` to `notes.jsonl`.
 
 ```bash
-yarn assistant:demo
+pnpm assistant:demo
 # KITT_CHANNEL=rest|telegram|whatsapp
 ```
 

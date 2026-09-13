@@ -16,7 +16,7 @@ logs
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # dotenv environment variable files
-.env 
+.env*
 !.env.example
 
 # Assistant demo runtime notes
@@ -27,23 +27,17 @@ examples/assistant/notes.jsonl
 .cache
 *.tsbuildinfo
 
-# Yarn 4 (Berry)
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+# pnpm
+.pnpm-store/
 
-# Docs workspace (uses root yarn.lock)
-docs/yarn.lock
-docs/.yarn/
+# Docs workspace (uses root pnpm-lock.yaml)
+docs/pnpm-lock.yaml
+docs/node_modules/
 
 # Generated TypeDoc markdown (produced by docs build / docs:dev)
 docs/docs/api/
 
-# IDEs and AI tools
+# IDE and AI tools
 .idea/
 .vscode/
 .zcode/

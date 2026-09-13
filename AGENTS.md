@@ -1,16 +1,16 @@
 # AGENTS.md — katanakit-js
 
-TypeScript service toolkit (ESM, hexagonal). Yarn 4.18.0 pinned via `yarnPath` — always use `yarn`, never npm/bun for installs.
+TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager` — always use `pnpm`, never npm/bun for installs.
 
 ## Commands (order matters: lint → typecheck → test)
 
-- `yarn check` — gate: `eslint ./src` + `tsc6 --noEmit` + `vitest run`. Must pass before any PR.
-- `yarn fix` — same with `eslint --fix`.
-- `yarn build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
-- `yarn docs:build` — Docusaurus build (separate; CI does NOT build docs).
+- `pnpm check` — gate: `eslint ./src` + `tsc6 --noEmit` + `vitest run`. Must pass before any PR.
+- `pnpm fix` — same with `eslint --fix`.
+- `pnpm build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
+- `pnpm docs:build` — Docusaurus build (separate; CI does NOT build docs).
 - One test file: `vitest run <path>`. Tests live in `tests/`, import via `@/` alias, node env.
 - `tsc6`, NOT `tsc`: `typescript` devDep is aliased to `@typescript/typescript6@6.0.2`.
-- A Husky pre-commit hook runs `eslint --fix` on staged files (installed via `yarn install`).
+- A Husky pre-commit hook runs `eslint --fix` on staged files (installed via `pnpm install`).
 
 ## Architecture
 
@@ -30,14 +30,14 @@ TypeScript service toolkit (ESM, hexagonal). Yarn 4.18.0 pinned via `yarnPath` �
 - Before any PR: `git checkout dev && git merge <branch>` — features land in `dev` first.
 - PRs to `main` come only from `dev`. Merge only green. Delete branches after merge.
 - CHANGELOG `[Unreleased]` entry for user-visible changes; README + docs updated with features.
-- Release is manual (`yarn release[:minor|:major]`). No CI release automation.
+- Release is manual (`pnpm release[:minor|:major]`). No CI release automation.
 
 ## CI (.github/workflows/ci.yml — the ONLY workflow)
 
 - Triggers: push to `main`, PR to `main`. Matrix node 22/24, `fail-fast: false` (both versions always report).
-- Steps: `yarn install --immutable` → `yarn check` → `yarn build`.
-- `yarn install --immutable` fails if `yarn.lock` is out of sync — commit lockfile changes.
-- `simple-import-sort` fails CI on unsorted imports — run `yarn fix` (pre-commit hook autofixes staged files).
+- Steps: `pnpm install --frozen-lockfile` → `pnpm check` → `pnpm build`.
+- `pnpm install --frozen-lockfile` fails if `pnpm-lock.yaml` is out of sync — commit lockfile changes.
+- `simple-import-sort` fails CI on unsorted imports — run `pnpm fix` (pre-commit hook autofixes staged files).
 
 ## Agent skills
 

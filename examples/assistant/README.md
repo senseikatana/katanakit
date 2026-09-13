@@ -32,20 +32,20 @@ DATABASE_URL=postgresql://user:password@localhost:5432/mydb
 ## 3. Run from this repo
 
 ```bash
-yarn assistant:demo
+pnpm assistant:demo
 # POST http://localhost:3000/assistant/chat  { "message": "What are your hours?" }
 ```
 
 Telegram:
 
 ```bash
-KITT_CHANNEL=telegram TELEGRAM_BOT_TOKEN=... yarn assistant:demo
+KITT_CHANNEL=telegram TELEGRAM_BOT_TOKEN=... pnpm assistant:demo
 ```
 
 WhatsApp (needs a public HTTPS URL for the webhook):
 
 ```bash
-KITT_CHANNEL=whatsapp yarn assistant:demo
+KITT_CHANNEL=whatsapp pnpm assistant:demo
 # GET/POST http://localhost:3000/whatsapp/webhook
 ```
 

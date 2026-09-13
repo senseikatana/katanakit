@@ -1,6 +1,6 @@
 import { type Request, type Response, Router } from "express";
 
-const router = Router();
+const router: Router = Router();
 
 router.get("/", (_request: Request, response: Response) => {
 	response.json({ message: "Get all users" });

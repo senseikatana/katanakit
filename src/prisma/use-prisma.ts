@@ -86,5 +86,3 @@ export function usePrismaClient(datasourceUrl?: string): ReturnType<typeof postg
 
 	return client;
 }
-
-export const prisma = usePrismaClient();

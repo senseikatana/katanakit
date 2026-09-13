@@ -23,27 +23,34 @@ const ROLE_RANK: Record<AccessRole, number> = {
  * Default role registry: each role lists only the capabilities it adds on top
  * of the roles below it. `guest` adds none — read access is public by default.
  */
-const DEFAULT_ROLES: AccessRoleDefinition[] = [
-	{ slug: "owner", label: "Owner", capabilities: ["roles:assign", "system:admin"] },
-	{ slug: "admin", label: "Admin", capabilities: ["members:manage"] },
-	{
-		slug: "editor",
-		label: "Editor",
-		capabilities: [
-			"content:publish",
-			"content:edit:any",
-			"content:delete:any",
-			"conversations:moderate",
-		],
-	},
-	{
-		slug: "author",
-		label: "Author",
-		capabilities: ["content:create", "content:edit:own", "content:delete:own"],
-	},
-	{ slug: "member", label: "Member", capabilities: ["conversations:use"] },
-	{ slug: "guest", label: "Guest", capabilities: [] },
-];
+const DEFAULT_ROLES: AccessRoleDefinition[] = (
+	[
+		{ slug: "owner", label: "Owner", capabilities: ["roles:assign", "system:admin"] },
+		{ slug: "admin", label: "Admin", capabilities: ["members:manage"] },
+		{
+			slug: "editor",
+			label: "Editor",
+			capabilities: [
+				"content:publish",
+				"content:edit:any",
+				"content:delete:any",
+				"conversations:moderate",
+			],
+		},
+		{
+			slug: "author",
+			label: "Author",
+			capabilities: ["content:create", "content:edit:own", "content:delete:own"],
+		},
+		{ slug: "member", label: "Member", capabilities: ["conversations:use"] },
+		{ slug: "guest", label: "Guest", capabilities: [] },
+	] satisfies AccessRoleDefinition[]
+).map((role) => Object.freeze(useCopy(role)));
+
+/** Copies a definition so callers never hold (or mutate) live registry state. */
+function useCopy(definition: AccessRoleDefinition): AccessRoleDefinition {
+	return { ...definition, capabilities: [...definition.capabilities] };
+}
 
 /** Active registry, keyed by role slug. Starts as the default set. */
 const registry = new Map<AccessRole, AccessRoleDefinition>(
@@ -83,10 +90,11 @@ export function useCapabilitiesFor(role: AccessRole): AccessCapability[] {
 
 /**
  * Registers (or replaces) a role definition. Use it to extend a built-in
- * role's capabilities, e.g. grant `content:create` to `member`.
+ * role's capabilities, e.g. grant `content:create` to `member`. The definition
+ * is copied, so mutating the caller's object afterwards has no effect.
  */
 export function useRegisterRole(definition: AccessRoleDefinition): void {
-	registry.set(definition.slug, definition);
+	registry.set(definition.slug, Object.freeze(useCopy(definition)));
 }
 
 /** Restores the built-in role registry (mainly for tests). */
@@ -97,9 +105,9 @@ export function useResetRoles(): void {
 	}
 }
 
-/** Lists every registered role definition. */
+/** Lists every registered role definition. Returns copies, not live state. */
 export function useRoles(): AccessRoleDefinition[] {
-	return [...registry.values()].sort((a, b) => ROLE_RANK[a.slug] - ROLE_RANK[b.slug]);
+	return [...registry.values()].sort((a, b) => ROLE_RANK[a.slug] - ROLE_RANK[b.slug]).map(useCopy);
 }
 
 /** Exact role membership — no hierarchy involved. */

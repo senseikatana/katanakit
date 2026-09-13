@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented in this file.
 
+## [3.0.1] - 2026-09-13
+
+### Fixed
+
+- **`express-rate-limit` was imported by the assistant adapter but never declared** — the published package crashed with `ERR_MODULE_NOT_FOUND` for consumers of `katanakit-js/adapters/assistant`. It is now a runtime dependency (`8.7.0`, which ships its own types); the deprecated `@types/express-rate-limit` stub was removed.
+- **Prisma client was initialized eagerly on import** — `src/prisma/use-prisma.ts` exported a module-level `prisma` instance that threw on import when `DATABASE_URL` was missing, breaking any app that imported `katanakit-js/prisma` and making the documented `usePrismaClient(url)` override unusable. The eager export was removed (it was not re-exported from any barrel, so this is non-breaking).
+- **Release cards never badged `major`** — the version regex in `scripts/sync-docs-releases.mjs` was double-escaped, so `x.0.0` releases rendered as `Minor release`. Fixed and regenerated.
+
+### Changed
+
+- **Migrated the repository from Yarn 4 to pnpm 12** — `packageManager` pinned to `pnpm@12.4.1`, `pnpm-lock.yaml` replaces `yarn.lock`, workspace declared in `pnpm-workspace.yaml` (replacing the `workspaces` field), Yarn `resolutions` moved to pnpm `overrides`, CI uses `pnpm/action-setup` + `pnpm install --frozen-lockfile`, Husky pre-commit runs `pnpm lint-staged`, and all docs/config/scripts references updated. Release bumping now goes through `scripts/bump-version.mjs` (pnpm's `version` refuses a dirty working tree).
+- **`.gitignore` now ignores all `.env*` variants** (previously only the exact `.env`), with `.env.example` still tracked.
+
 ## [3.0.0] - 2026-09-13
 
 ### Breaking

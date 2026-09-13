@@ -8,9 +8,9 @@
  *   import { useInitWhatsApp, useStartWhatsApp } from "katanakit-js/adapters/whatsapp";
  *
  * Run from this repo:
- *   DASHSCOPE_API_KEY=... yarn assistant:demo
- *   KITT_CHANNEL=telegram TELEGRAM_BOT_TOKEN=... yarn assistant:demo
- *   KITT_CHANNEL=whatsapp WHATSAPP_TOKEN=... WHATSAPP_PHONE_NUMBER_ID=... WHATSAPP_VERIFY_TOKEN=... yarn assistant:demo
+ *   DASHSCOPE_API_KEY=... pnpm assistant:demo
+ *   KITT_CHANNEL=telegram TELEGRAM_BOT_TOKEN=... pnpm assistant:demo
+ *   KITT_CHANNEL=whatsapp WHATSAPP_TOKEN=... WHATSAPP_PHONE_NUMBER_ID=... WHATSAPP_VERIFY_TOKEN=... pnpm assistant:demo
  */
 import "dotenv/config";
 import { appendFile, readFile, realpath } from "node:fs/promises";

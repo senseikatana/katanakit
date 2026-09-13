@@ -218,11 +218,11 @@ and the client is not exported from the main barrel.
 
 ## Development tooling
 
-- `yarn check` — ESLint + Prettier + typecheck + tests (gate before build/publish).
-- `yarn fix` — same as `check` with ESLint + Prettier auto-fix.
-- `yarn build` — `check` then `tsc` → `dist/`.
-- `yarn release -- <patch|minor|major>` — `build` → version bump → publish.
-- `yarn docs -- <dev|build|serve>` — docs site (`build` runs `check` + clear first).
-- `yarn dev` — the bundled Express example server.
+- `pnpm check` — ESLint + Prettier + typecheck + tests (gate before build/publish).
+- `pnpm fix` — same as `check` with ESLint + Prettier auto-fix.
+- `pnpm build` — `check` then `tsc` → `dist/`.
+- `pnpm release -- <patch|minor|major>` — `build` → version bump → publish.
+- `pnpm docs -- <dev|build|serve>` — docs site (`build` runs `check` + clear first).
+- `pnpm dev` — the bundled Express example server.
 
 See [CONTRIBUTING.md](https://github.com/senseikatana/katanakit-js/blob/dev/CONTRIBUTING.md) for the full development contract.

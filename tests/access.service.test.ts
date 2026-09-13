@@ -92,6 +92,42 @@ describe("AccessService", () => {
 			expect(useCan(member, "content:create")).toBe(true);
 			expect(useCan(author, "content:create")).toBe(true);
 		});
+
+		it("copies the definition so later mutations cannot escalate", () => {
+			const definition = {
+				slug: "member" as const,
+				label: "Member",
+				capabilities: ["conversations:use" as const],
+			};
+			useRegisterRole(definition);
+
+			definition.capabilities.push("system:admin");
+
+			expect(useCan(member, "system:admin")).toBe(false);
+		});
+	});
+
+	describe("registry isolation", () => {
+		it("returns copies from useRoles so callers cannot mutate state", () => {
+			const listed = useRoles();
+			const adminRole = listed.find((role) => role.slug === "admin");
+			adminRole?.capabilities.push("system:admin");
+
+			expect(useCan({ id: 9, roles: ["admin"] }, "system:admin")).toBe(false);
+		});
+
+		it("restores defaults after useResetRoles", () => {
+			useRegisterRole({
+				slug: "guest",
+				label: "Guest",
+				capabilities: ["content:create"],
+			});
+			expect(useCan(guest, "content:create")).toBe(true);
+
+			useResetRoles();
+
+			expect(useCan(guest, "content:create")).toBe(false);
+		});
 	});
 
 	describe("useRoles", () => {

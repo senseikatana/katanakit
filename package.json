@@ -3,9 +3,6 @@
   "version": "3.0.0",
   "description": "KatanaKit — a sharp, framework-agnostic TypeScript service toolkit organized with hexagonal architecture.",
   "type": "module",
-  "workspaces": [
-    "docs"
-  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -77,20 +74,21 @@
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "check": "eslint ./src && tsc6 --noEmit && vitest run",
     "fix": "eslint --fix ./src && tsc6 --noEmit && vitest run",
-    "build": "yarn clean && yarn run check && tsc6 -p tsconfig.json",
-    "bump:patch": "yarn version patch --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "bump:minor": "yarn version minor --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "bump:major": "yarn version major --all && git commit -am \"chore: release v$(node -p \"require('./package.json').version\")\" && git tag \"v$(node -p \"require('./package.json').version\")\"",
-    "release": "yarn build && yarn bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:minor": "yarn build && yarn bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:major": "yarn build && yarn bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "build": "pnpm clean && pnpm run check && tsc6 -p tsconfig.json",
+    "version:bump": "node scripts/bump-version.mjs",
+    "bump:patch": "node scripts/bump-version.mjs patch",
+    "bump:minor": "node scripts/bump-version.mjs minor",
+    "bump:major": "node scripts/bump-version.mjs major",
+    "release": "pnpm build && pnpm bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:minor": "pnpm build && pnpm bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:major": "pnpm build && pnpm bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
     "notes": "node scripts/generate-release-notes.mjs",
-    "version:sync": "node -e \"const v=require('child_process').execSync('git tag --sort=-v:refname').toString().split('\\n')[0].replace('v',''); ['package.json','docs/package.json'].forEach(f=>{const p=require('./'+f); p.version=v; require('fs').writeFileSync(f,JSON.stringify(p,null,2)+'\\n')}); console.log('Synced to v'+v)\"",
-    "docs:dev": "yarn workspace katanakit-docs run dev",
+    "version:sync": "node scripts/bump-version.mjs --sync",
+    "docs:dev": "pnpm --filter katanakit-docs dev",
     "docs:sync": "node scripts/sync-docs-releases.mjs --limit=8",
     "docs:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
-    "docs:build": "yarn docs:sync && yarn workspace katanakit-docs run build",
-    "docs:serve": "yarn workspace katanakit-docs run serve",
+    "docs:build": "pnpm docs:sync && pnpm --filter katanakit-docs build",
+    "docs:serve": "pnpm --filter katanakit-docs serve",
     "prepare": "husky"
   },
   "repository": {
@@ -121,7 +119,8 @@
   "jsdelivr": "./dist/index.js",
   "dependencies": {
     "@js-temporal/polyfill": "0.5.1",
-    "@prisma/orm-postgres": "8.0.0-rc.8"
+    "@prisma/orm-postgres": "8.0.0-rc.8",
+    "express-rate-limit": "8.7.0"
   },
   "peerDependencies": {
     "cors": ">=2.8.0",
@@ -147,7 +146,6 @@
     "@eslint/js": "^10.0.1",
     "@types/cors": "2.8.19",
     "@types/express": "5.0.6",
-    "@types/express-rate-limit": "6.0.2",
     "@types/node": "26.5.0",
     "cors": "2.8.6",
     "dotenv": "17.4.2",
@@ -168,14 +166,10 @@
     "vitest": "5.0.0",
     "vue": "3.5.42"
   },
-  "resolutions": {
-    "pathe": "2.0.3",
-    "jsbi": "4.3.2"
-  },
   "lint-staged": {
     "src/**/*.{ts,mts,cts}": [
       "eslint --fix"
     ]
   },
-  "packageManager": "yarn@4.18.0"
+  "packageManager": "pnpm@12.4.1"
 }
