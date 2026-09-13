@@ -35,7 +35,15 @@ export function useRequireCapability(
 			return;
 		}
 
-		if (!useCan(subject, capability)) {
+		let allowed;
+		try {
+			allowed = useCan(subject, capability);
+		} catch {
+			// Malformed subject or unknown role: fail closed at the HTTP boundary.
+			allowed = false;
+		}
+
+		if (!allowed) {
 			response.status(403).json({
 				ok: false,
 				data: null,
