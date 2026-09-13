@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [3.0.0] - 2026-09-13
+
+### Breaking
+
+- **Prisma model `User` renamed to `Account`** (`@@map("accounts")`); `Post.author` now points to `Account`. Consumers of `katanakit-js/prisma` must switch `db.public.User` to `db.public.Account`. Table rename `users` → `accounts` requires a migration on live databases.
 
 ### Added
 
@@ -11,7 +15,6 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
-- **Prisma model `User` renamed to `Account`** (`@@map("accounts")`); `Post.author` now points to `Account`. Generated artifacts (`schema.d.ts`, `schema.json`) re-emitted via `prisma contract emit`.
 - **Docs releases automated** — `scripts/sync-docs-releases.mjs` generates the homepage release cards, the docs changelog and the navbar Releases dropdown from git tags + Conventional Commits. `yarn docs:build` syncs first; CI runs `yarn docs:check` and fails on drift. The navbar now lists the latest 8 release tags with direct links to GitHub.
 
 ## [2.15.1] - 2026-09-13
