@@ -26,7 +26,9 @@ TypeScript service toolkit (ESM, hexagonal). Yarn 4.18.0 pinned via `yarnPath` �
 
 ## Git workflow
 
-- Branch from `dev` (conventional commits). PR `dev` → `main`. Merge only green. Delete branches after merge.
+- Branch from `dev` (conventional commits). Never PR `feature` → `main` directly.
+- Before any PR: `git checkout dev && git merge <branch>` — features land in `dev` first.
+- PRs to `main` come only from `dev`. Merge only green. Delete branches after merge.
 - CHANGELOG `[Unreleased]` entry for user-visible changes; README + docs updated with features.
 - Release is manual (`yarn release[:minor|:major]`). No CI release automation.
 

@@ -151,4 +151,5 @@ archived for the version selector.
 - [ ] Tests added/updated for the change.
 - [ ] Documentation and `CHANGELOG.md` updated if the public API changed.
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
+- [ ] Feature merged into `dev` first (`git checkout dev && git merge <branch>`); PRs to `main` come only from `dev`.
 - [ ] Pre-commit hook ran clean (Husky + lint-staged autofixes staged files on commit).
