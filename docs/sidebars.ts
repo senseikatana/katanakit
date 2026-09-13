@@ -9,7 +9,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Guides",
 			collapsed: false,
-			items: ["guides/getting-started", "guides/architecture", "guides/roadmap"],
+			items: ["guides/getting-started", "guides/query-client", "guides/architecture", "guides/roadmap"],
 		},
 		{
 			type: "category",
