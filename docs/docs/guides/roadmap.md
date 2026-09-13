@@ -55,7 +55,7 @@ Legend: `[x]` done · `[ ]` planned.
 
 - [x] Vitest suite: 60 tests across 8 files (http, logger, storage, core, rss,
       nuxt, seo, vue) with the `@/` alias.
-- [x] Biome 2 lint + format wired (`lint`, `check`, `format` scripts).
+- [x] ESLint + Prettier lint + format wired (`lint`, `check`, `format` scripts).
 - [x] `release:patch|minor|major|beta` scripts with a `validate` gate
       (check + test + build).
 - [x] English documentation: README, Getting Started, Architecture, API

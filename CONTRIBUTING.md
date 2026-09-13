@@ -74,8 +74,8 @@ Useful scripts:
 
 | Command | Description |
 | ------- | ----------- |
-| `yarn check` | Biome + typecheck + tests (gate before build/publish) |
-| `yarn fix` | Same as `check` with Biome auto-fix |
+| `yarn check` | ESLint + Prettier + typecheck + tests (gate before build/publish) |
+| `yarn fix` | Same as `check` with ESLint + Prettier auto-fix |
 | `yarn build` | `check` then compile to `dist/` |
 | `yarn release -- <patch\|minor\|major>` | `build` → version bump → publish |
 | `yarn docs -- <dev\|build\|serve>` | Docs site (`build` runs `check` + clear first) |
@@ -146,7 +146,7 @@ archived for the version selector.
 - [ ] New contracts/types were added to `src/types/` (not re-declared).
 - [ ] New framework code is reachable via a subpath, not the main barrel.
 - [ ] `bun run typecheck` passes with no errors.
-- [ ] `bun run check` passes (Biome lint + format).
+- [ ] `bun run check` passes (ESLint + Prettier lint + format).
 - [ ] `bun run test` passes.
 - [ ] Tests added/updated for the change.
 - [ ] Documentation and `CHANGELOG.md` updated if the public API changed.

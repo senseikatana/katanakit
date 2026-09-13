@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- **Replaced Biome with ESLint + Prettier** — migrated linting and formatting from Biome 2.5.12 (Rust, 38ms) to ESLint 10 + Prettier 3.9 (JS, ~4.3s). Same rules enforced: tabs, double quotes, semicolons, trailing commas, import sorting (`eslint-plugin-simple-import-sort`), recommended lint rules. TypeScript 7.0 has no compiler API; aliased `typescript` to `@typescript/typescript6@6.0.2` for type-aware linting. `tsc6` replaces `tsc` for type checking.
+
 ## [2.14.2] - 2026-09-13
 
 ### Added

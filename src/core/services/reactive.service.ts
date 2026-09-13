@@ -1,5 +1,4 @@
 import { useGetStorage, useSetStorage } from "../../infrastructure/storage/storage.service.js";
-
 import type {
 	SignalGetter,
 	SignalListener,
@@ -8,7 +7,6 @@ import type {
 	Subscribable,
 	ToggleSignalSetter,
 } from "../../types/index.js";
-
 import { useLogger } from "./logger.service.js";
 
 // Module-level batching state.

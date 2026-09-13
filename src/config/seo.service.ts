@@ -7,7 +7,7 @@ import type {
 	UseSeoMetaBase,
 	UseSeoMetaOptions,
 } from "./seo-meta.types.js";
-import { siteConfig as defaultSiteConfig, type SiteConfig } from "./site.config.js";
+import { type SiteConfig, siteConfig as defaultSiteConfig } from "./site.config.js";
 
 export type {
 	SeoArrayable,
