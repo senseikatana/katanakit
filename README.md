@@ -244,6 +244,19 @@ const { mutate, isLoading: mutating } = useMutation({
 </script>
 ```
 
+### Generic watch
+
+```ts
+import { useKatanaWatch } from "katanakit-js/adapters/vue";
+
+const stop = useKatanaWatch(newProduct, () => checkValidations(), { deep: true });
+```
+
+- **Generic source** — ref, reactive object, getter function or array of sources.
+- **`deep: true` by default** — nested mutations re-trigger the callback.
+- **Schema-agnostic validation** — works with Zod, Valibot, Standard Schema or custom validators.
+- **Nuxt-ready** — re-exported from `katanakit-js/adapters/nuxt`.
+
 ### Features
 
 - **Cache with GC** — unused queries are garbage-collected after `cacheTime` (default: 5 min).

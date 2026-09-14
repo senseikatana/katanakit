@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Generic `useKatanaWatch` / `useWatch` composables** — watcher in `katanakit-js/adapters/vue` (re-exported from `katanakit-js/adapters/nuxt`) wrapping the native Vue `watch` with `deep: true` by default. Props (`WatchSource`, `WatchCallback`, `WatchOptions`, `WatchStopHandle`) are taken from the native `watch` and live in `src/types/`; the callback accepts any internal function (sync/async, with or without args). Accepts a ref, reactive object, getter function or array of sources, stops automatically on unmount, and powers use cases like revalidating a form (`safeParse` with Zod, Valibot, Standard Schema or custom validators) on every nested change. Schema-agnostic types (`FieldErrors`, `ValidationSchema`) also live in `src/types/`.
+
 ## [3.0.1] - 2026-09-13
 
 ### Fixed
