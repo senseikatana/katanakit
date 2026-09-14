@@ -1,4 +1,10 @@
 import type { Temporal } from "@js-temporal/polyfill";
+import type {
+	WatchCallback as VueWatchCallback,
+	WatchOptions as VueWatchOptions,
+	WatchSource as VueWatchSource,
+	WatchStopHandle as VueWatchStopHandle,
+} from "vue";
 
 /* -------------------------------------------------------------------------- */
 /* Logging                                                                    */
@@ -868,6 +874,65 @@ export interface IAccessService {
 	useCapabilitiesFor(role: AccessRole): AccessCapability[];
 	useRegisterRole(definition: AccessRoleDefinition): void;
 	useRoles(): AccessRoleDefinition[];
+}
+
+/* -------------------------------------------------------------------------- */
+/* Watch (generic reactive watcher — native Vue props)                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Watch source taken from the native Vue `watch` (`ref`, reactive object,
+ * getter function or array of those).
+ */
+export type WatchSource<T = unknown> = VueWatchSource<T>;
+
+/**
+ * Watch callback taken from the native Vue `watch`. Any internal function
+ * is accepted: sync or async, with `(newValue, oldValue)` args or with no
+ * args at all (e.g. `() => checkValidations()`).
+ */
+export type WatchCallback<V = unknown, OV = unknown> = VueWatchCallback<V, OV>;
+
+/**
+ * Watch options taken from the native Vue `watch`. `deep` defaults to
+ * `true` in `useKatanaWatch`.
+ */
+export type WatchOptions = VueWatchOptions;
+
+/** Stop function taken from the native Vue `watch`. */
+export type WatchStopHandle = VueWatchStopHandle;
+
+/* -------------------------------------------------------------------------- */
+/* Validation (schema-agnostic)                                                */
+/* -------------------------------------------------------------------------- */
+
+/** A single field-level validation message keyed by field name. */
+export type FieldErrors = Record<string, string>;
+
+/** Minimal Zod-like issue shape (`error.issues` entries). */
+export interface ValidationIssue {
+	path: (string | number)[];
+	message: string;
+}
+
+/** Minimal Zod-like success/failure result (`schema.safeParse`). */
+export type ValidationParseResult<T> =
+	{ success: true; data: T } | { success: false; error: { issues: ValidationIssue[] } };
+
+/**
+ * Schema-agnostic contract. Accepts Zod (`safeParse`), Valibot
+ * (`safeParse`), Standard Schema (`~standard.validate`), Yup
+ * (`validateSync`) or any object exposing one of those members.
+ */
+export interface ValidationSchema<T = unknown> {
+	safeParse?: (data: unknown) => ValidationParseResult<T>;
+	"~standard"?: {
+		validate: (
+			data: unknown,
+		) => { issues?: ValidationIssue[] } | Promise<{ issues?: ValidationIssue[] }>;
+	};
+	validateSync?: (data: unknown) => unknown;
+	validate?: (data: unknown) => unknown | Promise<unknown>;
 }
 
 /* -------------------------------------------------------------------------- */
