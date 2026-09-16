@@ -18,8 +18,18 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    version: '3.1.0',
+    version: '3.1.1',
     kind: 'latest',
+    date: 'September 16, 2026',
+    tag: 'v3.1.1',
+    summary: 'Sync release cards for v3.1.0',
+    highlights: [
+      'Sync release cards for v3.1.0',
+    ],
+  },
+  {
+    version: '3.1.0',
+    kind: 'minor',
     date: 'September 14, 2026',
     tag: 'v3.1.0',
     summary: '**vue:** Add generic useKatanaWatch/useWatch with native watch props',
@@ -106,16 +116,6 @@ export const releases: Release[] = [
       'Clean up unused imports, test formatting, and type safety',
       '**changelog:** Add v2.14.0 release notes',
       '**.codegraph:** Update pipeline configuration in 44 files',
-    ],
-  },
-  {
-    version: '2.13.5',
-    kind: 'minor',
-    date: 'September 9, 2026',
-    tag: 'v2.13.5',
-    summary: '**package.json:** Update dependencies or build settings in package.json',
-    highlights: [
-      '**package.json:** Update dependencies or build settings in package.json',
     ],
   },
 ];
