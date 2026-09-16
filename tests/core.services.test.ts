@@ -207,7 +207,7 @@ describe("DataUtils", () => {
 });
 
 describe("ThemeService", () => {
-	it("rejects invalid ThemeMode values from storage", () => {
+	it("rejects invalid ThemeMode values from storage", async () => {
 		const root = {
 			classList: { add: vi.fn(), remove: vi.fn(), contains: vi.fn(), toggle: vi.fn() },
 			setAttribute: vi.fn(),
@@ -226,7 +226,7 @@ describe("ThemeService", () => {
 			documentElement: root,
 		});
 
-		useRunStorageScope(() => {
+		await useRunStorageScope(() => {
 			useSetStorage("theme", "hacker-mode");
 			useInitTheme({
 				storageKey: "theme",

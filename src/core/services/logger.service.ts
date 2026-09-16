@@ -187,10 +187,3 @@ export function useLoggerClear(): void {
 export function useLoggerTable(data: unknown): void {
 	console.table(data);
 }
-
-useLoggerTable([
-	{
-		id: 1,
-		name: "Alice",
-	},
-]);

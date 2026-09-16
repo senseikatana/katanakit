@@ -1,5 +1,3 @@
-import { AsyncLocalStorage } from "node:async_hooks";
-
 import type { StorageStrategy, StorageTarget } from "../../types/index.js";
 
 // ============================================================
@@ -112,8 +110,9 @@ export function createMemoryStorage(): Storage {
  * strategy.useSetItem("token", "abc123");
  * ```
  */
-export function LocalStorageStrategy(storage: Storage = window.localStorage): StorageStrategy {
-	return createWebStorageStrategy(storage);
+export function LocalStorageStrategy(storage?: Storage): StorageStrategy {
+	const resolved = storage ?? getDefaultLocalStorage();
+	return resolved ? createWebStorageStrategy(resolved) : MemoryStorageStrategy();
 }
 
 /**
@@ -128,8 +127,9 @@ export function LocalStorageStrategy(storage: Storage = window.localStorage): St
  * strategy.useSetItem("session", data);
  * ```
  */
-export function SessionStorageStrategy(storage: Storage = window.sessionStorage): StorageStrategy {
-	return createWebStorageStrategy(storage);
+export function SessionStorageStrategy(storage?: Storage): StorageStrategy {
+	const resolved = storage ?? getDefaultSessionStorage();
+	return resolved ? createWebStorageStrategy(resolved) : MemoryStorageStrategy();
 }
 
 /**
@@ -148,13 +148,83 @@ export function MemoryStorageStrategy(): StorageStrategy {
 }
 
 // ============================================================
+// SSR-safe Web Storage accessors
+// ============================================================
+
+/**
+ * Returns `window.localStorage` in browser, or `null` in SSR/Node.
+ */
+function getDefaultLocalStorage(): Storage | null {
+	return typeof window !== "undefined" ? window.localStorage : null;
+}
+
+/**
+ * Returns `window.sessionStorage` in browser, or `null` in SSR/Node.
+ */
+function getDefaultSessionStorage(): Storage | null {
+	return typeof window !== "undefined" ? window.sessionStorage : null;
+}
+
+// ============================================================
+// AsyncLocalStorage shim (browser-safe)
+// ============================================================
+
+/**
+ * Minimal ALS-compatible shim for browser environments.
+ * `getStore()` always returns `undefined`; `run()` just calls `fn()` directly.
+ * This avoids importing `node:async_hooks` at the top level, which crashes browsers.
+ */
+interface AsyncLocalStorageLike<T> {
+	getStore(): T | undefined;
+	run<R>(store: T, fn: () => R): R;
+}
+
+function createBrowserAlsShim<T>(): AsyncLocalStorageLike<T> {
+	return {
+		getStore: () => undefined,
+		run: (_store, fn) => fn(),
+	};
+}
+
+/**
+ * SSR-safe ALS instance. Starts as a browser shim; replaced with the real
+ * `AsyncLocalStorage` once `getRealALS()` resolves in a Node environment.
+ * This reference is mutated exactly once, so `getStrategies()` can read it
+ * synchronously on every call.
+ */
+let ssrStorageALS: AsyncLocalStorageLike<StrategyMap> = createBrowserAlsShim();
+
+/**
+ * Lazily-loaded real AsyncLocalStorage for Node.js SSR.
+ * On first call in Node, dynamically imports `node:async_hooks`, creates the
+ * real ALS, and swaps `ssrStorageALS` so subsequent `getStrategies()` calls
+ * see the scoped store.
+ */
+let realALSReady: Promise<void> | null = null;
+
+async function ensureRealALS(): Promise<void> {
+	if (realALSReady) return realALSReady;
+
+	realALSReady = (async () => {
+		try {
+			const mod = await import("node:async_hooks");
+			const AlsClass = mod.AsyncLocalStorage;
+			if (typeof AlsClass === "function") {
+				ssrStorageALS = new AlsClass() as AsyncLocalStorageLike<StrategyMap>;
+			}
+		} catch {
+			// Fallback: not available (shouldn't happen in Node, but be safe).
+		}
+	})();
+
+	return realALSReady;
+}
+
+// ============================================================
 // Internal strategy resolution
 // ============================================================
 
 type StrategyMap = Record<StorageTarget, StorageStrategy>;
-
-/** Request-scoped storage strategies for SSR (avoids cross-request leaks). */
-const ssrStorageAls = new AsyncLocalStorage<StrategyMap>();
 
 /** Lazily-initialized browser strategies (cached once). */
 let browserStrategies: StrategyMap | null = null;
@@ -182,6 +252,7 @@ function tryCreateBrowserStrategies(): StrategyMap {
  * @returns A {@link StorageStrategy} or `null` if the backend is unavailable.
  */
 function tryCreateWebStorage(kind: "localStorage" | "sessionStorage"): StorageStrategy | null {
+	if (typeof window === "undefined") return null;
 	try {
 		const storage = window[kind];
 		const probeKey = "__kk_storage_probe__";
@@ -208,7 +279,7 @@ function getStrategies(): StrategyMap {
 	}
 
 	// SSR: prefer ALS-scoped strategies (isolated per request).
-	const scoped = ssrStorageAls.getStore();
+	const scoped = ssrStorageALS.getStore();
 	if (scoped) return scoped;
 
 	// No scope — ephemeral store (no cross-request leak, no cross-call persistence).
@@ -223,6 +294,8 @@ function getStrategies(): StrategyMap {
  * Runs `fn` with request-isolated in-memory storage (SSR).
  * Use this around a request handler so `useSetStorage` / `useGetStorage`
  * share state within the request but not across requests.
+ *
+ * In browser environments, this simply calls `fn()` directly (no ALS needed).
  *
  * @typeParam T - Return type of `fn`.
  * @param fn - The function to run within the storage scope.
@@ -240,8 +313,14 @@ function getStrategies(): StrategyMap {
  * });
  * ```
  */
-export function useRunStorageScope<T>(fn: () => T): T {
-	return ssrStorageAls.run(createMemoryStrategies(), fn);
+export async function useRunStorageScope<T>(fn: () => T | Promise<T>): Promise<T> {
+	if (typeof window !== "undefined") {
+		// Browser: no ALS needed, just run directly.
+		return fn();
+	}
+	// Node SSR: load real ALS (once), then run with isolated strategies.
+	await ensureRealALS();
+	return ssrStorageALS.run(createMemoryStrategies(), fn);
 }
 
 /**

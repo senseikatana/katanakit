@@ -340,7 +340,7 @@ import {
   useSetStorage, useGetStorage, useRemoveStorage, useClearStorage, useRunStorageScope,
 } from "katanakit-js";
 
-useRunStorageScope(() => {
+await useRunStorageScope(() => {
   useSetStorage("user", { name: "John", role: "admin" });
   useSetStorage("theme", "dark");
 
