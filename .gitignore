@@ -14,7 +14,8 @@ coverage
 logs
 *.log
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
+bun.lock
+*.lock
 # dotenv environment variable files
 .env*
 !.env.example
@@ -27,12 +28,7 @@ examples/assistant/notes.jsonl
 .cache
 *.tsbuildinfo
 
-# pnpm
-.pnpm-store/
 
-# Docs workspace (uses root pnpm-lock.yaml)
-docs/pnpm-lock.yaml
-docs/node_modules/
 
 # Generated TypeDoc markdown (produced by docs build / docs:dev)
 docs/docs/api/
