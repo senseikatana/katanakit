@@ -13,7 +13,7 @@ const config: Config = {
 	},
 
 	url: "https://senseikatana.com",
-	baseUrl: "/katanakit-js/",
+	baseUrl: "/",
 
 	organizationName: "senseikatana",
 	projectName: "katanakit-js",
