@@ -158,11 +158,20 @@ export function useGetApisConfig(): ApisConfig {
 }
 
 /**
- * Builds a safe http(s) URL from a registered API + endpoint.
+ * Builds a safe http(s) URL from a registered API + endpoint without making
+ * a network request.
  *
- * @param apiName - The registered API key.
- * @param endpointName - The endpoint key within the API.
- * @param options - Optional URL building options (params, query, ignoreDefaultQuery).
+ * Use cases:
+ * - **Navigation links** — generate `<a href>` URLs for download links, pagination, etc.
+ * - **Image/file sources** — build `<img src>` or `<video src>` URLs from API endpoints.
+ * - **Third-party libraries** — pass URLs to charting, mapping, or analytics libraries that
+ *   handle their own fetching.
+ * - **Debugging** — log the full URL before making a request to verify params and query strings.
+ * - **SSR** — construct URLs server-side for pre-rendering or metadata generation.
+ *
+ * @param apiName - The registered API key (from `useInitApis`).
+ * @param endpointName - The endpoint key within that API.
+ * @param options - Optional URL building options (path params, query params, ignore defaults).
  * @returns The fully constructed URL string.
  * @throws {Error} If the API or endpoint is not registered, or the URL scheme is not http(s).
  *
@@ -170,7 +179,19 @@ export function useGetApisConfig(): ApisConfig {
  * ```ts
  * import { useBuildUrl } from "katanakit-js";
  *
+ * // Basic URL with path params
  * const url = useBuildUrl("pokeapi", "pokemonById", { params: { id: 25 } });
+ * // → "https://pokeapi.co/api/v2/pokemon/25"
+ *
+ * // URL with query params
+ * const download = useBuildUrl("myApi", "export", { query: { format: "pdf" } });
+ * // → "https://api.myapp.com/v1/export?format=pdf"
+ *
+ * // Use in a template
+ * <a href={useBuildUrl("myApi", "download", { params: { id: 42 } })}>Download</a>
+ *
+ * // Debug before fetching
+ * console.log("Will fetch:", useBuildUrl("myApi", "users", { query: { page: 1 } }));
  * ```
  */
 export function useBuildUrl(

@@ -15,6 +15,11 @@ All notable changes to this project are documented in this file.
 - **Vue and Nuxt framework examples** — SFC examples for blog listings and dynamic `[slug]` routes using `useQuery` (Vue) and `useAsyncData` (Nuxt) with SSR support.
 - **Framework examples** — Astro and Next.js (React) demos for both adapters showing real-world usage: blog listings, dynamic `[slug]` routes, database queries, block rendering, media uploads, and taxonomy management. Examples live in `examples/notion/` and `examples/wordpress/`.
 
+### Changed
+
+- **Improved documentation** — expanded `useBuildUrl` section with real-world use cases (navigation links, image URLs, third-party libraries, debugging, SSR), updated `CONTRIBUTING.md` to reflect current tooling (pnpm), added contribution invitation to README.
+- **Kitt AI assistant documentation** — added "When to use Kitt" and "When to use alternatives" comparison table with links to Vercel AI SDK, LangChain, CrewAI, and Botpress.
+
 ## [3.1.0] - 2026-09-14
 
 ### Added

@@ -8,7 +8,7 @@ repository.
 ## The development contract
 
 These rules keep the codebase consistent and maintainable. Please read
-[Architecture](docs/Architecture.md) for the full context behind each rule.
+[Architecture](https://senseikatana.com/katanakit-js/docs/guides/architecture/) for the full context behind each rule.
 
 1. **Hexagonal layering** — keep the pure `core` layer (`src/core/services/`)
    free of browser/runtime I/O. Adapters that own I/O live in
@@ -63,22 +63,25 @@ These rules keep the codebase consistent and maintainable. Please read
 ## Getting started
 
 ```bash
-# Prerequisites: Node.js >= 22.18 or Bun >= 1.0
-git clone https://github.com/senseikatana/katanakit.git
-cd katanakit
+# Prerequisites: Node.js >= 22.18, pnpm >= 12
+git clone https://github.com/senseikatana/katanakit-js.git
+cd katanakit-js
 git checkout dev
-bun install
+pnpm install
 ```
 
 Useful scripts:
 
 | Command | Description |
 | ------- | ----------- |
-| `pnpm check` | ESLint + Prettier + typecheck + tests (gate before build/publish) |
-| `pnpm fix` | Same as `check` with ESLint + Prettier auto-fix |
+| `pnpm check` | ESLint + typecheck + tests (gate before build/publish) |
+| `pnpm fix` | Same as `check` with ESLint auto-fix |
 | `pnpm build` | `check` then compile to `dist/` |
-| `pnpm release -- <patch\|minor\|major>` | `build` → version bump → publish |
-| `pnpm docs -- <dev\|build\|serve>` | Docs site (`build` runs `check` + clear first) |
+| `pnpm release` | `build` → version bump → publish to npm |
+| `pnpm release:minor` | Same for minor release |
+| `pnpm release:major` | Same for major release |
+| `pnpm docs:dev` | Docs site dev server |
+| `pnpm docs:build` | Docs site build |
 | `pnpm dev` | Express example server |
 
 `build` and `release` never compile or publish unless `check` passes.
@@ -88,55 +91,66 @@ Useful scripts:
 - `src/types/` — single source of truth for all contracts and domain types.
 - `src/core/services/` — pure domain services (no I/O).
 - `src/infrastructure/` — adapters that own browser/runtime I/O.
-- `src/adapters/` — framework adapters (`astro/`, `express/`, `nuxt/`).
+- `src/adapters/` — framework adapters (`astro/`, `express/`, `vue/`, `nuxt/`).
+- `src/adapters/notion/` — Notion REST API adapter.
+- `src/adapters/wordpress/` — WordPress REST API adapter.
 - `src/config/` — `site.config.ts` + `seo.service.ts`.
+- `src/prisma/` — Prisma schema and conversation store.
 - `src/index.ts` — main barrel (public API surface).
 - `tests/` — Vitest unit tests (import from `src/` via the `@/` alias).
-- `examples/` — runnable demos.
+- `examples/` — runnable demos for all adapters and frameworks.
 - `docs/` — user documentation (keep in sync with code changes).
 
 ## Updating documentation
 
-The public documentation site lives at **[senseikatana.github.io/katanakit-js](https://senseikatana.github.io/katanakit-js)** and is built with [Astro Starlight](https://starlight.astro.build/). The source is in `docs-site/`.
+The public documentation site lives at
+**[senseikatana.com/katanakit-js](https://senseikatana.com/katanakit-js/)** and
+is built with Docusaurus. The source is in `docs/`.
 
 When you change a public API:
 
-- **API Reference is auto-generated** from JSDoc/TSDoc comments in `src/` by `starlight-typedoc`. Write good doc comments on your exported functions and types — they become the public API docs automatically on each build.
+- **API Reference is auto-generated** from JSDoc/TSDoc comments in `src/` by
+  TypeDoc. Write good doc comments on your exported functions and types — they
+  become the public API docs automatically on each build.
 - Update the matching entry in the "Services at a glance" table in `README.md`.
-- Reflect structural changes in `docs-site/src/content/docs/guides/architecture.md`.
 - Note user-visible changes in `CHANGELOG.md` under `[Unreleased]`.
 - Always use `katanakit-js` in example imports.
 
 ### Running the docs locally
 
 ```bash
-pnpm docs -- dev    # starts Docusaurus dev server
-pnpm docs -- build  # builds the static site (runs check + clear first)
-pnpm docs -- serve  # serves the built site locally
+pnpm docs:dev    # starts Docusaurus dev server
+pnpm docs:build  # builds the static site (runs sync + clear first)
 ```
-
-### How versioning works
-
-- On every push to `dev`, the docs site is rebuilt and deployed to GitHub Pages.
-- On every release (tag), `.github/scripts/archive-docs-version.sh` snapshots the current docs into a versioned directory. The `starlight-versions` plugin provides a version selector dropdown in the header.
-- The API Reference is regenerated from source on every build — no manual maintenance needed.
 
 ## Versioning and changelog
 
 This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and keeps a [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)-style
-`CHANGELOG.md`. The current development version is **2.2.1** (unreleased). Use
-the `release` script to cut a release:
+`CHANGELOG.md`. The current version is **3.2.2**. Use the `release` script to
+cut a release:
 
 ```bash
-pnpm release -- patch   # build (check + compile) + bump patch + publish
-pnpm release -- minor   # same for minor
-pnpm release -- major   # same for major
+pnpm release        # build (check + compile) + bump patch + publish
+pnpm release:minor  # same for minor
+pnpm release:major  # same for major
 ```
 
-The release workflow on GitHub Actions creates a tag and GitHub release on every
-push to `dev`. The docs site is automatically rebuilt and the current version is
-archived for the version selector.
+### Version synchronization
+
+Versions must be synchronized across:
+
+1. `package.json` — the source of truth
+2. npm registry — published via `npm publish`
+3. GitHub tags — created by the release script
+
+To verify synchronization:
+
+```bash
+grep '"version"' package.json   # check local
+npm view katanakit-js version   # check npm
+git tag --sort=-creatordate     # check tags
+```
 
 ## Pull request checklist
 
@@ -145,11 +159,21 @@ archived for the version selector.
 - [ ] Relative imports inside `src/` carry explicit `.js` extensions.
 - [ ] New contracts/types were added to `src/types/` (not re-declared).
 - [ ] New framework code is reachable via a subpath, not the main barrel.
-- [ ] `bun run typecheck` passes with no errors.
-- [ ] `bun run check` passes (ESLint + Prettier lint + format).
-- [ ] `bun run test` passes.
+- [ ] `pnpm check` passes (ESLint + typecheck + tests).
 - [ ] Tests added/updated for the change.
 - [ ] Documentation and `CHANGELOG.md` updated if the public API changed.
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
 - [ ] Feature merged into `dev` first (`git checkout dev && git merge <branch>`); PRs to `main` come only from `dev`.
 - [ ] Pre-commit hook ran clean (Husky + lint-staged autofixes staged files on commit).
+
+## Code of Conduct
+
+Be kind, respectful, and constructive. We're all here to build great software
+and learn from each other. Harassment, discrimination, or toxic behavior will
+not be tolerated.
+
+## Questions?
+
+- [Open an issue](https://github.com/senseikatana/katanakit-js/issues) for bugs
+- [Start a discussion](https://github.com/senseikatana/katanakit-js/discussions) for questions
+- [Read the docs](https://senseikatana.com/katanakit-js/) for guides and API reference

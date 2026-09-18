@@ -171,14 +171,66 @@ if (result.ok) {
 
 ### 6. Build URLs without fetching
 
+`useBuildUrl` constructs a full URL from your registered APIs **without making
+a request**. Use it to generate links, image sources, or pass URLs to libraries
+that handle their own fetching.
+
+#### Generate navigation links
+
 ```ts
 import { useBuildUrl } from "katanakit-js";
 
-const url = useBuildUrl("jsonplaceholder", "postById", {
-  params: { id: 7 },
-  query: { _limit: 3 },
+// Build a download link
+const downloadUrl = useBuildUrl("myApi", "export", {
+  query: { format: "pdf", lang: "es" },
 });
-// "https://jsonplaceholder.typicode.com/posts/7?_limit=3"
+// → "https://api.myapp.com/v1/export?format=pdf&lang=es"
+
+// Use in a template
+<a href={downloadUrl}>Download PDF</a>
+```
+
+#### Generate image/file URLs
+
+```ts
+// Build an image URL for <img src>
+const avatarUrl = useBuildUrl("myApi", "userAvatar", {
+  params: { id: 42 },
+  query: { size: "large" },
+});
+// → "https://api.myapp.com/v1/users/42/avatar?size=large"
+
+<img src={avatarUrl} alt="User avatar" />
+```
+
+#### Pass to third-party libraries
+
+```ts
+// Charts, maps, analytics — libraries that fetch their own data
+const chartDataUrl = useBuildUrl("myApi", "analytics", {
+  query: { range: "7d", metric: "visits" },
+});
+new Chart(canvas, { data: chartDataUrl });
+```
+
+#### Debug before fetching
+
+```ts
+// See the full URL before making the request
+console.log("Will fetch:", useBuildUrl("myApi", "users", {
+  query: { page: 1, per_page: 20 },
+}));
+// → "https://api.myapp.com/v1/users?page=1&per_page=20"
+```
+
+#### SSR: construct URLs server-side
+
+```ts
+// In Astro, Next.js, or Nuxt server code
+const apiUrl = useBuildUrl("notion", "database", {
+  params: { id: "db-123" },
+});
+// Pass to client component or pre-render
 ```
 
 ### 7. FormData and raw bodies
@@ -285,6 +337,27 @@ Use the **low-level API** for one-shot chat and tool loops. Use **`useInitAssist
 when you want sessions, persistence, and channels (REST, Telegram, WhatsApp). Fallible calls
 follow the Safe Result pattern: they **never throw**. Check `result.ok` and read `result.data`
 or `result.error`.
+
+### When to use Kitt
+
+Kitt is a **lightweight, zero-dependency** wrapper for OpenAI-compatible APIs.
+Use it when you need:
+
+- **One-shot chat** — ask a question, get an answer (`useChat`)
+- **Tool-calling agents** — autonomous loops that read/write/run (`useRunAgent`)
+- **Session-aware bots** — REST, Telegram, WhatsApp channels (`useReply`)
+
+### When to use alternatives
+
+| Need | Use instead |
+|------|------------|
+| Streaming token-by-token | [Vercel AI SDK](https://sdk.vercel.ai) |
+| RAG with embeddings | [LangChain.js](https://js.langchain.com) |
+| Multi-agent orchestration | [CrewAI](https://github.com/crewAIInc/crewAI) |
+| Full chatbot framework | [Botpress](https://botpress.com) |
+
+Kitt stays small (0 dependencies) because it does one thing well:
+**chat completions with tool calls, using any OpenAI-compatible endpoint.**
 
 ### Low-level API
 
@@ -1123,6 +1196,40 @@ const full = await useWpGetPosts({
 | **Next.js** | [`examples/wordpress/next-blog.tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/next-blog.tsx) | Server component blog listing |
 | **Next.js** | [`examples/wordpress/next-[slug].tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/next-[slug].tsx) | Dynamic `[slug]` page |
 | **Node.js** | [`examples/wordpress/demo.ts`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/demo.ts) | Runnable demo covering all WP operations, `_fields`, `_embed`, ACF |
+
+## Contributing
+
+We welcome contributions from the community! Whether it's fixing a bug, adding
+a feature, or improving documentation, every contribution helps make KatanaKit
+better for everyone.
+
+### Quick start
+
+```bash
+git clone https://github.com/senseikatana/katanakit-js.git
+cd katanakit-js
+git checkout dev
+pnpm install
+pnpm check  # verify everything works
+```
+
+### Ways to contribute
+
+- **Report bugs** — [Open an issue](https://github.com/senseikatana/katanakit-js/issues) with a clear description and reproduction steps
+- **Suggest features** — [Start a discussion](https://github.com/senseikatana/katanakit-js/discussions) to propose new ideas
+- **Submit a PR** — Fork the repo, create a branch from `dev`, make your changes, and open a PR
+- **Improve docs** — Fix typos, add examples, or clarify explanations
+- **Add adapters** — Build integrations for new APIs or frameworks
+
+### PR guidelines
+
+1. Branch from `dev` (not `main`)
+2. Follow the `use*` naming convention
+3. Add TypeScript types in `src/types/index.ts`
+4. Run `pnpm check` before submitting
+5. Update `CHANGELOG.md` if the public API changed
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full development contract.
 
 ## Documentation
 
