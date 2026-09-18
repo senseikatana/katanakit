@@ -12,7 +12,7 @@ const config: Config = {
 		v4: true,
 	},
 
-	url: "https://senseikatana.com",
+	url: "https://docs.senseikatana.com",
 	baseUrl: "/",
 
 	organizationName: "senseikatana",
