@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useQuery } from "katanakit-js/adapters/vue";
-import { useGetApi, useQueryClient } from "katanakit-js";
+import { useFetch, useInitApis, useQueryClient } from "katanakit-js";
 import { usePlaygroundApis } from "../composables/usePlaygroundApis";
 import JsonViewer from "../components/JsonViewer.vue";
 
@@ -20,7 +20,7 @@ const { data, error, isLoading, isSuccess, isError, isStale, status, refetch } =
   }>({
     queryKey: () => ["pokemon", pokemonId.value],
     queryFn: () =>
-      useGetApi("pokeapi", "pokemonById", { params: { id: pokemonId.value } }),
+      useFetch("pokeapi", "pokemonById", { urlOptions: { params: { id: pokemonId.value } } }),
     staleTime: 30_000,
   });
 
