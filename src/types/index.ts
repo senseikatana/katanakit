@@ -944,3 +944,634 @@ export type ProductType = {
 	name: string;
 	price: number;
 };
+
+/* -------------------------------------------------------------------------- */
+/* Notion API                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/** Configuration for the Notion API integration. */
+export interface NotionConfig {
+	/** Notion integration token (starts with "ntn_" or "secret_"). */
+	token: string;
+	/** API version header (default: "2022-06-28"). */
+	apiVersion?: string;
+	/** Custom base URL (default: "https://api.notion.com/v1"). */
+	apiBaseUrl?: string;
+}
+
+/** Rich text object used in Notion blocks and properties. */
+export interface NotionRichText {
+	type: "text";
+	text: { content: string; link?: { url: string } | null };
+	annotations?: {
+		bold?: boolean;
+		italic?: boolean;
+		strikethrough?: boolean;
+		underline?: boolean;
+		code?: boolean;
+		color?: string;
+	};
+	plain_text?: string;
+	href?: string | null;
+}
+
+/** A Notion page object. */
+export interface NotionPage {
+	object: "page";
+	id: string;
+	created_time: string;
+	last_edited_time: string;
+	created_by: { object: "user"; id: string };
+	last_edited_by: { object: "user"; id: string };
+	parent: NotionParent;
+	archived: boolean;
+	url: string;
+	properties: Record<string, NotionProperty>;
+	icon?: NotionIcon | null;
+	cover?: NotionCover | null;
+}
+
+/** Parent reference for pages and databases. */
+export type NotionParent =
+	| { type: "database_id"; database_id: string }
+	| { type: "page_id"; page_id: string }
+	| { type: "workspace"; workspace: true };
+
+/** Property value on a Notion page. */
+export interface NotionProperty {
+	id?: string;
+	type: string;
+	title?: NotionRichText[];
+	rich_text?: NotionRichText[];
+	number?: number;
+	select?: { id: string; name: string; color?: string } | null;
+	multi_select?: Array<{ id: string; name: string; color?: string }>;
+	date?: { start: string; end?: string | null } | null;
+	checkbox?: boolean;
+	url?: string | null;
+	email?: string | null;
+	phone_number?: string | null;
+	formula?: { type: string; string?: string; number?: number; boolean?: boolean };
+	relation?: Array<{ id: string }>;
+	rollup?: { type: string; number?: number };
+	status?: { id: string; name: string; color?: string } | null;
+	[key: string]: unknown;
+}
+
+/** Icon on a page or database (emoji or file). */
+export type NotionIcon = { type: "emoji"; emoji: string } | { type: "file"; file: { url: string } };
+
+/** Cover image on a page. */
+export type NotionCover =
+	{ type: "external"; external: { url: string } } | { type: "file"; file: { url: string } };
+
+/** A Notion block object. */
+export interface NotionBlock {
+	object: "block";
+	id: string;
+	type: string;
+	created_time?: string;
+	last_edited_time?: string;
+	has_children?: boolean;
+	archived?: boolean;
+	[key: string]: unknown;
+}
+
+/** Result of listing block children (paginated). */
+export interface NotionBlockList {
+	object: "list";
+	results: NotionBlock[];
+	has_more: boolean;
+	next_cursor: string | null;
+	type: "block";
+	block: Record<string, unknown>;
+}
+
+/** A Notion database object. */
+export interface NotionDatabase {
+	object: "database";
+	id: string;
+	created_time: string;
+	last_edited_time: string;
+	title: NotionRichText[];
+	description: NotionRichText[];
+	parent: NotionParent;
+	url: string;
+	icon?: NotionIcon | null;
+	cover?: NotionCover | null;
+	properties: Record<string, NotionPropertySchema>;
+	archived?: boolean;
+}
+
+/** Schema definition for a database property. */
+export interface NotionPropertySchema {
+	id?: string;
+	name?: string;
+	type: string;
+	[key: string]: unknown;
+}
+
+/** Filter for querying a Notion database. */
+export interface NotionFilter {
+	and?: NotionFilter[];
+	or?: NotionFilter[];
+	property?: string;
+	[key: string]: unknown;
+}
+
+/** Sort option for querying a Notion database. */
+export interface NotionSort {
+	property?: string;
+	timestamp?: "created_time" | "last_edited_time";
+	direction: "ascending" | "descending";
+}
+
+/** Query options for a Notion database. */
+export interface NotionDatabaseQuery {
+	filter?: NotionFilter;
+	sorts?: NotionSort[];
+	start_cursor?: string;
+	page_size?: number;
+}
+
+/** Result of querying a Notion database (paginated). */
+export interface NotionPageList {
+	object: "list";
+	results: NotionPage[];
+	has_more: boolean;
+	next_cursor: string | null;
+	type: "page";
+	page: Record<string, unknown>;
+}
+
+/** A Notion user object. */
+export interface NotionUser {
+	object: "user";
+	id: string;
+	type: "person" | "bot";
+	name?: string;
+	avatar_url?: string;
+	person?: { email?: string };
+	bot?: { owner: { type: string } };
+}
+
+/** Paginated list of Notion users. */
+export interface NotionUserList {
+	object: "list";
+	results: NotionUser[];
+	has_more: boolean;
+	next_cursor: string | null;
+}
+
+/** Search query options for the Notion API. */
+export interface NotionSearchQuery {
+	query?: string;
+	filter?: { value: "database" | "page"; property: "object" };
+	sort?: { direction: "ascending" | "descending"; timestamp: "last_edited_time" };
+	start_cursor?: string;
+	page_size?: number;
+}
+
+/** Result of a Notion search (paginated). */
+export interface NotionSearchResult {
+	object: "list";
+	results: Array<NotionPage | NotionDatabase>;
+	has_more: boolean;
+	next_cursor: string | null;
+}
+
+/** Contract of the Notion adapter facade. */
+export interface INotionService {
+	useInitNotion(config: NotionConfig): void;
+	useNotionGetPage(pageId: string): Promise<FetchResult<NotionPage>>;
+	useNotionCreatePage(
+		parent: NotionParent,
+		properties: Record<string, unknown>,
+		children?: unknown[],
+	): Promise<FetchResult<NotionPage>>;
+	useNotionUpdatePage(
+		pageId: string,
+		properties: Record<string, unknown>,
+	): Promise<FetchResult<NotionPage>>;
+	useNotionArchivePage(pageId: string): Promise<FetchResult<NotionPage>>;
+	useNotionGetBlock(blockId: string): Promise<FetchResult<NotionBlock>>;
+	useNotionGetBlockChildren(
+		blockId: string,
+		options?: { start_cursor?: string; page_size?: number },
+	): Promise<FetchResult<NotionBlockList>>;
+	useNotionAppendBlocks(blockId: string, children: unknown[]): Promise<FetchResult<NotionBlock>>;
+	useNotionUpdateBlock(
+		blockId: string,
+		content: Record<string, unknown>,
+	): Promise<FetchResult<NotionBlock>>;
+	useNotionDeleteBlock(blockId: string): Promise<FetchResult<NotionBlock>>;
+	useNotionGetDatabase(databaseId: string): Promise<FetchResult<NotionDatabase>>;
+	useNotionQueryDatabase(
+		databaseId: string,
+		query?: NotionDatabaseQuery,
+	): Promise<FetchResult<NotionPageList>>;
+	useNotionCreateDatabase(
+		parent: NotionParent,
+		title: NotionRichText[],
+		properties: Record<string, NotionPropertySchema>,
+	): Promise<FetchResult<NotionDatabase>>;
+	useNotionUpdateDatabase(
+		databaseId: string,
+		title: NotionRichText[],
+		properties?: Record<string, NotionPropertySchema>,
+	): Promise<FetchResult<NotionDatabase>>;
+	useNotionGetUser(userId: string): Promise<FetchResult<NotionUser>>;
+	useNotionListUsers(options?: {
+		start_cursor?: string;
+		page_size?: number;
+	}): Promise<FetchResult<NotionUserList>>;
+	useNotionSearchContent(query: NotionSearchQuery): Promise<FetchResult<NotionSearchResult>>;
+	useNotionListAllBlockChildren(blockId: string): Promise<FetchResult<NotionBlock[]>>;
+	useNotionListAllDatabasePages(
+		databaseId: string,
+		filter?: NotionFilter,
+		sorts?: NotionSort[],
+	): Promise<FetchResult<NotionPage[]>>;
+}
+
+/* -------------------------------------------------------------------------- */
+/* WordPress REST API                                                         */
+/* -------------------------------------------------------------------------- */
+
+/** Configuration for the WordPress REST API integration. */
+export interface WordPressConfig {
+	/** WordPress site base URL (e.g. "https://mysite.com"). */
+	baseUrl: string;
+	/** Authentication credentials (choose one method). */
+	auth?: WordPressAuth;
+	/** Custom API namespace (default: "wp/v2"). */
+	apiNamespace?: string;
+}
+
+/** Authentication methods for WordPress. */
+export type WordPressAuth =
+	| { type: "application-passwords"; username: string; password: string }
+	| { type: "jwt"; token: string }
+	| { type: "basic"; username: string; password: string }
+	| { type: "nonce"; nonce: string; cookie: string };
+
+/** Base fields shared by all WordPress entities. */
+export interface WpBaseEntity {
+	id: number;
+	date: string;
+	date_gmt: string;
+	modified: string;
+	modified_gmt: string;
+	slug: string;
+	status: string;
+	link: string;
+}
+
+/** A WordPress post. */
+export interface WpPost extends WpBaseEntity {
+	title: { rendered: string };
+	content: { rendered: string; protected: boolean };
+	excerpt: { rendered: string; protected: boolean };
+	author: number;
+	featured_media: number;
+	comment_status: string;
+	ping_status: string;
+	sticky: boolean;
+	template: string;
+	format: string;
+	categories: number[];
+	tags: number[];
+	meta: Record<string, unknown>;
+	_embedded?: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress post. */
+export interface WpPostCreate {
+	title: string;
+	content?: string;
+	excerpt?: string;
+	author?: number;
+	featured_media?: number;
+	comment_status?: "open" | "closed";
+	ping_status?: "open" | "closed";
+	sticky?: boolean;
+	format?: string;
+	categories?: number[];
+	tags?: number[];
+	meta?: Record<string, unknown>;
+	status?: "publish" | "future" | "draft" | "pending" | "private";
+	slug?: string;
+	date?: string;
+	template?: string;
+}
+
+/** Payload for updating a WordPress post. */
+export type WpPostUpdate = Partial<WpPostCreate>;
+
+/** A WordPress page. */
+export interface WpPage extends WpBaseEntity {
+	title: { rendered: string };
+	content: { rendered: string; protected: boolean };
+	excerpt: { rendered: string; protected: boolean };
+	author: number;
+	featured_media: number;
+	parent: number;
+	menu_order: number;
+	comment_status: string;
+	ping_status: string;
+	template: string;
+	meta: Record<string, unknown>;
+	_embedded?: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress page. */
+export interface WpPageCreate {
+	title: string;
+	content?: string;
+	excerpt?: string;
+	author?: number;
+	featured_media?: number;
+	parent?: number;
+	menu_order?: number;
+	comment_status?: "open" | "closed";
+	ping_status?: "open" | "closed";
+	status?: "publish" | "future" | "draft" | "pending" | "private";
+	slug?: string;
+	date?: string;
+	template?: string;
+	meta?: Record<string, unknown>;
+}
+
+/** Payload for updating a WordPress page. */
+export type WpPageUpdate = Partial<WpPageCreate>;
+
+/** A WordPress media item (attachment). */
+export interface WpMedia extends WpBaseEntity {
+	title: { rendered: string };
+	author: number;
+	media_type: string;
+	mime_type: string;
+	media_details: {
+		width?: number;
+		height?: number;
+		file?: string;
+		sizes?: Record<string, { source_url: string; width: number; height: number }>;
+	};
+	source_url: string;
+	alt_text: string;
+	caption: { rendered: string };
+	description: { rendered: string };
+	post: number | null;
+	meta: Record<string, unknown>;
+}
+
+/** Metadata for a media upload. */
+export interface WpMediaMeta {
+	title?: string;
+	alt_text?: string;
+	caption?: string;
+	description?: string;
+	post?: number;
+	slug?: string;
+}
+
+/** Payload for updating a WordPress media item. */
+export interface WpMediaUpdate extends Partial<WpMediaMeta> {
+	status?: string;
+}
+
+/** A WordPress category. */
+export interface WpCategory {
+	id: number;
+	count: number;
+	description: string;
+	link: string;
+	name: string;
+	slug: string;
+	parent: number;
+	meta: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress category. */
+export interface WpCategoryCreate {
+	name: string;
+	description?: string;
+	slug?: string;
+	parent?: number;
+	meta?: Record<string, unknown>;
+}
+
+/** Payload for updating a WordPress category. */
+export type WpCategoryUpdate = Partial<WpCategoryCreate>;
+
+/** A WordPress tag. */
+export interface WpTag {
+	id: number;
+	count: number;
+	description: string;
+	link: string;
+	name: string;
+	slug: string;
+	meta: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress tag. */
+export interface WpTagCreate {
+	name: string;
+	description?: string;
+	slug?: string;
+	meta?: Record<string, unknown>;
+}
+
+/** Payload for updating a WordPress tag. */
+export type WpTagUpdate = Partial<WpTagCreate>;
+
+/** A WordPress comment. */
+export interface WpComment {
+	id: number;
+	post: number;
+	parent: number;
+	author: number;
+	author_name: string;
+	author_email: string;
+	author_url: string;
+	date: string;
+	date_gmt: string;
+	content: { rendered: string };
+	link: string;
+	status: string;
+	type: string;
+	author_avatar_urls: Record<string, string>;
+	meta: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress comment. */
+export interface WpCommentCreate {
+	post: number;
+	parent?: number;
+	content: string;
+	author?: number;
+	author_name?: string;
+	author_email?: string;
+	author_url?: string;
+	status?: string;
+	meta?: Record<string, unknown>;
+}
+
+/** Payload for updating a WordPress comment. */
+export type WpCommentUpdate = Partial<WpCommentCreate>;
+
+/** A WordPress user. */
+export interface WpUser {
+	id: number;
+	username: string;
+	name: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	url: string;
+	description: string;
+	link: string;
+	locale: string;
+	nickname: string;
+	slug: string;
+	roles: string[];
+	avatar_urls: Record<string, string>;
+	meta: Record<string, unknown>;
+}
+
+/** Payload for creating a WordPress user. */
+export interface WpUserCreate {
+	username: string;
+	name?: string;
+	first_name?: string;
+	last_name?: string;
+	email: string;
+	url?: string;
+	description?: string;
+	locale?: string;
+	nickname?: string;
+	slug?: string;
+	roles?: string[];
+	password?: string;
+	meta?: Record<string, unknown>;
+}
+
+/** Payload for updating a WordPress user. */
+export type WpUserUpdate = Partial<WpUserCreate>;
+
+/** Common query parameters for WordPress REST API list endpoints. */
+export interface WpQueryParams {
+	/** Current page (default: 1). */
+	page?: number;
+	/** Items per page (default: 10, max: 100). */
+	per_page?: number;
+	/** Search term. */
+	search?: string;
+	/** Sort order. */
+	order?: "asc" | "desc";
+	/** Order by field. */
+	orderby?: string;
+	/** Offset for pagination. */
+	offset?: number;
+	/** Include specific IDs. */
+	include?: number[];
+	/** Exclude specific IDs. */
+	exclude?: number[];
+	/** Filter by slug. */
+	slug?: string;
+	/** Filter by status. */
+	status?: string | string[];
+	/** Filter by author. */
+	author?: number | number[];
+	/** Filter by categories. */
+	categories?: number | number[];
+	/** Filter by tags. */
+	tags?: number | number[];
+	/** Whether to include embedded resources. */
+	_embed?: boolean;
+	/** Custom query params. */
+	[key: string]: unknown;
+}
+
+/** A batch operation for the WordPress REST API. */
+export interface WpBatchOperation {
+	method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+	path: string;
+	body?: Record<string, unknown>;
+}
+
+/** Result of a WordPress batch operation. */
+export interface WpBatchResult {
+	/** Responses for each operation in the batch. */
+	responses: Array<{
+		status: number;
+		body: unknown;
+		headers: Record<string, string>;
+	}>;
+}
+
+/** Contract of the WordPress adapter facade. */
+export interface IWordPressService {
+	useInitWordPress(config: WordPressConfig): void;
+	useWpGetPosts(options?: WpQueryParams): Promise<FetchResult<WpPost[]>>;
+	useWpGetPost(id: number, options?: WpQueryParams): Promise<FetchResult<WpPost>>;
+	useWpCreatePost(data: WpPostCreate): Promise<FetchResult<WpPost>>;
+	useWpUpdatePost(id: number, data: WpPostUpdate): Promise<FetchResult<WpPost>>;
+	useWpDeletePost(id: number, force?: boolean): Promise<FetchResult<WpPost>>;
+	useWpGetPages(options?: WpQueryParams): Promise<FetchResult<WpPage[]>>;
+	useWpGetPage(id: number, options?: WpQueryParams): Promise<FetchResult<WpPage>>;
+	useWpCreatePage(data: WpPageCreate): Promise<FetchResult<WpPage>>;
+	useWpUpdatePage(id: number, data: WpPageUpdate): Promise<FetchResult<WpPage>>;
+	useWpDeletePage(id: number, force?: boolean): Promise<FetchResult<WpPage>>;
+	useWpGetMedia(options?: WpQueryParams): Promise<FetchResult<WpMedia[]>>;
+	useWpGetMediaItem(id: number): Promise<FetchResult<WpMedia>>;
+	useWpUploadMedia(file: File | Blob | Buffer, meta?: WpMediaMeta): Promise<FetchResult<WpMedia>>;
+	useWpUpdateMedia(id: number, data: WpMediaUpdate): Promise<FetchResult<WpMedia>>;
+	useWpDeleteMedia(id: number, force?: boolean): Promise<FetchResult<WpMedia>>;
+	useWpGetCategories(options?: WpQueryParams): Promise<FetchResult<WpCategory[]>>;
+	useWpGetCategory(id: number): Promise<FetchResult<WpCategory>>;
+	useWpCreateCategory(data: WpCategoryCreate): Promise<FetchResult<WpCategory>>;
+	useWpUpdateCategory(id: number, data: WpCategoryUpdate): Promise<FetchResult<WpCategory>>;
+	useWpDeleteCategory(id: number, force?: boolean): Promise<FetchResult<WpCategory>>;
+	useWpGetTags(options?: WpQueryParams): Promise<FetchResult<WpTag[]>>;
+	useWpGetTag(id: number): Promise<FetchResult<WpTag>>;
+	useWpCreateTag(data: WpTagCreate): Promise<FetchResult<WpTag>>;
+	useWpUpdateTag(id: number, data: WpTagUpdate): Promise<FetchResult<WpTag>>;
+	useWpDeleteTag(id: number, force?: boolean): Promise<FetchResult<WpTag>>;
+	useWpGetComments(options?: WpQueryParams): Promise<FetchResult<WpComment[]>>;
+	useWpGetComment(id: number): Promise<FetchResult<WpComment>>;
+	useWpCreateComment(data: WpCommentCreate): Promise<FetchResult<WpComment>>;
+	useWpUpdateComment(id: number, data: WpCommentUpdate): Promise<FetchResult<WpComment>>;
+	useWpDeleteComment(id: number, force?: boolean): Promise<FetchResult<WpComment>>;
+	useWpGetUsers(options?: WpQueryParams): Promise<FetchResult<WpUser[]>>;
+	useWpGetUser(id: number): Promise<FetchResult<WpUser>>;
+	useWpGetCurrentUser(): Promise<FetchResult<WpUser>>;
+	useWpCreateUser(data: WpUserCreate): Promise<FetchResult<WpUser>>;
+	useWpUpdateUser(id: number, data: WpUserUpdate): Promise<FetchResult<WpUser>>;
+	useWpDeleteUser(id: number, reassign?: number): Promise<FetchResult<WpUser>>;
+	useWpGetCustomPosts(postType: string, options?: WpQueryParams): Promise<FetchResult<unknown[]>>;
+	useWpGetCustomPost(
+		postType: string,
+		id: number,
+		options?: WpQueryParams,
+	): Promise<FetchResult<unknown>>;
+	useWpCreateCustomPost(
+		postType: string,
+		data: Record<string, unknown>,
+	): Promise<FetchResult<unknown>>;
+	useWpUpdateCustomPost(
+		postType: string,
+		id: number,
+		data: Record<string, unknown>,
+	): Promise<FetchResult<unknown>>;
+	useWpDeleteCustomPost(
+		postType: string,
+		id: number,
+		force?: boolean,
+	): Promise<FetchResult<unknown>>;
+	useWpBatch(operations: WpBatchOperation[]): Promise<FetchResult<WpBatchResult>>;
+	useWpListAllPosts(options?: WpQueryParams): Promise<FetchResult<WpPost[]>>;
+	useWpSearchAllPosts(query: string, options?: WpQueryParams): Promise<FetchResult<WpPost[]>>;
+	useWpFindPostBySlug(slug: string): Promise<FetchResult<WpPost | null>>;
+}

@@ -565,6 +565,80 @@ See [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-
 | **Telegram** | `katanakit-js/adapters/telegram` | BotFather bot (`useInitTelegram`, `useStartTelegramPolling`) |
 | **WhatsApp** | `katanakit-js/adapters/whatsapp` | Meta Cloud API (`useInitWhatsApp`, `useStartWhatsApp`) |
 
+## REST API Adapters
+
+Typed adapters for popular REST APIs with auth, pagination helpers, and full TypeScript types.
+
+| Adapter | Import | Description |
+|---------|--------|-------------|
+| **Notion** | `katanakit-js/adapters/notion` | Pages, databases, blocks, search with cursor pagination |
+| **WordPress** | `katanakit-js/adapters/wordpress` | Posts, pages, media, categories, tags, comments, users, batch ops |
+
+### Notion
+
+```ts
+import {
+  useInitNotion,
+  useNotionGetPage,
+  useNotionQueryDatabase,
+  useNotionListAllDatabasePages,
+  useNotionSearchContent,
+} from "katanakit-js/adapters/notion";
+
+// 1. Init with your integration token
+useInitNotion({ token: process.env.NOTION_TOKEN });
+
+// 2. Get a single page
+const page = await useNotionGetPage("page-id");
+
+// 3. Query a database (single page of results)
+const results = await useNotionQueryDatabase("db-id", {
+  filter: { property: "Status", select: { equals: "Published" } },
+  sorts: [{ property: "Date", direction: "descending" }],
+});
+
+// 4. Get ALL pages from a database (auto-pagination)
+const all = await useNotionListAllDatabasePages("db-id");
+
+// 5. Search across all content
+const found = await useNotionSearchContent({ query: "meeting notes" });
+```
+
+### WordPress
+
+```ts
+import {
+  useInitWordPress,
+  useWpGetPosts,
+  useWpCreatePost,
+  useWpUploadMedia,
+  useWpListAllPosts,
+  useWpFindPostBySlug,
+} from "katanakit-js/adapters/wordpress";
+
+// 1. Init with credentials
+useInitWordPress({
+  baseUrl: "https://mysite.com",
+  auth: { type: "application-passwords", username: "admin", password: "xxxx xxxx xxxx" },
+});
+
+// 2. Get posts with filters
+const posts = await useWpGetPosts({ per_page: 5, status: "publish" });
+
+// 3. Create a post
+await useWpCreatePost({ title: "New Post", content: "<p>Hello!</p>", status: "publish" });
+
+// 4. Upload media
+const file = document.querySelector("input[type=file]").files[0];
+const media = await useWpUploadMedia(file, { title: "My Image", alt_text: "Description" });
+
+// 5. Get ALL posts (auto-pagination)
+const all = await useWpListAllPosts({ status: "publish" });
+
+// 6. Find post by slug (for dynamic routes)
+const post = await useWpFindPostBySlug("hello-world");
+```
+
 ## Documentation
 
 The docs site is deployed with Render at [senseikatana.com/katanakit-js](https://senseikatana.com/katanakit-js/).

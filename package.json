@@ -47,6 +47,16 @@
       "import": "./dist/adapters/whatsapp/index.js",
       "default": "./dist/adapters/whatsapp/index.js"
     },
+    "./adapters/notion": {
+      "types": "./dist/adapters/notion/index.d.ts",
+      "import": "./dist/adapters/notion/index.js",
+      "default": "./dist/adapters/notion/index.js"
+    },
+    "./adapters/wordpress": {
+      "types": "./dist/adapters/wordpress/index.d.ts",
+      "import": "./dist/adapters/wordpress/index.js",
+      "default": "./dist/adapters/wordpress/index.js"
+    },
     "./prisma": {
       "types": "./dist/prisma/index.d.ts",
       "import": "./dist/prisma/index.js",
@@ -108,7 +118,9 @@
     "vue",
     "singleton",
     "observer",
-    "factory"
+    "factory",
+    "notion",
+    "wordpress"
   ],
   "author": "senseikatana - Sergio Jurado",
   "license": "MIT",
