@@ -1,6 +1,7 @@
 export type {
 	WordPressAuth,
 	WordPressConfig,
+	WpAcfFields,
 	WpBatchOperation,
 	WpBatchResult,
 	WpCategory,
@@ -9,6 +10,7 @@ export type {
 	WpComment,
 	WpCommentCreate,
 	WpCommentUpdate,
+	WpEmbedded,
 	WpMedia,
 	WpMediaMeta,
 	WpMediaUpdate,

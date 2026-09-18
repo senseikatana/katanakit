@@ -1242,7 +1242,10 @@ export interface WpPost extends WpBaseEntity {
 	categories: number[];
 	tags: number[];
 	meta: Record<string, unknown>;
-	_embedded?: Record<string, unknown>;
+	/** ACF (Advanced Custom Fields) data. Available when using ACF plugin. */
+	acf?: WpAcfFields;
+	/** Embedded resources (author, featured media, terms). Available when using `_embed`. */
+	_embedded?: WpEmbedded;
 }
 
 /** Payload for creating a WordPress post. */
@@ -1281,7 +1284,10 @@ export interface WpPage extends WpBaseEntity {
 	ping_status: string;
 	template: string;
 	meta: Record<string, unknown>;
-	_embedded?: Record<string, unknown>;
+	/** ACF (Advanced Custom Fields) data. Available when using ACF plugin. */
+	acf?: WpAcfFields;
+	/** Embedded resources (author, featured media). Available when using `_embed`. */
+	_embedded?: WpEmbedded;
 }
 
 /** Payload for creating a WordPress page. */
@@ -1315,7 +1321,34 @@ export interface WpMedia extends WpBaseEntity {
 		width?: number;
 		height?: number;
 		file?: string;
-		sizes?: Record<string, { source_url: string; width: number; height: number }>;
+		/** File size in bytes. */
+		filesize?: number;
+		/** Image metadata from EXIF data. */
+		image_meta?: {
+			aperture?: string;
+			credit?: string;
+			camera?: string;
+			caption?: string;
+			created_timestamp?: string;
+			copyright?: string;
+			focal_length?: string;
+			iso?: string;
+			orientation?: string;
+			shutter_speed?: string;
+			title?: string;
+			[key: string]: unknown;
+		};
+		sizes?: Record<
+			string,
+			{
+				source_url: string;
+				file: string;
+				width: number;
+				height: number;
+				mime_type: string;
+				filesize?: number;
+			}
+		>;
 	};
 	source_url: string;
 	alt_text: string;
@@ -1323,6 +1356,10 @@ export interface WpMedia extends WpBaseEntity {
 	description: { rendered: string };
 	post: number | null;
 	meta: Record<string, unknown>;
+	/** ACF (Advanced Custom Fields) data. Available when using ACF plugin. */
+	acf?: WpAcfFields;
+	/** Embedded resources (author, post). Available when using `_embed`. */
+	_embedded?: WpEmbedded;
 }
 
 /** Metadata for a media upload. */
@@ -1488,9 +1525,105 @@ export interface WpQueryParams {
 	categories?: number | number[];
 	/** Filter by tags. */
 	tags?: number | number[];
-	/** Whether to include embedded resources. */
-	_embed?: boolean;
+	/**
+	 * Limit response fields to reduce payload size.
+	 * Use comma-separated field names: "id,title,link" or nested: "id,title.rendered,acf.custom_field".
+	 * Reduces response size by 60-80% — essential for list views.
+	 *
+	 * @example
+	 * ```ts
+	 * useWpGetPosts({ _fields: "id,title,link,slug,date" });
+	 * useWpGetPosts({ _fields: "id,title.rendered,acf.hero_image,acf.subtitle" }); // with ACF
+	 * ```
+	 */
+	_fields?: string;
+	/**
+	 * Embed related resources in the response (author, featured media, terms, replies).
+	 * Accepts `true` to embed all, or comma-separated resource names.
+	 *
+	 * @example
+	 * ```ts
+	 * useWpGetPosts({ _embed: true }); // embed all
+	 * useWpGetPosts({ _embed: "author,wp:featuredmedia" }); // embed specific
+	 * ```
+	 */
+	_embed?: boolean | string;
 	/** Custom query params. */
+	[key: string]: unknown;
+}
+
+/**
+ * Container for ACF (Advanced Custom Fields) fields on a WordPress entity.
+ *
+ * ACF fields appear on posts, pages, media, taxonomies, users, and options.
+ * Field names and types are defined by the site's ACF configuration.
+ *
+ * @example
+ * ```ts
+ * const post = await useWpGetPost(42, { _fields: "id,title,acf" });
+ * if (post.ok && post.data.acf) {
+ *   console.log(post.data.acf.hero_image);     // image field
+ *   console.log(post.data.acf.subtitle);        // text field
+ *   console.log(post.data.acf.gallery);         // gallery field (array)
+ * }
+ * ```
+ */
+export interface WpAcfFields {
+	[key: string]: unknown;
+}
+
+/**
+ * Embedded resources returned by WordPress when `_embed` is used.
+ *
+ * Contains related entities: author, featured media, terms, replies.
+ * Access with `post._embedded?.["wp:featuredmedia"]?.[0]`.
+ *
+ * @example
+ * ```ts
+ * const result = await useWpGetPosts({ _embed: "author,wp:featuredmedia" });
+ * if (result.ok) {
+ *   for (const post of result.data) {
+ *     const author = post._embedded?.author?.[0]?.name;
+ *     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+ *   }
+ * }
+ * ```
+ */
+export interface WpEmbedded {
+	author?: Array<{
+		id: number;
+		name: string;
+		url: string;
+		description: string;
+		link: string;
+		slug: string;
+		avatar_urls: Record<string, string>;
+		acf?: WpAcfFields;
+		[key: string]: unknown;
+	}>;
+	"wp:featuredmedia"?: WpMedia[];
+	"wp:term"?: Array<
+		Array<{
+			id: number;
+			name: string;
+			slug: string;
+			_taxonomy: string;
+			link: string;
+			count?: number;
+			[key: string]: unknown;
+		}>
+	>;
+	replies?: Array<
+		Array<{
+			id: number;
+			parent: number;
+			author: number;
+			author_name: string;
+			content: { rendered: string };
+			date: string;
+			[key: string]: unknown;
+		}>
+	>;
 	[key: string]: unknown;
 }
 

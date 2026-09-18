@@ -156,6 +156,143 @@ async function searchAllPosts(query: string): Promise<void> {
 	}
 }
 
+/* ------------------------------------------------------------------ */
+/* 2b. _fields — minimal payloads for list views                      */
+/* ------------------------------------------------------------------ */
+
+async function listPostsMinimal(): Promise<void> {
+	console.log("\n--- List Posts with _fields (minimal payload) ---");
+
+	const result = await useWpGetPosts({
+		per_page: 5,
+		_fields: "id,title,link,slug,date",
+	});
+
+	if (result.ok) {
+		console.log(`  Found ${result.data.length} posts (only id, title, link, slug, date)`);
+		for (const post of result.data) {
+			console.log(`  - [${post.id}] ${post.title.rendered} → ${post.link}`);
+		}
+	} else {
+		console.error("  Error:", result.error.message);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* 2c. _embed — embedded resources (author, featured media, terms)     */
+/* ------------------------------------------------------------------ */
+
+async function listPostsWithEmbed(): Promise<void> {
+	console.log("\n--- List Posts with _embed (author + featured media) ---");
+
+	const result = await useWpGetPosts({
+		per_page: 5,
+		_embed: "author,wp:featuredmedia",
+	});
+
+	if (result.ok) {
+		for (const post of result.data) {
+			const author = post._embedded?.author?.[0]?.name ?? "Unknown";
+			const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+			console.log(`  - [${post.id}] ${post.title.rendered} by ${author}`);
+			if (image) console.log(`    Image: ${image}`);
+		}
+	} else {
+		console.error("  Error:", result.error.message);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* 2d. ACF — Advanced Custom Fields access                            */
+/* ------------------------------------------------------------------ */
+
+async function listPostsWithAcf(): Promise<void> {
+	console.log("\n--- List Posts with ACF fields ---");
+
+	const result = await useWpGetPosts({
+		per_page: 5,
+		_fields: "id,title,acf",
+	});
+
+	if (result.ok) {
+		for (const post of result.data) {
+			console.log(`  - [${post.id}] ${post.title.rendered}`);
+			if (post.acf) {
+				// ACF fields are dynamic — access by field name
+				console.log(`    ACF fields:`, JSON.stringify(post.acf, null, 2));
+			}
+		}
+	} else {
+		console.error("  Error:", result.error.message);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* 2e. Media with sizes and ACF                                       */
+/* ------------------------------------------------------------------ */
+
+async function listMediaWithDetails(): Promise<void> {
+	console.log("\n--- List Media with details (sizes, file, filesize) ---");
+
+	const result = await useWpGetMedia({
+		per_page: 3,
+		media_type: "image",
+		_fields: "id,title,source_url,media_details,acf",
+	});
+
+	if (result.ok) {
+		for (const media of result.data) {
+			console.log(`  - [${media.id}] ${media.title.rendered}`);
+			console.log(`    URL: ${media.source_url}`);
+			if (media.media_details?.width) {
+				console.log(`    Dimensions: ${media.media_details.width}x${media.media_details.height}`);
+			}
+			if (media.media_details?.filesize) {
+				console.log(`    File size: ${(media.media_details.filesize / 1024).toFixed(1)} KB`);
+			}
+			if (media.media_details?.sizes) {
+				const sizeNames = Object.keys(media.media_details.sizes);
+				console.log(`    Available sizes: ${sizeNames.join(", ")}`);
+			}
+			if (media.acf) {
+				console.log(`    ACF:`, JSON.stringify(media.acf, null, 2));
+			}
+		}
+	} else {
+		console.error("  Error:", result.error.message);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* 2f. Combined: _fields + _embed + ACF                               */
+/* ------------------------------------------------------------------ */
+
+async function listPostsFull(): Promise<void> {
+	console.log("\n--- List Posts: _fields + _embed + ACF combined ---");
+
+	const result = await useWpGetPosts({
+		per_page: 3,
+		_fields: "id,title,link,slug,date,acf",
+		_embed: "author,wp:featuredmedia",
+	});
+
+	if (result.ok) {
+		for (const post of result.data) {
+			const author = post._embedded?.author?.[0]?.name ?? "Unknown";
+			const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+			const thumbnail = post._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.thumbnail?.source_url;
+
+			console.log(`  - ${post.title.rendered} by ${author}`);
+			console.log(`    Link: ${post.link}`);
+			if (image) console.log(`    Featured image: ${image}`);
+			if (thumbnail) console.log(`    Thumbnail: ${thumbnail}`);
+			if (post.acf) console.log(`    ACF:`, JSON.stringify(post.acf));
+		}
+	} else {
+		console.error("  Error:", result.error.message);
+	}
+}
+
 async function createPost(): Promise<void> {
 	console.log("\n--- Create Post ---");
 
@@ -760,6 +897,13 @@ async function main(): Promise<void> {
 	// await createPost();      // uncomment to test
 	// await updatePost(1);     // uncomment to test
 	// await deletePost(1);     // uncomment to test
+
+	// _fields, _embed, ACF — advanced features
+	await listPostsMinimal();          // minimal payload with _fields
+	await listPostsWithEmbed();        // embedded author + featured media
+	await listPostsWithAcf();          // ACF fields access
+	await listMediaWithDetails();      // media sizes, file, filesize
+	await listPostsFull();             // combined _fields + _embed + ACF
 
 	// Pages
 	await listPages();

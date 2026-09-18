@@ -80,6 +80,7 @@ function getAuthHeaders(): Record<string, string> {
 
 /**
  * Converts query params to URL search params.
+ * Handles _fields (string), _embed (boolean or string), and arrays.
  * @internal
  */
 function buildQueryParams(options?: WpQueryParams): string {
@@ -91,7 +92,22 @@ function buildQueryParams(options?: WpQueryParams): string {
 		if (value === undefined || value === null) continue;
 
 		if (key === "_embed") {
-			if (value) params.set("_embed", "");
+			// _embed can be: true (embed all), false (skip), or "author,wp:featuredmedia" (specific)
+			if (value === true) {
+				params.set("_embed", "");
+			} else if (value === false) {
+				continue;
+			} else if (typeof value === "string" && value) {
+				params.set("_embed", value);
+			}
+			continue;
+		}
+
+		if (key === "_fields") {
+			// _fields is always a string: "id,title,link"
+			if (typeof value === "string" && value) {
+				params.set("_fields", value);
+			}
 			continue;
 		}
 
