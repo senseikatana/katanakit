@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Notion REST API adapter** (`katanakit-js/adapters/notion`) — typed client for the Notion API with `useInitNotion` for token registration. Covers Pages (get, create, update, archive), Blocks (get, get children, append, update, delete), Databases (get schema, query, create, update), Users (get, list), and Search. Includes auto-pagination helpers: `useNotionListAllBlockChildren` and `useNotionListAllDatabasePages` that handle cursor-based pagination automatically. All functions return `FetchResult<T>` (safe result pattern).
+- **WordPress REST API adapter** (`katanakit-js/adapters/wordpress`) — typed client for the WordPress REST API with `useInitWordPress` supporting Application Passwords, JWT, Basic Auth, and nonce-based authentication. Covers Posts, Pages, Media (with file upload via `useWpUploadMedia`), Categories, Tags, Comments, Users, and Custom Post Types with full CRUD operations. Includes batch operations (`useWpBatch`), auto-pagination (`useWpListAllPosts`), search (`useWpSearchAllPosts`), and slug-based routing (`useWpFindPostBySlug`). All functions return `FetchResult<T>`.
+- **Framework examples** — Astro and Next.js (React) demos for both adapters showing real-world usage: blog listings, dynamic `[slug]` routes, database queries, block rendering, media uploads, and taxonomy management. Examples live in `examples/notion/` and `examples/wordpress/`.
+
 ## [3.1.0] - 2026-09-14
 
 ### Added
