@@ -95,6 +95,7 @@
     "notes": "node scripts/generate-release-notes.mjs",
     "version:sync": "node scripts/bump-version.mjs --sync",
     "docs:dev": "pnpm --filter katanakit-docs dev",
+    "playground:dev": "pnpm --filter katanakit-playground dev",
     "docs:sync": "node scripts/sync-docs-releases.mjs --limit=8",
     "docs:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
     "docs:build": "pnpm docs:sync && pnpm --filter katanakit-docs build",

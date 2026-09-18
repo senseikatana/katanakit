@@ -8,6 +8,7 @@ TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager`
 - `pnpm fix` — same with `eslint --fix`.
 - `pnpm build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
 - `pnpm docs:build` — Docusaurus build (separate; CI does NOT build docs).
+- `pnpm playground:dev` — launches the Vue playground (Vite dev server on port 5173).
 - One test file: `vitest run <path>`. Tests live in `tests/`, import via `@/` alias, node env.
 - `tsc6`, NOT `tsc`: `typescript` devDep is aliased to `@typescript/typescript6@6.0.2`.
 - A Husky pre-commit hook runs `eslint --fix` on staged files (installed via `pnpm install`).

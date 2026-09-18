@@ -69,6 +69,11 @@ const config: Config = {
 					position: "left",
 					label: "Docs",
 				},
+				{
+					href: "https://play.katanakit.dev",
+					label: "Playground",
+					position: "right",
+				},
 			{
 				type: "dropdown",
 				label: "Releases",
