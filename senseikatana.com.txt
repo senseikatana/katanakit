@@ -1,0 +1,36 @@
+;;
+;; Domain:     senseikatana.com.
+;; Exported:   2026-09-18 17:59:16
+;;
+;; This file is intended for use for informational and archival
+;; purposes ONLY and MUST be edited before use on a production
+;; DNS server.  In particular, you must:
+;;   -- update the SOA record with the correct authoritative name server
+;;   -- update the SOA record with the contact e-mail address information
+;;   -- update the NS record(s) with the authoritative name servers for this domain.
+;;
+;; For further information, please consult the BIND documentation
+;; located on the following website:
+;;
+;; http://www.isc.org/
+;;
+;; And RFC 1035:
+;;
+;; http://www.ietf.org/rfc/rfc1035.txt
+;;
+;; Please note that we do NOT offer technical support for any use
+;; of this zone data, the BIND name server, or any other third-party
+;; DNS software.
+;;
+;; Use at your own risk.
+;; SOA Record
+senseikatana.com	3600	IN	SOA	ines.ns.cloudflare.com. dns.cloudflare.com. 2054142095 10000 2400 604800 3600
+
+;; NS Records
+senseikatana.com.	86400	IN	NS	ines.ns.cloudflare.com.
+senseikatana.com.	86400	IN	NS	trevor.ns.cloudflare.com.
+
+;; CNAME Records
+play.senseikatana.com.	1	IN	CNAME	katanakit-playground.pages.dev. ; cf_tags=cf-proxied:true
+senseikatana.com.	1	IN	CNAME	katanakit-docs.pages.dev. ; cf_tags=cf-proxied:true
+www.senseikatana.com.	1	IN	CNAME	katanakit-docs.pages.dev. ; cf_tags=cf-proxied:true
