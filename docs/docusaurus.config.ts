@@ -70,7 +70,7 @@ const config: Config = {
 					label: "Docs",
 				},
 				{
-					href: "https://play.samuraicoder.dev",
+					href: "https://katanakit-playground.pages.dev",
 					label: "Playground",
 					position: "right",
 				},
