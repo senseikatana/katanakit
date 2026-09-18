@@ -44,6 +44,11 @@ TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager`
 
 - `.npmrc` disables dependency lifecycle scripts (`allow-scripts=`). If a new dependency needs scripts, add it explicitly.
 - Release workflow uses OIDC trusted publishing — no long-lived NPM_TOKEN secret. Requires npmjs.com trusted publisher config (see Git workflow section).
+- Token docs: https://docs.npmjs.com/creating-and-viewing-access-tokens#creating-granular-access-tokens-on-the-website
+- **Pending (npm account suspended):**
+  1. Create `katanakit-publish` token on npmjs.com (bypass-2FA unchecked, scoped to `katanakit-js`, read-write)
+  2. Revoke old `NPM_TOKEN` (id: `1e997c`, has bypass-2FA=true)
+  3. Configure Trusted Publishers: npmjs.com → Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit-js`, workflow `release.yml`
 
 ## Agent skills
 
