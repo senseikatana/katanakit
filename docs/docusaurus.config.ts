@@ -70,7 +70,7 @@ const config: Config = {
 					label: "Docs",
 				},
 				{
-					href: "https://katanakit-playground.pages.dev",
+					href: "https://play.senseikatana.com",
 					label: "Playground",
 					position: "right",
 				},
