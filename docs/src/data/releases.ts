@@ -18,8 +18,42 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    version: '3.1.1',
+    version: '3.2.4',
     kind: 'latest',
+    date: 'September 18, 2026',
+    tag: 'v3.2.4',
+    summary: 'Improve useBuildUrl, Kitt, and contribution guide',
+    highlights: [
+      'Improve useBuildUrl, Kitt, and contribution guide',
+    ],
+  },
+  {
+    version: '3.2.1',
+    kind: 'minor',
+    date: 'September 18, 2026',
+    tag: 'v3.2.1',
+    summary: '**wordpress:** Add _fields, _embed, ACF support + Vue/Nuxt examples',
+    highlights: [
+      '**wordpress:** Add _fields, _embed, ACF support + Vue/Nuxt examples',
+      '**adapters:** Add Notion and WordPress REST API adapters with framework examples',
+      '**readme:** Add Notion/WordPress adapter documentation with _fields, _embed, ACF',
+      '**changelog:** Add _fields, _embed, ACF and Vue/Nuxt entries',
+    ],
+  },
+  {
+    version: '3.1.4',
+    kind: 'minor',
+    date: 'September 18, 2026',
+    tag: 'v3.1.4',
+    summary: '**README.md:** Update documentation in 14 files',
+    highlights: [
+      '**README.md:** Update documentation in 14 files',
+      '**wordpress:** Update 2 files',
+    ],
+  },
+  {
+    version: '3.1.1',
+    kind: 'minor',
     date: 'September 16, 2026',
     tag: 'v3.1.1',
     summary: 'Sync release cards for v3.1.0',
@@ -76,46 +110,6 @@ export const releases: Release[] = [
       'Add Husky pre-commit, AGENTS.md, CI fail-fast',
       'Replace Biome with ESLint + Prettier',
       'Remove AI tool artifacts and refresh README links',
-    ],
-  },
-  {
-    version: '2.14.2',
-    kind: 'minor',
-    date: 'September 13, 2026',
-    tag: 'v2.14.2',
-    summary: '**docs:** Replace navbar color mode toggle with switch',
-    highlights: [
-      '**docs:** Replace navbar color mode toggle with switch',
-      '**release:** Generate sectioned release notes from conventional commits',
-      '**changelog:** Add v2.14.2 release notes',
-      '**ui-kit:** Add Katana UI design documentation',
-      'Fix broken links in README with absolute GitHub URLs',
-      'Add Releases dropdown to navbar with links to GitHub releases and tags',
-    ],
-  },
-  {
-    version: '2.14.1',
-    kind: 'minor',
-    date: 'September 10, 2026',
-    tag: 'v2.14.1',
-    summary: '**release:** Use npm publish instead of yarn npm publish for auth compatibility',
-    highlights: [
-      '**release:** Use npm publish instead of yarn npm publish for auth compatibility',
-      'Improve API manager documentation with real-world examples and runnable demo',
-      'Harden supply chain security — pin deps, add resolutions, add socket.yml',
-    ],
-  },
-  {
-    version: '2.14.0',
-    kind: 'minor',
-    date: 'September 10, 2026',
-    tag: 'v2.14.0',
-    summary: '**docs:** Resolve yarn workspace lockfile conflict and typedoc compatibility',
-    highlights: [
-      '**docs:** Resolve yarn workspace lockfile conflict and typedoc compatibility',
-      'Clean up unused imports, test formatting, and type safety',
-      '**changelog:** Add v2.14.0 release notes',
-      '**.codegraph:** Update pipeline configuration in 44 files',
     ],
   },
 ];

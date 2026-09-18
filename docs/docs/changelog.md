@@ -11,6 +11,26 @@ description: Release history for KatanaKit JS
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Interactive playground** — Vue 3 + Vite dev environment (`playground/`) for testing library features in-browser. Run with `pnpm playground:dev`. Includes demos for `useKatanaFetch`, `useQuery`, `useWatch`, and `useBuildUrl` with real API calls (PokeAPI, JSONPlaceholder).
+- **Notion REST API adapter** (`katanakit-js/adapters/notion`) — typed client for the Notion API with `useInitNotion` for token registration. Covers Pages (get, create, update, archive), Blocks (get, get children, append, update, delete), Databases (get schema, query, create, update), Users (get, list), and Search. Includes auto-pagination helpers: `useNotionListAllBlockChildren` and `useNotionListAllDatabasePages` that handle cursor-based pagination automatically. All functions return `FetchResult<T>` (safe result pattern).
+- **WordPress REST API adapter** (`katanakit-js/adapters/wordpress`) — typed client for the WordPress REST API with `useInitWordPress` supporting Application Passwords, JWT, Basic Auth, and nonce-based authentication. Covers Posts, Pages, Media (with file upload via `useWpUploadMedia`), Categories, Tags, Comments, Users, and Custom Post Types with full CRUD operations. Includes batch operations (`useWpBatch`), auto-pagination (`useWpListAllPosts`), search (`useWpSearchAllPosts`), and slug-based routing (`useWpFindPostBySlug`). All functions return `FetchResult<T>`.
+- **WordPress `_fields` support** — new `WpQueryParams._fields` parameter to limit response fields, reducing payload by 60-80% for list views. Supports nested field selection: `"id,title,link"` or `"id,title.rendered,acf.hero_image"`.
+- **WordPress `_embed` as string** — `WpQueryParams._embed` now accepts `boolean | string` for selective resource embedding: `"_embed: author,wp:featuredmedia"` embeds only author and featured media. Typed `WpEmbedded` interface for `_embedded` responses with proper `author[]`, `wp:featuredmedia[]`, `wp:term[][]`, and `replies[][]` types.
+- **WordPress ACF (Advanced Custom Fields) support** — `WpAcfFields` type for ACF field data on posts, pages, media, taxonomies, users, and options. ACF fields are accessible via `post.acf?.field_name` when using `_fields: "id,acf"`.
+- **WordPress `media_details` complete types** — added `filesize`, `image_meta` (EXIF data), and complete `sizes` structure with `file`, `mime_type`, and `filesize` per size.
+- **Vue and Nuxt framework examples** — SFC examples for blog listings and dynamic `[slug]` routes using `useQuery` (Vue) and `useAsyncData` (Nuxt) with SSR support.
+- **Framework examples** — Astro and Next.js (React) demos for both adapters showing real-world usage: blog listings, dynamic `[slug]` routes, database queries, block rendering, media uploads, and taxonomy management. Examples live in `examples/notion/` and `examples/wordpress/`.
+
+### Changed
+
+- **npm v12 security hardening** — added `.npmrc` with `allow-scripts=` to block dependency lifecycle scripts (npm v12 default). Added `.github/workflows/release.yml` with OIDC trusted publishing for automated releases without long-lived NPM_TOKEN. Updated AGENTS.md with new release workflow and security notes.
+- **Improved documentation** — expanded `useBuildUrl` section with real-world use cases (navigation links, image URLs, third-party libraries, debugging, SSR), updated `CONTRIBUTING.md` to reflect current tooling (pnpm), added contribution invitation to README.
+- **Kitt AI assistant documentation** — added "When to use Kitt" and "When to use alternatives" comparison table with links to Vercel AI SDK, LangChain, CrewAI, and Botpress.
+
 ## [3.1.0] - 2026-09-14
 
 ### Added
