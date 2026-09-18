@@ -41,6 +41,15 @@ TypeScript service toolkit (ESM, hexagonal). Bun for package management and scri
 - `bun install --frozen-lockfile` fails if `bun.lockb` is out of sync — commit lockfile changes.
 - `simple-import-sort` fails CI on unsorted imports — run `bun run fix` (pre-commit hook autofixes staged files).
 
+## Cloudflare Pages deployment
+
+- **Docs:** `katanakit-docs` project → `senseikatana.com` + `www.senseikatana.com`
+- **Playground:** `katanakit-playground` project → `play.senseikatana.com`
+- Deploy manually: `bun run docs:build` → `wrangler pages deploy docs/build --project-name katanakit-docs --branch main`
+- Deploy playground: `bun run playground:build` → `wrangler pages deploy playground/dist --project-name katanakit-playground --branch main`
+- Custom domains via Cloudflare API: `POST /accounts/{id}/pages/projects/{name}/domains`
+- Cloudflare Account ID: `d84658746e925afe768db13e48a136a7`
+
 ## npm security
 
 - `.npmrc` disables dependency lifecycle scripts (`allow-scripts=`). If a new dependency needs scripts, add it explicitly.
