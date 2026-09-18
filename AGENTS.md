@@ -30,14 +30,20 @@ TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager`
 - Before any PR: `git checkout dev && git merge <branch>` — features land in `dev` first.
 - PRs to `main` come only from `dev`. Merge only green. Delete branches after merge.
 - CHANGELOG `[Unreleased]` entry for user-visible changes; README + docs updated with features.
-- Release is manual (`pnpm release[:minor|:major]`). No CI release automation.
+- Release via CI: trigger `.github/workflows/release.yml` (workflow_dispatch, pick patch/minor/major). Manual fallback: `pnpm release[:minor|:major]`.
+- **PREREQUISITE**: Trusted publishing must be configured on npmjs.com (Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit-js`, workflow `release.yml`).
 
-## CI (.github/workflows/ci.yml — the ONLY workflow)
+## CI (.github/workflows/ci.yml + release.yml)
 
 - Triggers: push to `main`, PR to `main`. Matrix node 22/24, `fail-fast: false` (both versions always report).
 - Steps: `pnpm install --frozen-lockfile` → `pnpm check` → `pnpm build`.
 - `pnpm install --frozen-lockfile` fails if `pnpm-lock.yaml` is out of sync — commit lockfile changes.
 - `simple-import-sort` fails CI on unsorted imports — run `pnpm fix` (pre-commit hook autofixes staged files).
+
+## npm security
+
+- `.npmrc` disables dependency lifecycle scripts (`allow-scripts=`). If a new dependency needs scripts, add it explicitly.
+- Release workflow uses OIDC trusted publishing — no long-lived NPM_TOKEN secret. Requires npmjs.com trusted publisher config (see Git workflow section).
 
 ## Agent skills
 
