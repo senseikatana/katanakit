@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "katanakit-js": "workspace:*",
+    "katanakit-js": "file:..",
     "vue": "3.5.42",
     "vue-router": "^4.4.0"
   },

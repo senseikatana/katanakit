@@ -71,14 +71,18 @@
   "engines": {
     "node": ">=22.18.0"
   },
+  "workspaces": [
+    "docs",
+    "playground"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "dev": "tsx src/adapters/express/main.ts",
-    "dev:all": "concurrently --names api,assistant,tg,wa,pw,docs \"pnpm dev\" \"pnpm assistant:dev\" \"pnpm telegram:dev\" \"pnpm whatsapp:dev\" \"pnpm playground:dev\" \"pnpm docs:dev\"",
-    "dev:adapters": "concurrently --names api,assistant,tg,wa \"pnpm dev\" \"pnpm assistant:dev\" \"pnpm telegram:dev\" \"pnpm whatsapp:dev\"",
-    "dev:docs": "concurrently --names pw,docs \"pnpm playground:dev\" \"pnpm docs:dev\"",
+    "dev:all": "concurrently --names api,assistant,tg,wa,pw,docs \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\" \"bun run playground:dev\" \"bun run docs:dev\"",
+    "dev:adapters": "concurrently --names api,assistant,tg,wa \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\"",
+    "dev:docs": "concurrently --names pw,docs \"bun run playground:dev\" \"bun run docs:dev\"",
     "assistant:dev": "tsx src/adapters/assistant/main.ts",
     "telegram:dev": "tsx src/adapters/telegram/main.ts",
     "whatsapp:dev": "tsx src/adapters/whatsapp/main.ts",
@@ -87,22 +91,22 @@
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "check": "eslint ./src && tsc6 --noEmit && vitest run",
     "fix": "eslint --fix ./src && tsc6 --noEmit && vitest run",
-    "build": "pnpm clean && pnpm run check && tsc6 -p tsconfig.json",
-    "release": "pnpm build && pnpm bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:minor": "pnpm build && pnpm bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:major": "pnpm build && pnpm bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "build": "bun run clean && bun run check && tsc6 -p tsconfig.json",
+    "release": "bun run build && bun run bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:minor": "bun run build && bun run bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:major": "bun run build && bun run bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
     "bump:patch": "node scripts/bump-version.mjs patch",
     "bump:minor": "node scripts/bump-version.mjs minor",
     "bump:major": "node scripts/bump-version.mjs major",
     "bump:sync": "node scripts/bump-version.mjs --sync",
     "notes": "node scripts/generate-release-notes.mjs",
-    "docs:dev": "pnpm --filter katanakit-docs dev",
-    "docs:build": "pnpm docs:sync && pnpm --filter katanakit-docs build",
+    "docs:dev": "bun run --filter katanakit-docs dev",
+    "docs:build": "bun run docs:sync && bun run --filter katanakit-docs build",
     "docs:sync": "node scripts/sync-docs-releases.mjs --limit=8",
     "docs:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
-    "docs:serve": "pnpm --filter katanakit-docs serve",
-    "playground:dev": "pnpm --filter katanakit-playground dev",
-    "playground:build": "pnpm --filter katanakit-playground build",
+    "docs:serve": "bun run --filter katanakit-docs serve",
+    "playground:dev": "bun run --filter katanakit-playground dev",
+    "playground:build": "bun run --filter katanakit-playground build",
     "prepare": "husky"
   },
   "repository": {

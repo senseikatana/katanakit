@@ -1,17 +1,17 @@
 # AGENTS.md — katanakit-js
 
-TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager` — always use `pnpm`, never npm/bun for installs.
+TypeScript service toolkit (ESM, hexagonal). Bun for package management and scripts.
 
 ## Commands (order matters: lint → typecheck → test)
 
-- `pnpm check` — gate: `eslint ./src` + `tsc6 --noEmit` + `vitest run`. Must pass before any PR.
-- `pnpm fix` — same with `eslint --fix`.
-- `pnpm build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
-- `pnpm docs:build` — Docusaurus build (separate; CI does NOT build docs).
-- `pnpm playground:dev` — launches the Vue playground (Vite dev server on port 5173).
+- `bun run check` — gate: `eslint ./src` + `tsc6 --noEmit` + `vitest run`. Must pass before any PR.
+- `bun run fix` — same with `eslint --fix`.
+- `bun run build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
+- `bun run docs:build` — Docusaurus build (separate; CI does NOT build docs).
+- `bun run playground:dev` — launches the Vue playground (Vite dev server on port 5173).
 - One test file: `vitest run <path>`. Tests live in `tests/`, import via `@/` alias, node env.
 - `tsc6`, NOT `tsc`: `typescript` devDep is aliased to `@typescript/typescript6@6.0.2`.
-- A Husky pre-commit hook runs `eslint --fix` on staged files (installed via `pnpm install`).
+- A Husky pre-commit hook runs `eslint --fix` on staged files (installed via `bun install`).
 
 ## Architecture
 
@@ -31,15 +31,15 @@ TypeScript service toolkit (ESM, hexagonal). pnpm 12 pinned via `packageManager`
 - Before any PR: `git checkout dev && git merge <branch>` — features land in `dev` first.
 - PRs to `main` come only from `dev`. Merge only green. Delete branches after merge.
 - CHANGELOG `[Unreleased]` entry for user-visible changes; README + docs updated with features.
-- Release via CI: trigger `.github/workflows/release.yml` (workflow_dispatch, pick patch/minor/major). Manual fallback: `pnpm release[:minor|:major]`.
+- Release via CI: trigger `.github/workflows/release.yml` (workflow_dispatch, pick patch/minor/major). Manual fallback: `bun run release[:minor|:major]`.
 - **PREREQUISITE**: Trusted publishing must be configured on npmjs.com (Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit-js`, workflow `release.yml`).
 
 ## CI (.github/workflows/ci.yml + release.yml)
 
 - Triggers: push to `main`, PR to `main`. Matrix node 22/24, `fail-fast: false` (both versions always report).
-- Steps: `pnpm install --frozen-lockfile` → `pnpm check` → `pnpm build`.
-- `pnpm install --frozen-lockfile` fails if `pnpm-lock.yaml` is out of sync — commit lockfile changes.
-- `simple-import-sort` fails CI on unsorted imports — run `pnpm fix` (pre-commit hook autofixes staged files).
+- Steps: `bun install --frozen-lockfile` → `bun run check` → `bun run build`.
+- `bun install --frozen-lockfile` fails if `bun.lockb` is out of sync — commit lockfile changes.
+- `simple-import-sort` fails CI on unsorted imports — run `bun run fix` (pre-commit hook autofixes staged files).
 
 ## npm security
 

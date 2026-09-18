@@ -19,7 +19,8 @@ const config: Config = {
 	projectName: "katanakit-js",
 	trailingSlash: true,
 
-	onBrokenLinks: "log",
+	onBrokenLinks: "warn",
+	onBrokenMarkdownLinks: "warn",
 
 	i18n: {
 		defaultLocale: "es",

@@ -9,7 +9,7 @@ npm install katanakit-js
 # or
 bun add katanakit-js
 # or
-pnpm add katanakit-js
+bun add katanakit-js
 ```
 
 ### CDN (ESM)
@@ -452,10 +452,10 @@ DATABASE_URL=
 
 | Script | Starts |
 |--------|--------|
-| `pnpm assistant:dev` | REST assistant. Uses Prisma when `DATABASE_URL` is set. |
-| `pnpm telegram:dev` | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`. |
-| `pnpm whatsapp:dev` | WhatsApp webhook. Requires `WHATSAPP_*`. |
-| `pnpm assistant:demo` | Demo in `examples/assistant/`. Set `KITT_CHANNEL=rest\|telegram\|whatsapp`. |
+| `bun run assistant:dev` | REST assistant. Uses Prisma when `DATABASE_URL` is set. |
+| `bun run telegram:dev` | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`. |
+| `bun run whatsapp:dev` | WhatsApp webhook. Requires `WHATSAPP_*`. |
+| `bun run assistant:demo` | Demo in `examples/assistant/`. Set `KITT_CHANNEL=rest\|telegram\|whatsapp`. |
 
 ### REST
 
@@ -515,7 +515,7 @@ await useStartTelegramPolling();
 2. Send `/newbot` — choose a name and a username.
 3. Copy the token.
 4. Set `TELEGRAM_BOT_TOKEN`.
-5. Run `pnpm telegram:dev` (long polling, no public URL).
+5. Run `bun run telegram:dev` (long polling, no public URL).
 6. Optional webhook: expose HTTPS and call `useHandleTelegramUpdate(update)` on inbound updates.
 
 ### WhatsApp (Meta Cloud API)
@@ -538,7 +538,7 @@ useStartWhatsApp();
 2. Add the WhatsApp product.
 3. Copy the temporary or permanent token, the Phone number ID, and the **App Secret**.
 4. Set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`, and `WHATSAPP_APP_SECRET`.
-5. Run `pnpm whatsapp:dev`.
+5. Run `bun run whatsapp:dev`.
 6. Expose public HTTPS (Cloudflare Tunnel or ngrok) to `GET`/`POST` `/whatsapp/webhook`.
 7. In Meta, set the webhook URL and verify token; subscribe to `messages`.
 
@@ -573,7 +573,7 @@ owns the database, run `prisma contract emit` then `prisma db init` in that app.
 `readFile` on `knowledge-base.md` and `saveNote` to `notes.jsonl`.
 
 ```bash
-pnpm assistant:demo
+bun run assistant:demo
 # KITT_CHANNEL=rest|telegram|whatsapp
 ```
 
@@ -1209,8 +1209,8 @@ better for everyone.
 git clone https://github.com/senseikatana/katanakit-js.git
 cd katanakit-js
 git checkout dev
-pnpm install
-pnpm check  # verify everything works
+bun install
+bun run check  # verify everything works
 ```
 
 ### Ways to contribute
@@ -1226,7 +1226,7 @@ pnpm check  # verify everything works
 1. Branch from `dev` (not `main`)
 2. Follow the `use*` naming convention
 3. Add TypeScript types in `src/types/index.ts`
-4. Run `pnpm check` before submitting
+4. Run `bun run check` before submitting
 5. Update `CHANGELOG.md` if the public API changed
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full development contract.

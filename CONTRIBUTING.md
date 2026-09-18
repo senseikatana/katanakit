@@ -63,26 +63,26 @@ These rules keep the codebase consistent and maintainable. Please read
 ## Getting started
 
 ```bash
-# Prerequisites: Node.js >= 22.18, pnpm >= 12
+# Prerequisites: Node.js >= 22.18, bun >= 12
 git clone https://github.com/senseikatana/katanakit-js.git
 cd katanakit-js
 git checkout dev
-pnpm install
+bun install
 ```
 
 Useful scripts:
 
 | Command | Description |
 | ------- | ----------- |
-| `pnpm check` | ESLint + typecheck + tests (gate before build/publish) |
-| `pnpm fix` | Same as `check` with ESLint auto-fix |
-| `pnpm build` | `check` then compile to `dist/` |
-| `pnpm release` | `build` → version bump → publish to npm |
-| `pnpm release:minor` | Same for minor release |
-| `pnpm release:major` | Same for major release |
-| `pnpm docs:dev` | Docs site dev server |
-| `pnpm docs:build` | Docs site build |
-| `pnpm dev` | Express example server |
+| `bun run check` | ESLint + typecheck + tests (gate before build/publish) |
+| `bun run fix` | Same as `check` with ESLint auto-fix |
+| `bun run build` | `check` then compile to `dist/` |
+| `bun run release` | `build` → version bump → publish to npm |
+| `bun run release:minor` | Same for minor release |
+| `bun run release:major` | Same for major release |
+| `bun run docs:dev` | Docs site dev server |
+| `bun run docs:build` | Docs site build |
+| `bun run dev` | Express example server |
 
 `build` and `release` never compile or publish unless `check` passes.
 
@@ -119,8 +119,8 @@ When you change a public API:
 ### Running the docs locally
 
 ```bash
-pnpm docs:dev    # starts Docusaurus dev server
-pnpm docs:build  # builds the static site (runs sync + clear first)
+bun run docs:dev    # starts Docusaurus dev server
+bun run docs:build  # builds the static site (runs sync + clear first)
 ```
 
 ## Versioning and changelog
@@ -131,9 +131,9 @@ and keeps a [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)-style
 cut a release:
 
 ```bash
-pnpm release        # build (check + compile) + bump patch + publish
-pnpm release:minor  # same for minor
-pnpm release:major  # same for major
+bun run release        # build (check + compile) + bump patch + publish
+bun run release:minor  # same for minor
+bun run release:major  # same for major
 ```
 
 ### Version synchronization
@@ -159,7 +159,7 @@ git tag --sort=-creatordate     # check tags
 - [ ] Relative imports inside `src/` carry explicit `.js` extensions.
 - [ ] New contracts/types were added to `src/types/` (not re-declared).
 - [ ] New framework code is reachable via a subpath, not the main barrel.
-- [ ] `pnpm check` passes (ESLint + typecheck + tests).
+- [ ] `bun run check` passes (ESLint + typecheck + tests).
 - [ ] Tests added/updated for the change.
 - [ ] Documentation and `CHANGELOG.md` updated if the public API changed.
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
