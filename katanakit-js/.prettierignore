@@ -1,7 +1,0 @@
-dist
-docs
-node_modules
-src/prisma/schema.d.ts
-src/prisma/schema.json
-*.cjs
-scripts
