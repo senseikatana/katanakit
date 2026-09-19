@@ -1,0 +1,34 @@
+---
+sidebar_position: 24
+title: Text Transform
+description: Utilities for controlling the text capitalization.
+---
+
+# Text Transform
+
+Control the capitalization of text within an element.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.uppercase` | `text-transform: uppercase` |
+| `.lowercase` | `text-transform: lowercase` |
+| `.capitalize` | `text-transform: capitalize` |
+| `.normal-case` | `text-transform: normal-case` |
+
+## Basic Usage
+
+```html
+<h1 class="uppercase">All caps heading</h1>
+<p class="lowercase">all lowercase text</p>
+<span class="capitalize">capitalize each word</span>
+<p class="normal-case">Normal case (reset)</p>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $text-transform-list
+$text-transform-list: (uppercase, lowercase, capitalize, normal-case) !default;
+```

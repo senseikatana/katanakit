@@ -1,0 +1,143 @@
+---
+sidebar_position: 38
+title: Extended Colors
+description: 20 new Tailwind-compatible color palettes with 11 shades each.
+---
+
+# Extended Colors
+
+Katanakit CSS now includes 20 additional color palettes with Tailwind-compatible shade scales (50, 100-900, 950). These extend the original 6 semantic palettes.
+
+## Available Palettes
+
+Each palette has 11 shades: **50** (lightest), **100**, **200**, **300**, **400**, **500**, **600**, **700**, **800**, **900**, **950** (darkest).
+
+### Neutral / Gray Scale
+
+| Palette | Description |
+|---|---|
+| `slate` | Blue-gray tones |
+| `gray` | Cool gray tones |
+| `zinc` | Neutral gray tones |
+| `stone` | Warm gray tones |
+
+### Warm Colors
+
+| Palette | Description |
+|---|---|
+| `red` | Red spectrum |
+| `orange` | Orange spectrum |
+| `amber` | Amber/yellow-orange spectrum |
+| `yellow` | Yellow spectrum |
+
+### Greens
+
+| Palette | Description |
+|---|---|
+| `lime` | Lime/green-yellow spectrum |
+| `green` | Green spectrum |
+| `emerald` | Emerald/teal-green spectrum |
+
+### Blues & Teals
+
+| Palette | Description |
+|---|---|
+| `teal` | Teal spectrum |
+| `cyan` | Cyan spectrum |
+| `sky` | Light blue spectrum |
+| `blue` | Blue spectrum |
+| `indigo` | Indigo spectrum |
+
+### Purples & Pinks
+
+| Palette | Description |
+|---|---|
+| `violet` | Violet spectrum |
+| `purple` | Purple spectrum (extended from original) |
+| `pink` | Pink spectrum |
+| `rose` | Rose spectrum |
+| `fuchsia` | Fuchsia/magenta spectrum |
+
+## Shade Reference
+
+| Shade | Usage |
+|---|---|
+| `50` | Lightest backgrounds, subtle highlights |
+| `100` | Light backgrounds, hover states |
+| `200` | Borders, dividers on light backgrounds |
+| `300` | Borders, disabled states |
+| `400` | Placeholder text, icons |
+| `500` | Primary/default shade |
+| `600` | Hover states, active icons |
+| `700` | Text on light backgrounds |
+| `800` | Headings, emphasis text |
+| `900` | Dark text, dark mode backgrounds |
+| `950` | Darkest, near-black tones |
+
+## Usage
+
+All color utility classes work with the extended palettes:
+
+```html
+<!-- Text color -->
+<p class="text-blue-500">Blue text</p>
+<p class="text-emerald-700">Dark emerald text</p>
+
+<!-- Background color -->
+<div class="bg-slate-100 p-4">Light slate background</div>
+<div class="bg-rose-500 p-4 text-white">Rose background</div>
+
+<!-- Border color -->
+<div class="border border-cyan-300 p-4">Cyan border</div>
+
+<!-- Hover states -->
+<button class="bg-indigo-600 hover-bg-indigo-700 text-white px-4 py-2">
+  Hover me
+</button>
+```
+
+## Dark Mode
+
+All extended palettes support dark mode inversion:
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+// Emits :root[data-theme="dark"] with inverted shades
+@include v.theme("dark");
+```
+
+The inversion map:
+- 50 ↔ 950
+- 100 ↔ 900
+- 200 ↔ 800
+- 300 ↔ 700
+- 400 ↔ 600
+- 500 ↔ 500
+
+## SCSS Source
+
+```scss
+// From _variables.scss — $colors map (partial example)
+$colors: (
+  "slate": (
+    50: hsl(210, 40%, 98%), 100: hsl(210, 40%, 96%),
+    200: hsl(214, 32%, 91%), 300: hsl(213, 27%, 84%),
+    400: hsl(215, 20%, 65%), 500: hsl(215, 16%, 47%),
+    600: hsl(215, 19%, 35%), 700: hsl(215, 25%, 27%),
+    800: hsl(217, 33%, 17%), 900: hsl(222, 47%, 11%),
+    950: hsl(229, 84%, 5%),
+  ),
+  // ... (20 palettes total)
+) !default;
+```
+
+## Access Functions
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+v.get-color("blue", 500)        // hsl(217, 91%, 60%)
+v.get-color("rose", 300, 0.5)   // With 50% alpha
+v.get("emerald")                 // Alias for shade 500
+```

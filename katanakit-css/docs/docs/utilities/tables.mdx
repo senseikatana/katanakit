@@ -1,0 +1,60 @@
+---
+sidebar_position: 32
+title: Tables
+description: Utilities for controlling table layout and border collapse.
+---
+
+# Tables
+
+Control table layout behavior and how table borders are rendered.
+
+## Table Layout
+
+| Class | Properties |
+|---|---|
+| `.table-auto` | `table-layout: auto` |
+| `.table-fixed` | `table-layout: fixed` |
+
+## Border Collapse
+
+| Class | Properties |
+|---|---|
+| `.border-collapse` | `border-collapse: collapse` |
+| `.border-separate` | `border-collapse: separate` |
+
+## Basic Usage
+
+```html
+<!-- Fixed-width table with collapsed borders -->
+<table class="table-fixed border-collapse w-full">
+  <thead>
+    <tr>
+      <th class="border border-neutral-300 p-2">Name</th>
+      <th class="border border-neutral-300 p-2">Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-neutral-300 p-2">Alice</td>
+      <td class="border border-neutral-300 p-2">30</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Auto-width table with separate borders -->
+<table class="table-auto border-separate border-spacing-2">
+  ...
+</table>
+```
+
+:::tip
+Use `.table-fixed` for consistent column widths. Combined with `.w-full`, columns will be equally distributed regardless of content.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$table-layout-list: (auto, fixed) !default;
+$border-collapse-list: (collapse, separate) !default;
+```

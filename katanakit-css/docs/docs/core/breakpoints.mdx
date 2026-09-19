@@ -1,0 +1,67 @@
+---
+sidebar_position: 5
+title: Breakpoints
+description: Responsive breakpoint mixins (mobile-first).
+---
+
+# Breakpoints
+
+Mobile-first breakpoint system with 7 tiers.
+
+## Map
+
+| Key | Value |
+|---|---|
+| `xs` | `0` |
+| `sm` | `640px` |
+| `md` | `768px` |
+| `lg` | `1024px` |
+| `xl` | `1280px` |
+| `2xl` | `1536px` |
+| `3xl` | `1920px` |
+
+## Generic mixin
+
+```scss
+@use "katanakit-css/src/scss/mixins" as m;
+
+@include m.breakpoint($from, $direction: up, $to: null) { ... }
+```
+
+| Direction | Behavior |
+|---|---|
+| `up` | `min-width` (default) |
+| `down` | `max-width` (anti-overlap: −0.02px) |
+| `only` | Between `$from` and next breakpoint |
+| `between` | Between `$from` and `$to` |
+
+## Named aliases
+
+```scss
+@include m.xs { ... }        // 0 and up
+@include m.sm { ... }        // 640px and up
+@include m.md { ... }        // 768px and up
+@include m.lg { ... }        // 1024px and up
+@include m.xl { ... }        // 1280px and up
+@include m.xxl { ... }       // 1536px and up
+@include m.xxxl { ... }      // 1920px and up
+
+@include m.sm-down { ... }   // below 640px
+@include m.md-down { ... }   // below 768px
+@include m.lg-down { ... }   // below 1024px
+@include m.xl-down { ... }   // below 1280px
+@include m.x2l-down { ... }  // below 1536px
+@include m.x3l-down { ... }  // below 1920px
+```
+
+## Feature queries
+
+```scss
+@include m.portrait       { ... }  // orientation: portrait
+@include m.landscape      { ... }  // orientation: landscape
+@include m.reduced-motion { ... }  // prefers-reduced-motion: reduce
+@include m.hoverable      { ... }  // hover: hover + fine pointer
+@include m.touch          { ... }  // hover: none + coarse pointer
+@include m.dark-mode      { ... }  // prefers-color-scheme: dark
+@include m.light-mode     { ... }  // prefers-color-scheme: light
+```

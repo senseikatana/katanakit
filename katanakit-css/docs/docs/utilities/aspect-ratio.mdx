@@ -1,0 +1,43 @@
+---
+sidebar_position: 20
+title: Aspect Ratio
+description: Utilities for controlling the aspect ratio of an element.
+---
+
+# Aspect Ratio
+
+Control the aspect ratio of an element using the `aspect-ratio` CSS property.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.aspect-auto` | `aspect-ratio: auto` |
+| `.aspect-square` | `aspect-ratio: 1 / 1` |
+| `.aspect-video` | `aspect-ratio: 16 / 9` |
+
+## Basic Usage
+
+```html
+<!-- Square aspect ratio (1:1) -->
+<div class="aspect-square w-64 bg-info-200">
+  Square
+</div>
+
+<!-- Video aspect ratio (16:9) -->
+<iframe class="aspect-video w-full" src="..."></iframe>
+
+<!-- Auto (browser default) -->
+<img class="aspect-auto" src="..." alt="..." />
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $aspect-ratio-map
+$aspect-ratio-map: (
+  "auto": auto,
+  "square": 1 / 1,
+  "video": 16 / 9,
+) !default;
+```

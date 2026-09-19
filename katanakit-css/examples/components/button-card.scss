@@ -1,0 +1,34 @@
+// ============================================================
+//  examples/components/button-card.scss
+//  Componentes compuestos con el sistema @apply propio.
+//
+//  Compilar:
+//    sass --load-path src/scss examples/components/button-card.scss out.css
+// ============================================================
+
+@use "mixins" as m;
+
+.card {
+  @include m.apply(flex, flex-col, p-4, rounded-lg, shadow-md, bg-white);
+
+  &:hover {
+    @include m.apply(shadow-lg);
+  }
+}
+
+.button {
+  @include m.apply(
+    inline-flex,
+    items-center,
+    justify-center,
+    px-4,
+    py-2,
+    rounded-md,
+    font-semibold,
+    transition-colors
+  );
+
+  &:hover {
+    @include m.apply(bg-white, text-black);
+  }
+}

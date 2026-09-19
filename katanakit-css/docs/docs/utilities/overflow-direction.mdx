@@ -1,0 +1,63 @@
+---
+sidebar_position: 37
+title: Overflow Direction
+description: Utilities for controlling overflow on the x and y axes independently.
+---
+
+# Overflow Direction
+
+Control overflow behavior independently on the horizontal (x) and vertical (y) axes.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.overflow-x-auto` | `overflow-x: auto` |
+| `.overflow-x-hidden` | `overflow-x: hidden` |
+| `.overflow-x-clip` | `overflow-x: clip` |
+| `.overflow-x-visible` | `overflow-x: visible` |
+| `.overflow-x-scroll` | `overflow-x: scroll` |
+| `.overflow-y-auto` | `overflow-y: auto` |
+| `.overflow-y-hidden` | `overflow-y: hidden` |
+| `.overflow-y-clip` | `overflow-y: clip` |
+| `.overflow-y-visible` | `overflow-y: visible` |
+| `.overflow-y-scroll` | `overflow-y: scroll` |
+
+## Basic Usage
+
+```html
+<!-- Horizontal scrolling only -->
+<div class="overflow-x-auto whitespace-nowrap">
+  <span class="inline-block w-64">Wide content...</span>
+</div>
+
+<!-- Vertical scrolling only -->
+<div class="overflow-y-auto h-64">
+  <p>Long content that scrolls vertically...</p>
+</div>
+
+<!-- Hide horizontal overflow, allow vertical scroll -->
+<div class="overflow-x-hidden overflow-y-auto h-64">
+  <p>Content here...</p>
+</div>
+```
+
+## Comparison with Overflow
+
+| Class | X Axis | Y Axis |
+|---|---|---|
+| `.overflow-auto` | auto | auto |
+| `.overflow-hidden` | hidden | hidden |
+| `.overflow-x-auto` | auto | (unchanged) |
+| `.overflow-y-hidden` | (unchanged) | hidden |
+
+:::tip
+Use directional overflow utilities when you need different behavior on each axis, e.g., horizontal scrolling for a wide table while keeping vertical overflow visible.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $overflow-xy-list
+$overflow-xy-list: (auto, hidden, clip, visible, scroll) !default;
+```

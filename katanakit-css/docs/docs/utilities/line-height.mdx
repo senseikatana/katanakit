@@ -1,0 +1,62 @@
+---
+sidebar_position: 26
+title: Line Height & Letter Spacing
+description: Utilities for controlling line height and letter spacing.
+---
+
+# Line Height & Letter Spacing
+
+Control the vertical spacing between lines of text and the horizontal spacing between characters.
+
+## Line Height
+
+| Class | Properties |
+|---|---|
+| `.leading-none` | `line-height: 1` |
+| `.leading-tight` | `line-height: 1.25` |
+| `.leading-snug` | `line-height: 1.375` |
+| `.leading-normal` | `line-height: 1.5` |
+| `.leading-relaxed` | `line-height: 1.625` |
+| `.leading-loose` | `line-height: 2` |
+
+### Basic Usage
+
+```html
+<p class="leading-tight">Tight line height for headings.</p>
+<p class="leading-normal">Normal line height for body text.</p>
+<p class="leading-loose">Loose line height for readability.</p>
+```
+
+## Letter Spacing
+
+| Class | Properties |
+|---|---|
+| `.tracking-tighter` | `letter-spacing: -0.05em` |
+| `.tracking-tight` | `letter-spacing: -0.025em` |
+| `.tracking-normal` | `letter-spacing: 0em` |
+| `.tracking-wide` | `letter-spacing: 0.025em` |
+| `.tracking-wider` | `letter-spacing: 0.05em` |
+| `.tracking-widest` | `letter-spacing: 0.1em` |
+
+### Basic Usage
+
+```html
+<h1 class="tracking-tight">Tightly spaced heading</h1>
+<p class="tracking-wide">Wide letter spacing for emphasis.</p>
+<span class="tracking-widest uppercase">S P A C E D</span>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$line-height-map: (
+  "none": 1, "tight": 1.25, "snug": 1.375,
+  "normal": 1.5, "relaxed": 1.625, "loose": 2
+) !default;
+
+$letter-spacing-map: (
+  "tighter": -0.05em, "tight": -0.025em, "normal": 0em,
+  "wide": 0.025em, "wider": 0.05em, "widest": 0.1em
+) !default;
+```

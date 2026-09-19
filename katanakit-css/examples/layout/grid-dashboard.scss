@@ -1,0 +1,53 @@
+// ============================================================
+//  examples/layout/grid-dashboard.scss
+//  Layout de dashboard con los mixins de grid y breakpoints.
+//
+//  Compilar:
+//    sass --load-path src/scss examples/layout/grid-dashboard.scss out.css
+// ============================================================
+
+@use "mixins" as m;
+@use "variables" as v;
+
+.dashboard {
+  @include m.grid-container(12, $gap: 1rem, $place-items: stretch, $place-content: stretch);
+
+  // Sidebar: ocupa 3 columnas, el contenido 9
+  .sidebar {
+    @include m.grid-span(3);
+  }
+
+  .content {
+    @include m.grid-span(9);
+  }
+
+  // En pantallas medianas o menores, todo apila a 1 columna
+  @include m.md-down {
+    grid-template-columns: 1fr;
+
+    .sidebar,
+    .content {
+      @include m.grid-span(1);
+    }
+  }
+}
+
+// Rejilla responsive de tarjetas con auto-fill
+.cards {
+  @include m.grid-responsive(280px, fill, 1fr, 1.5rem);
+}
+
+// Colocación explícita de un ítem
+.pinned-card {
+  @include m.grid-placement(2, 4, 1, 2);
+}
+
+// Centrado absoluto
+.modal-overlay {
+  @include m.grid-center(0);
+
+  .modal {
+    @include m.grid-item-center;
+    max-width: v.container("md");
+  }
+}

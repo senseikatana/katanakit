@@ -1,0 +1,658 @@
+// ============================================================
+//  _mixins.scss
+//  Layout, breakpoint, grid and flexbox mixins, generic utility
+//  class generators and the @apply registry.
+//  Loading this module also registers the built-in @apply
+//  utilities (top-level register-utility() calls at the bottom).
+// ============================================================
+@use "sass:meta";
+@use "sass:math";
+@use "sass:map";
+@use "sass:list";
+@use "sass:string";
+@use "variables" as v;
+@use "functions" as f;
+
+// ============================================================
+//  BREAKPOINTS
+//  Media-query helpers. The breakpoint map mirrors the one in
+//  _variables.scss and can be overridden with !default before import.
+// ============================================================
+
+// Min-width values for the breakpoint mixins.
+$breakpoints: (
+  "xs": 0, "sm": 640px, "md": 768px, "lg": 1024px,
+  "xl": 1280px, "2xl": 1536px, "3xl": 1920px
+) !default;
+
+// Private: resolves a breakpoint argument. Numbers pass through
+// (unitless ones gain px); strings must be keys of $breakpoints.
+@function _breakpoint-value($key) {
+  @if meta.type-of($key) == "number" {
+    @return if(sass(math.is-unitless($key)): $key * 1px; else: $key);
+  }
+  @if not map.has-key($breakpoints, $key) {
+    @error "Breakpoint '#{$key}' no encontrado. Disponibles: #{map.keys($breakpoints)}.";
+  }
+  @return map.get($breakpoints, $key);
+}
+
+// Private: builds the media-query string for a direction.
+// up      → min-width
+// down    → max-width (0.02px below the breakpoint to avoid overlap)
+// only    → min + max (exclusive upper bound)
+// between → min + max (inclusive upper bound)
+@function _media-query($direction, $from, $to: null) {
+  @if $direction == "up" { @return "(min-width: #{$from})"; }
+  @if $direction == "down" { $max: calc(#{$from} - 0.02px); @return "(max-width: #{$max})"; }
+  @if $direction == "only" {
+    @if $to == null { @error "only requiere un breakpoint 'to'."; }
+    $max: calc(#{$to} - 0.02px);
+    @return "(min-width: #{$from}) and (max-width: #{$max})";
+  }
+  @if $direction == "between" {
+    @if $to == null { @error "between requiere un breakpoint 'to'."; }
+    @return "(min-width: #{$from}) and (max-width: #{$to})";
+  }
+  @error "Dirección '#{$direction}' no válida. Use: up, down, only, between.";
+}
+
+// Wraps @content in a media query. Direction defaults to "up".
+// Examples:
+//   @include m.breakpoint("md") { … }               // ≥ 768px
+//   @include m.breakpoint("md", "down") { … }       // ≤ 767.98px
+//   @include m.breakpoint("md", "only", "lg") { … } // 768–1023.98px
+@mixin breakpoint($from, $direction: up, $to: null) {
+  $from-val: _breakpoint-value($from);
+  $to-val: if(sass($to != null): _breakpoint-value($to); else: null);
+  @media #{_media-query($direction, $from-val, $to-val)} { @content; }
+}
+
+// Argument-forwarding alias: @include bp("md", "only", "lg") { … }.
+@mixin bp($args...) { @include breakpoint($args...) { @content; } }
+
+// Shorthand mixins for min-width queries, one per breakpoint.
+@mixin xs     { @include breakpoint("xs", up)   { @content; } }
+@mixin sm     { @include breakpoint("sm", up)   { @content; } }
+@mixin md     { @include breakpoint("md", up)   { @content; } }
+@mixin lg     { @include breakpoint("lg", up)   { @content; } }
+@mixin xl     { @include breakpoint("xl", up)   { @content; } }
+@mixin xxl    { @include breakpoint("2xl", up)  { @content; } }
+@mixin xxxl   { @include breakpoint("3xl", up)  { @content; } }
+
+// Shorthand mixins for max-width queries (mobile-first "below" queries).
+@mixin xs-down  { @include breakpoint("xs", down)  { @content; } }
+@mixin sm-down  { @include breakpoint("sm", down)  { @content; } }
+@mixin md-down  { @include breakpoint("md", down)  { @content; } }
+@mixin lg-down  { @include breakpoint("lg", down)  { @content; } }
+@mixin xl-down  { @include breakpoint("xl", down)  { @content; } }
+@mixin x2l-down { @include breakpoint("2xl", down) { @content; } }
+@mixin x3l-down { @include breakpoint("3xl", down) { @content; } }
+// Aliases with friendlier names for the 2xl/3xl down queries.
+@mixin xxl-down { @include x2l-down { @content; } }
+@mixin xxxl-down { @include x3l-down { @content; } }
+
+// Media-feature queries: orientation, motion and pointer preferences
+// plus OS color scheme.
+@mixin portrait       { @media (orientation: portrait)              { @content; } }
+@mixin landscape      { @media (orientation: landscape)             { @content; } }
+@mixin reduced-motion { @media (prefers-reduced-motion: reduce)     { @content; } }
+@mixin hoverable      { @media (hover: hover) and (pointer: fine)   { @content; } }
+@mixin touch          { @media (hover: none) and (pointer: coarse)  { @content; } }
+@mixin dark-mode      { @media (prefers-color-scheme: dark)         { @content; } }
+@mixin light-mode     { @media (prefers-color-scheme: light)        { @content; } }
+
+// ============================================================
+//  GRID
+//  CSS Grid helpers: containers, responsive/auto grids, spans,
+//  placements, areas, subgrid, masonry and stacking.
+// ============================================================
+
+// Defaults used by the grid mixins (gap = 10px → 1rem, 12 columns).
+// Override with !default semantics before import.
+$grid-gap-default: f.rem(10px) !default;
+$grid-columns-default: 12 !default;
+
+// Private: unitless numbers are treated as rem (4 → 4rem); anything
+// with a unit passes through untouched.
+@function _to-rem($value) {
+  @if meta.type-of($value) == "number" and math.is-unitless($value) { @return $value * 1rem; }
+  @return $value;
+}
+
+// Private: validates and rounds a grid-stack() column/row index
+// (must be a unitless number ≥ 1).
+@function _stack-index($value, $name) {
+  @if meta.type-of($value) != "number" { @error "grid-stack(): #{$name} debe ser un número, recibió #{meta.inspect($value)}."; }
+  @if not math.is-unitless($value) { @error "grid-stack(): #{$name} debe ser sin unidad, recibió #{$value}."; }
+  @if $value < 1 { @error "grid-stack(): #{$name} debe ser >= 1, recibió #{$value}."; }
+  @return math.round($value);
+}
+
+// Private: strips a leading dot from a parent selector string.
+@function _stack-parent($parent) {
+  @if meta.type-of($parent) == "string" and string.index($parent, ".") == 1 { @return string.slice($parent, 2); }
+  @return $parent;
+}
+
+// Private: shared start of every grid mixin — display: grid plus an
+// optional gap (unitless → rem). Passes @content through.
+@mixin _grid-base($gap: null) {
+  display: grid;
+  @if $gap != null { gap: _to-rem($gap); }
+  @content;
+}
+
+// Responsive auto-grid: as many columns as fit, each at least
+// $min-size wide (unitless → rem) and at most $max-size.
+// $mode: "fill" (auto-fill, keeps empty tracks) or "fit" (auto-fit,
+// collapses empty tracks).
+@mixin grid-responsive($min-size, $mode: fill, $max-size: 1fr, $gap: null) {
+  $keyword: null;
+  @if $mode == fill { $keyword: "auto-fill"; }
+  @else if $mode == fit { $keyword: "auto-fit"; }
+  @if $keyword == null { @error "grid-responsive(): invalid mode '#{$mode}'. Use 'fill' or 'fit'."; }
+  @include _grid-base($gap) {
+    grid-template-columns: repeat(#{$keyword}, minmax(_to-rem($min-size), #{$max-size}));
+    @content;
+  }
+}
+
+// Convenience wrappers for the two grid-responsive modes.
+@mixin grid-autofill($min-size, $max-size: 1fr, $gap: null) { @include grid-responsive($min-size, fill, $max-size, $gap) { @content; } }
+@mixin grid-autofit($min-size, $max-size: 1fr, $gap: null)  { @include grid-responsive($min-size, fit, $max-size, $gap) { @content; } }
+
+// Fixed-column grid container. Defaults: 12 equal columns, centered
+// items. When $place-items/$place-content are null it falls back to
+// the individual $align-items/$justify-content values.
+@mixin grid-container(
+  $cols: $grid-columns-default, $rows: null, $gap: $grid-gap-default,
+  $place-items: center, $place-content: center, $align-items: null, $justify-content: null
+) {
+  @include _grid-base($gap) {
+    grid-template-columns: repeat($cols, 1fr);
+    grid-template-rows: $rows;
+    @if $place-items != null and $place-content != null {
+      place-items: $place-items; place-content: $place-content;
+    } @else { align-items: $align-items; justify-content: $justify-content; }
+    @content;
+  }
+}
+
+// Grid that centers its items both ways.
+@mixin grid-center($gap: null) { @include _grid-base($gap) { place-items: center; place-content: center; @content; } }
+// Sets gap and also exposes it as a custom property ($var-name) so it
+// can be overridden or read from plain CSS.
+@mixin grid-gap($value: $grid-gap-default, $var-name: --grid-gap) { #{$var-name}: #{_to-rem($value)}; gap: var(#{$var-name}); }
+
+// Makes an item span $cols columns and optionally $rows rows.
+@mixin grid-span($cols: 1, $rows: null) {
+  grid-column: span $cols;
+  @if $rows != null { grid-row: span $rows; }
+}
+
+// Explicit grid placement using line numbers (1-based; -1 = last line).
+// Rows are only emitted when row positions are provided.
+@mixin grid-placement($col-start: 1, $col-end: -1, $row-start: null, $row-end: null) {
+  grid-column: #{$col-start} / #{$col-end};
+  @if $row-start != null and $row-end != null { grid-row: #{$row-start} / #{$row-end}; }
+  @else if $row-start != null { grid-row: $row-start; }
+  @content;
+}
+
+// Named grid areas: pass the ASCII-area string directly.
+@mixin grid-areas($areas, $gap: null) { @include _grid-base($gap) { grid-template-areas: $areas; @content; } }
+// Assigns an item to a named area.
+@mixin grid-area($name) { grid-area: $name; @content; }
+// Centers a single grid item inside its cell.
+@mixin grid-item-center { place-self: center center; }
+
+// Spans the full width of the grid by default (columns 1 to -1),
+// optionally with a row range.
+@mixin grid-item-full($col: "1 / -1", $row: null) {
+  grid-column: #{$col};
+  @if $row != null { grid-row: $row; }
+  @content;
+}
+
+// Responsive column count driven by a map, e.g.
+// ("default": 1, "md": 2, "lg": 4) → 1 column, 2 from md, 4 from lg.
+// Without a "default" key the first entry is used as the base.
+@mixin grid-breakpoint-columns($columns-map, $gap: $grid-gap-default, $align-items: stretch) {
+  @include _grid-base($gap) {
+    align-items: $align-items;
+    $default: map.get($columns-map, "default");
+    @if $default { grid-template-columns: repeat($default, 1fr); }
+    @else { $first: list.nth(map.keys($columns-map), 1); grid-template-columns: repeat(map.get($columns-map, $first), 1fr); }
+    @each $bp, $cols in $columns-map {
+      @if $bp != "default" { @include breakpoint($bp) { grid-template-columns: repeat($cols, 1fr); } }
+    }
+    @content;
+  }
+}
+
+// Makes an item a subgrid of its parent on the given axis
+// ("column", "row" or "both", the default).
+@mixin subgrid($axis: both) {
+  display: grid;
+  @if $axis == column or $axis == both { grid-template-columns: subgrid; }
+  @if $axis == row or $axis == both { grid-template-rows: subgrid; }
+}
+
+// Experimental CSS masonry layout (grid-template-rows: masonry).
+// $axis: "block" (rows flow like masonry) or "inline" (columns).
+@mixin grid-masonry($axis: block, $gap: null) {
+  @include _grid-base($gap) {
+    grid-template-rows: masonry;
+    @if $axis == inline { grid-template-columns: masonry; grid-template-rows: none; }
+    @content;
+  }
+}
+
+// Auto-fill grid where every column is exactly $col-width wide.
+@mixin grid-fixed-columns($col-width, $gap: null) {
+  @include _grid-base($gap) { grid-template-columns: repeat(auto-fill, _to-rem($col-width)); @content; }
+}
+
+// Stacks children on top of each other in the same grid cell
+// ($col/$row — both must be unitless numbers ≥ 1).
+// With $parent (class name, optional leading dot) it emits the parent
+// rule plus one placement rule per $children selector; without
+// $parent it styles the current element (&) and its children.
+// $dp is the display value for the stack container (default "grid").
+@mixin grid-stack($dp: grid, $parent: null, $children: ("*"), $col: 1, $row: 1) {
+  @if $parent != null and meta.type-of($parent) != "string" and meta.type-of($parent) != "number" {
+    @error "grid-stack(): $parent debe ser un string o null, recibió #{meta.inspect($parent)}.";
+  }
+  $col: _stack-index($col, "$col"); $row: _stack-index($row, "$row"); $parent: _stack-parent($parent);
+  @if $parent != null { .#{$parent} { display: #{$dp}; @content; } }
+  @else { display: #{$dp}; @content; }
+  @if $children != null and list.length($children) > 0 {
+    @each $child in $children {
+      @if meta.type-of($child) != "string" and meta.type-of($child) != "number" {
+        @error "grid-stack(): cada child debe ser un string, recibió #{meta.inspect($child)}.";
+      }
+      @if $parent != null { .#{$parent} > #{$child} { @include grid-placement($col, $col + 1, $row, $row + 1); } }
+      @else { & > #{$child} { @include grid-placement($col, $col + 1, $row, $row + 1); } }
+    }
+  }
+}
+
+// Places the current item into a specific stack cell (1-based).
+@mixin grid-stack-item($col: 1, $row: 1) {
+  $col: _stack-index($col, "$col"); $row: _stack-index($row, "$row");
+  @include grid-placement($col, $col + 1, $row, $row + 1);
+}
+
+// ============================================================
+//  FLEXBOX
+//  Flex container and flex item helpers.
+// ============================================================
+
+// Private: shared start of every flex mixin — display: flex plus an
+// optional gap (unitless → rem).
+@mixin _flex-base($gap: null) {
+  display: flex;
+  @if $gap != null { gap: _to-rem($gap); }
+  @content;
+}
+
+// Full-featured flex container. $place-items/$place-content win over
+// the individual $align-items/$justify-content/$align-content when set.
+@mixin flex-container(
+  $direction: row, $wrap: nowrap, $gap: null, $align-items: stretch,
+  $justify-content: flex-start, $align-content: normal, $place-items: null, $place-content: null
+) {
+  @include _flex-base($gap) {
+    flex-direction: $direction; flex-wrap: $wrap;
+    @if $place-items != null { place-items: $place-items; } @else { align-items: $align-items; }
+    @if $place-content != null { place-content: $place-content; } @else { justify-content: $justify-content; align-content: $align-content; }
+    @content;
+  }
+}
+
+// Flex that centers its items both ways.
+@mixin flex-center($gap: null) { @include _flex-base($gap) { place-items: center; place-content: center; @content; } }
+// Sets gap and exposes it as the custom property $var-name.
+@mixin flex-gap($value: 1rem, $var-name: --flex-gap) { #{$var-name}: #{_to-rem($value)}; gap: var(#{$var-name}); }
+// Individual flex-item properties.
+@mixin flex-grow($grow: 1)     { flex-grow: $grow; }
+@mixin flex-shrink($shrink: 1) { flex-shrink: $shrink; }
+@mixin flex-basis($basis: auto) { flex-basis: $basis; }
+// Shorthand for the flex property (grow, shrink, basis).
+@mixin flex-item($grow: 1, $shrink: 1, $basis: auto) { flex: $grow $shrink $basis; }
+// Centers the item on the cross axis.
+@mixin flex-item-center { align-self: center; }
+// Item that fills its row (grow 1, basis 100%).
+@mixin flex-item-full { @include flex-item(1, 1, 100%); @content; }
+
+// ============================================================
+//  GENERIC UTIL HELPERS
+//  Building blocks used to emit utility classes and custom
+//  properties from Sass lists and maps.
+// ============================================================
+
+// Emits a custom property per list item: --prefix-item: item
+// (or --item: item when no prefix is given).
+@mixin vars-list($list, $prefix: null) {
+  @each $value in $list {
+    @if $prefix != null { --#{$prefix}-#{$value}: #{$value}; } @else { --#{$value}: #{$value}; }
+  }
+}
+
+// Same as vars-list() but for maps: --prefix-key: value.
+@mixin vars-map($map, $prefix: null) {
+  @each $key, $value in $map {
+    @if $prefix != null { --#{$prefix}-#{$key}: #{$value}; } @else { --#{$key}: #{$value}; }
+  }
+}
+
+// Centers an element with position + translate(-50%, -50%).
+// $pos can be "absolute" (default) or "fixed".
+@mixin absolute-center($pos: absolute, $y: 50%, $x: 50%) {
+  position: #{$pos}; top: #{$y}; left: #{$x}; transform: translate(-50%, -50%); @content;
+}
+
+// Horizontal / vertical auto-margin centering.
+@mixin center-mx($xvalue: auto) { margin-inline: #{$xvalue}; @content; }
+@mixin center-my($yvalue: auto) { margin-block: #{$yvalue}; @content; }
+
+// Emits one utility class per entry. Lists: class = value
+// (.prefix-value { prop: value }). Maps: class = key
+// (.prefix-key { prop: value }). No prefix → bare class names.
+@mixin utils-classes($input, $property, $prefix: null) {
+  @if meta.type-of($input) == "list" {
+    @each $value in $input {
+      @if $prefix != null { .#{$prefix}-#{$value} { #{$property}: #{$value}; } }
+      @else { .#{$value} { #{$property}: #{$value}; } }
+    }
+  } @else if meta.type-of($input) == "map" {
+    @each $key, $value in $input {
+      @if $prefix != null { .#{$prefix}-#{$key} { #{$property}: #{$value}; } }
+      @else { .#{$key} { #{$property}: #{$value}; } }
+    }
+  } @else { @error "utils-classes(): se esperaba lista o mapa, recibió #{meta.type-of($input)}."; }
+}
+
+// Hover variant of utils-classes(): emits .prefix-key:hover rules
+// (or .hover-key:hover when no prefix is given).
+@mixin utils-classes-hover($input, $property, $prefix: null) {
+  @if meta.type-of($input) == "list" {
+    @each $value in $input {
+      @if $prefix != null { .#{$prefix}-#{$value}:hover { #{$property}: #{$value}; } }
+      @else { .hover-#{$value}:hover { #{$property}: #{$value}; } }
+    }
+  } @else if meta.type-of($input) == "map" {
+    @each $key, $value in $input {
+      @if $prefix != null { .#{$prefix}-#{$key}:hover { #{$property}: #{$value}; } }
+      @else { .hover-#{$key}:hover { #{$property}: #{$value}; } }
+    }
+  }
+}
+
+// ============================================================
+//  @APPLY REGISTRY
+//  A lightweight @apply implementation: utilities are registered
+//  at load time and applied inside components via apply().
+// ============================================================
+
+// Global map holding every registered utility: name → (prop: value).
+$_utility-registry: ();
+
+// Registers a utility name with its declaration map so apply() can
+// use it later. Call once per utility (typically at module top level).
+@mixin register-utility($name, $styles) {
+  $_utility-registry: map.merge($_utility-registry, ($name: $styles)) !global;
+}
+
+// Emits the declarations of the given registered utilities inside the
+// current rule. Errors at compile time for unknown names.
+// Example: @include m.apply(flex, items-center, gap-4);
+@mixin apply($utilities...) {
+  @each $util in $utilities {
+    $util-str: "#{$util}";
+    @if not map.has-key($_utility-registry, $util-str) {
+      @error "apply(): utilidad '#{$util}' no registrada. Usa register-utility() primero.";
+    }
+    $styles: map.get($_utility-registry, $util-str);
+    @each $prop, $value in $styles { #{$prop}: #{$value}; }
+  }
+}
+
+// === Built-in registrations (executed when the module loads) ===
+
+// --- Display ---
+@include register-utility("block", (display: block));
+@include register-utility("inline-block", (display: inline-block));
+@include register-utility("inline", (display: inline));
+@include register-utility("flex", (display: flex));
+@include register-utility("inline-flex", (display: inline-flex));
+@include register-utility("grid", (display: grid));
+@include register-utility("hidden", (display: none));
+
+// --- Flexbox ---
+@include register-utility("flex-row", (flex-direction: row));
+@include register-utility("flex-col", (flex-direction: column));
+@include register-utility("flex-wrap", (flex-wrap: wrap));
+@include register-utility("flex-nowrap", (flex-wrap: nowrap));
+@include register-utility("flex-1", (flex: 1 1 0%));
+@include register-utility("flex-auto", (flex: 1 1 auto));
+@include register-utility("flex-none", (flex: none));
+@include register-utility("items-center", (align-items: center));
+@include register-utility("items-start", (align-items: flex-start));
+@include register-utility("items-end", (align-items: flex-end));
+@include register-utility("justify-center", (justify-content: center));
+@include register-utility("justify-between", (justify-content: space-between));
+@include register-utility("justify-around", (justify-content: space-around));
+@include register-utility("justify-evenly", (justify-content: space-evenly));
+
+// --- Grid ---
+@include register-utility("grid-cols-1", (grid-template-columns: repeat(1, 1fr)));
+@include register-utility("grid-cols-2", (grid-template-columns: repeat(2, 1fr)));
+@include register-utility("grid-cols-3", (grid-template-columns: repeat(3, 1fr)));
+@include register-utility("grid-cols-4", (grid-template-columns: repeat(4, 1fr)));
+@include register-utility("grid-cols-6", (grid-template-columns: repeat(6, 1fr)));
+@include register-utility("grid-cols-12", (grid-template-columns: repeat(12, 1fr)));
+@include register-utility("col-span-full", (grid-column: list.slash(1, -1)));
+
+// --- Spacing (from v.$spacing-map — same source of truth as the
+// classes emitted by _utilities.scss) ---
+@each $key, $value in v.$spacing-map {
+  @include register-utility("p-#{$key}", (padding: $value));
+  @include register-utility("px-#{$key}", (padding-left: $value, padding-right: $value));
+  @include register-utility("py-#{$key}", (padding-top: $value, padding-bottom: $value));
+  @include register-utility("pt-#{$key}", (padding-top: $value));
+  @include register-utility("pb-#{$key}", (padding-bottom: $value));
+  @include register-utility("pl-#{$key}", (padding-left: $value));
+  @include register-utility("pr-#{$key}", (padding-right: $value));
+  @include register-utility("m-#{$key}", (margin: $value));
+  @include register-utility("mx-#{$key}", (margin-left: $value, margin-right: $value));
+  @include register-utility("my-#{$key}", (margin-top: $value, margin-bottom: $value));
+  @include register-utility("mt-#{$key}", (margin-top: $value));
+  @include register-utility("mb-#{$key}", (margin-bottom: $value));
+  @include register-utility("ml-#{$key}", (margin-left: $value));
+  @include register-utility("mr-#{$key}", (margin-right: $value));
+  @include register-utility("gap-#{$key}", (gap: $value));
+  @include register-utility("gap-x-#{$key}", (column-gap: $value));
+  @include register-utility("gap-y-#{$key}", (row-gap: $value));
+}
+
+// --- Typography ---
+@include register-utility("text-xs", (font-size: 0.75rem));
+@include register-utility("text-sm", (font-size: 0.875rem));
+@include register-utility("text-base", (font-size: 1rem));
+@include register-utility("text-lg", (font-size: 1.125rem));
+@include register-utility("text-xl", (font-size: 1.25rem));
+@include register-utility("text-2xl", (font-size: 1.5rem));
+@include register-utility("text-3xl", (font-size: 1.875rem));
+@include register-utility("text-4xl", (font-size: 2.25rem));
+@include register-utility("font-thin", (font-weight: 100));
+@include register-utility("font-light", (font-weight: 300));
+@include register-utility("font-normal", (font-weight: 400));
+@include register-utility("font-medium", (font-weight: 500));
+@include register-utility("font-semibold", (font-weight: 600));
+@include register-utility("font-bold", (font-weight: 700));
+@include register-utility("font-extrabold", (font-weight: 800));
+@include register-utility("font-black", (font-weight: 900));
+@include register-utility("text-left", (text-align: left));
+@include register-utility("text-center", (text-align: center));
+@include register-utility("text-right", (text-align: right));
+
+// --- Sizing ---
+@include register-utility("w-full", (width: 100%));
+@include register-utility("w-screen", (width: 100vw));
+@include register-utility("w-auto", (width: auto));
+@include register-utility("h-full", (height: 100%));
+@include register-utility("h-screen", (height: 100vh));
+@include register-utility("h-auto", (height: auto));
+
+// --- Borders ---
+@include register-utility("rounded", (border-radius: 0.25rem));
+@include register-utility("rounded-md", (border-radius: 0.375rem));
+@include register-utility("rounded-lg", (border-radius: 0.5rem));
+@include register-utility("rounded-xl", (border-radius: 0.75rem));
+@include register-utility("rounded-full", (border-radius: 9999px));
+@include register-utility("border", (border-width: 1px, border-style: solid));
+@include register-utility("border-0", (border-width: 0));
+@include register-utility("border-2", (border-width: 2px, border-style: solid));
+@include register-utility("border-4", (border-width: 4px, border-style: solid));
+@include register-utility("border-8", (border-width: 8px, border-style: solid));
+
+// --- Effects ---
+@include register-utility("shadow-sm", (box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)));
+@include register-utility("shadow", (box-shadow: (0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1))));
+@include register-utility("shadow-md", (box-shadow: (0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1))));
+@include register-utility("shadow-lg", (box-shadow: (0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))));
+@include register-utility("shadow-xl", (box-shadow: (0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1))));
+@include register-utility("opacity-0", (opacity: 0));
+@include register-utility("opacity-25", (opacity: 0.25));
+@include register-utility("opacity-50", (opacity: 0.5));
+@include register-utility("opacity-75", (opacity: 0.75));
+@include register-utility("opacity-100", (opacity: 1));
+
+// --- Position ---
+@include register-utility("static", (position: static));
+@include register-utility("fixed", (position: fixed));
+@include register-utility("absolute", (position: absolute));
+@include register-utility("relative", (position: relative));
+@include register-utility("sticky", (position: sticky));
+
+// --- Overflow ---
+@include register-utility("overflow-auto", (overflow: auto));
+@include register-utility("overflow-hidden", (overflow: hidden));
+@include register-utility("overflow-visible", (overflow: visible));
+@include register-utility("overflow-scroll", (overflow: scroll));
+
+// --- Colors ---
+@include register-utility("text-white", (color: v.get-color("white")));
+@include register-utility("text-black", (color: v.get-color("black")));
+@include register-utility("bg-white", (background-color: v.get-color("white")));
+@include register-utility("bg-black", (background-color: v.get-color("black")));
+@include register-utility("bg-transparent", (background-color: v.get-color("transparent")));
+
+// --- Transitions ---
+@include register-utility("transition", (transition: all 150ms ease));
+@include register-utility("transition-colors", (transition: (color 150ms ease, background-color 150ms ease, border-color 150ms ease)));
+@include register-utility("transition-opacity", (transition: opacity 150ms ease));
+@include register-utility("transition-transform", (transition: transform 150ms ease));
+
+// --- Map-derived registrations (same maps as _utilities.scss) ---
+
+// Local copies of the design-token maps so the registry stays
+// independent from the variables module. Every map is !default, so
+// it can be overridden before importing this module.
+// Box-shadow scale used for .shadow-*.
+$shadow-map: (
+  "none": none, "sm": 0 1px 2px 0 rgb(0 0 0 / 0.05),
+  "md": (0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)),
+  "lg": (0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)),
+  "xl": (0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)),
+  "2xl": 0 25px 50px -12px rgb(0 0 0 / 0.25), "inner": inset 0 2px 4px 0 rgb(0 0 0 / 0.05)
+) !default;
+
+// Border-radius scale used for .rounded-*.
+$radius-map: (
+  "none": 0, "sm": 0.125rem, "md": 0.375rem, "lg": 0.5rem,
+  "xl": 0.75rem, "2xl": 1rem, "3xl": 1.5rem, "full": 9999px
+) !default;
+
+// Z-index scale used for .z-*.
+$z-layers-map: (
+  "auto": auto, "0": 0, "10": 10, "20": 20, "30": 30, "40": 40, "50": 50,
+  "dropdown": 1000, "sticky": 1020, "fixed": 1030, "modal": 1040, "popover": 1050, "tooltip": 1060
+) !default;
+
+// Transition durations used for .duration-*.
+$transition-duration-map: (
+  "75": 75ms, "100": 100ms, "150": 150ms, "200": 200ms,
+  "300": 300ms, "500": 500ms, "700": 700ms, "1000": 1000ms
+) !default;
+
+// Timing functions used for .ease-*.
+$transition-timing-map: (
+  "linear": linear, "in": cubic-bezier(0.4, 0, 1, 1),
+  "out": cubic-bezier(0, 0, 0.2, 1), "in-out": cubic-bezier(0.4, 0, 0.2, 1)
+) !default;
+
+// Opacity steps used for .opacity-*.
+$opacity-values: (
+  "0": 0, "5": 0.05, "10": 0.1, "20": 0.2, "25": 0.25, "30": 0.3,
+  "40": 0.4, "50": 0.5, "60": 0.6, "70": 0.7, "75": 0.75,
+  "80": 0.8, "90": 0.9, "95": 0.95, "100": 1
+) !default;
+
+// Font weights used for .font-*.
+$font-weight-values: (
+  "thin": 100, "extralight": 200, "light": 300, "normal": 400,
+  "medium": 500, "semibold": 600, "bold": 700, "extrabold": 800, "black": 900
+) !default;
+
+// Text alignments used for .text-*.
+$text-align-values: (left, center, right, justify) !default;
+
+// Display values used for display utilities (bare class names).
+$display-values: (
+  block: block, inline-block: inline-block, inline: inline, flex: flex,
+  inline-flex: inline-flex, grid: grid, inline-grid: inline-grid,
+  table: table, table-row: table-row, table-cell: table-cell,
+  hidden: none, contents: contents
+) !default;
+
+// Position and overflow scales for .static/.fixed/… and .overflow-*.
+$position-values: (static, fixed, absolute, relative, sticky) !default;
+$overflow-values: (auto, hidden, scroll, visible) !default;
+
+// Flex direction/wrap and alignment maps used by the flex utilities.
+$flex-direction-map: ("row": row, "row-reverse": row-reverse, "col": column, "col-reverse": column-reverse) !default;
+$flex-wrap-list: (wrap, nowrap) !default;
+$align-items-map: ("start": flex-start, "center": center, "end": flex-end, "stretch": stretch) !default;
+$justify-content-map: ("start": flex-start, "center": center, "end": flex-end, "between": space-between, "around": space-around, "evenly": space-evenly) !default;
+
+// Whitespace-related scales.
+$white-space-list: (nowrap, pre, normal) !default;
+$overflow-wrap-list: (break-word,) !default;
+
+// Effects: register every entry of the effect maps
+// (.rounded-*, .shadow-*, .z-*, .duration-*, .ease-*, .opacity-*).
+@each $key, $value in $radius-map { @include register-utility("rounded-#{$key}", (border-radius: $value)); }
+@each $key, $value in $shadow-map  { @include register-utility("shadow-#{$key}", (box-shadow: $value)); }
+@each $key, $value in $z-layers-map { @include register-utility("z-#{$key}", (z-index: $value)); }
+@each $key, $value in $transition-duration-map { @include register-utility("duration-#{$key}", (transition-duration: $value)); }
+@each $key, $value in $transition-timing-map  { @include register-utility("ease-#{$key}", (transition-timing-function: $value)); }
+@each $key, $value in $opacity-values { @include register-utility("opacity-#{$key}", (opacity: $value)); }
+
+// Layout: display, position, overflow, text-align, font-weight and
+// whitespace utilities.
+@each $key, $value in $display-values { @include register-utility($key, (display: $value)); }
+@each $value in $position-values { @include register-utility($value, (position: $value)); }
+@each $value in $overflow-values { @include register-utility("overflow-#{$value}", (overflow: $value)); }
+@each $value in $text-align-values { @include register-utility("text-#{$value}", (text-align: $value)); }
+@each $key, $value in $font-weight-values { @include register-utility("font-#{$key}", (font-weight: $value)); }
+@each $value in $white-space-list { @include register-utility("whitespace-#{$value}", (white-space: $value)); }
+@each $value in $overflow-wrap-list { @include register-utility("wrap-#{$value}", (overflow-wrap: $value)); }
+
+// Flexbox: direction, wrap and alignment utilities.
+@each $key, $value in $flex-direction-map { @include register-utility("flex-#{$key}", (flex-direction: $value)); }
+@each $value in $flex-wrap-list { @include register-utility("flex-#{$value}", (flex-wrap: $value)); }
+@each $key, $value in $align-items-map { @include register-utility("items-#{$key}", (align-items: $value)); }
+@each $key, $value in $justify-content-map { @include register-utility("justify-#{$key}", (justify-content: $value)); }

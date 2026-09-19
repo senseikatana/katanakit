@@ -1,0 +1,84 @@
+---
+sidebar_position: 31
+title: Float, Clear, Isolation & Box Sizing
+description: Utilities for float, clear, isolation, and box sizing.
+---
+
+# Float, Clear, Isolation & Box Sizing
+
+Control element floating, clear behavior, stacking context isolation, and box model calculations.
+
+## Float
+
+| Class | Properties |
+|---|---|
+| `.float-left` | `float: left` |
+| `.float-right` | `float: right` |
+| `.float-none` | `float: none` |
+| `.float-start` | `float: start` |
+| `.float-end` | `float: end` |
+
+## Clear
+
+| Class | Properties |
+|---|---|
+| `.clear-left` | `clear: left` |
+| `.clear-right` | `clear: right` |
+| `.clear-both` | `clear: both` |
+| `.clear-start` | `clear: start` |
+| `.clear-end` | `clear: end` |
+| `.clear-none` | `clear: none` |
+
+### Basic Usage
+
+```html
+<div class="float-left w-32">Floated left</div>
+<div class="clear-both">Clears both sides</div>
+```
+
+## Isolation
+
+| Class | Properties |
+|---|---|
+| `.isolate` | `isolation: isolate` |
+| `.isolation-auto` | `isolation: auto` |
+
+```html
+<!-- Create a new stacking context -->
+<div class="isolate">
+  <div class="z-10">This z-index only affects siblings inside isolate</div>
+</div>
+```
+
+## Box Sizing
+
+| Class | Properties |
+|---|---|
+| `.box-border` | `box-sizing: border-box` |
+| `.box-content` | `box-sizing: content-box` |
+
+```html
+<!-- Include padding and border in the element's total width/height -->
+<div class="box-border w-64 p-4 border">
+  Total width = 256px (padding and border included)
+</div>
+
+<!-- Exclude padding and border from width/height calculation -->
+<div class="box-content w-64 p-4 border">
+  Total width = 256px + padding + border
+</div>
+```
+
+:::note
+The framework reset sets `box-sizing: border-box` on all elements by default (`*`, `*::before`, `*::after`). Use `.box-content` to opt out when needed.
+:::
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$float-list: (left, right, none, start, end) !default;
+$clear-list: (left, right, both, start, end, none) !default;
+$isolation-list: (isolate, auto) !default;
+$box-sizing-list: (border, content) !default;
+```

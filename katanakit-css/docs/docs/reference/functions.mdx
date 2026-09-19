@@ -1,0 +1,43 @@
+---
+sidebar_position: 16
+title: Functions
+description: Pure Sass functions for unit conversion and color manipulation.
+---
+
+# Functions
+
+## Unit conversion
+
+| Function | Description | Example |
+|---|---|---|
+| `f.rem($size)` | px → rem (base 10px) | `f.rem(16px)` → `1.6rem` |
+| `f.px($size)` | rem → px | `f.px(1)` → `10px` |
+| `f.to-unit($value, $unit)` | Convert to unit | `f.to-unit(16, "rem")` |
+| `f.strip-unit($value)` | Remove unit | `f.strip-unit(16px)` → `16` |
+
+## Fluid typography
+
+```scss
+f.fluid($min, $max, $min-vw: 320px, $max-vw: 1920px)
+```
+
+Generates a `clamp()` expression for fluid sizing.
+
+```scss
+.hero {
+  font-size: f.fluid(16px, 24px);
+}
+```
+
+## Color manipulation
+
+| Function | Description |
+|---|---|
+| `f.tint($color, $amount)` | Mix with white |
+| `f.shade($color, $amount)` | Mix with black |
+| `f.saturate-color($color, $amount)` | Increase saturation |
+| `f.desaturate-color($color, $amount)` | Decrease saturation |
+| `f.complement($color)` | Complementary color |
+| `f.contrast($color, $light, $dark)` | Best contrast color |
+| `f.color-mix-var($var, $amount, $mix-with)` | Mix CSS var with color |
+| `f.to-class($key)` | Escape CSS selector characters |

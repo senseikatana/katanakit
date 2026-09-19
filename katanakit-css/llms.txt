@@ -1,0 +1,54 @@
+# Documentation
+
+> A lightweight, modular SCSS mini-framework: design tokens, utility classes and layout mixins.
+
+## Core Concepts
+
+- [Design Tokens](https://senseikatana.github.io/katanakit-css/docs/core/tokens): Token maps, accessor functions and custom property generation.
+- [Colors](https://senseikatana.github.io/katanakit-css/docs/core/colors): Color palettes, accessor functions and CSS variable generation.
+- [Breakpoints](https://senseikatana.github.io/katanakit-css/docs/core/breakpoints): Responsive breakpoint tiers, direction mixins and feature queries.
+- [Dark Mode](https://senseikatana.github.io/katanakit-css/docs/core/dark-mode): Automatic dark theme with inverted palettes via data-theme.
+- [@apply](https://senseikatana.github.io/katanakit-css/docs/core/apply): Compose utilities inside your SCSS with the apply registry.
+
+## Utilities
+
+- [Padding](https://senseikatana.github.io/katanakit-css/docs/utilities/padding): Utilities for controlling an element's padding.
+- [Margin](https://senseikatana.github.io/katanakit-css/docs/utilities/margin): Utilities for controlling an element's margin.
+- [Gap](https://senseikatana.github.io/katanakit-css/docs/utilities/gap): Utilities for controlling the gutters between grid and flex items.
+- [Display](https://senseikatana.github.io/katanakit-css/docs/utilities/display): Utilities for controlling the display type of an element.
+- [Typography](https://senseikatana.github.io/katanakit-css/docs/utilities/typography): Utilities for controlling font size, text alignment and more.
+- [Colors Extended](https://senseikatana.github.io/katanakit-css/docs/utilities/colors-extended): Extended color utilities with 22 palettes.
+- [Effects](https://senseikatana.github.io/katanakit-css/docs/utilities/effects): Utilities for shadows, rounded corners, z-index, opacity and transitions.
+- [Container](https://senseikatana.github.io/katanakit-css/docs/utilities/container): Container utility class.
+- [Border Style](https://senseikatana.github.io/katanakit-css/docs/utilities/border-style): Utilities for controlling border styles.
+- [Aspect Ratio](https://senseikatana.github.io/katanakit-css/docs/utilities/aspect-ratio): Utilities for controlling aspect ratios.
+- [Object Fit](https://senseikatana.github.io/katanakit-css/docs/utilities/object): Utilities for controlling object fit and position.
+- [Cursor](https://senseikatana.github.io/katanakit-css/docs/utilities/cursor): Utilities for controlling cursor styles.
+- [Visibility](https://senseikatana.github.io/katanakit-css/docs/utilities/visibility): Utilities for controlling visibility.
+- [Float](https://senseikatana.github.io/katanakit-css/docs/utilities/float): Utilities for controlling float behavior.
+- [Tables](https://senseikatana.github.io/katanakit-css/docs/utilities/tables): Table layout utilities.
+- [Grid Classes](https://senseikatana.github.io/katanakit-css/docs/utilities/grid-classes): CSS Grid utility classes.
+- [Flex Classes](https://senseikatana.github.io/katanakit-css/docs/utilities/flex-classes): Flexbox utility classes.
+- [Position Values](https://senseikatana.github.io/katanakit-css/docs/utilities/position-values): Position utility values.
+- [Overflow](https://senseikatana.github.io/katanakit-css/docs/utilities/overflow-direction): Overflow direction utilities.
+- [Interactivity](https://senseikatana.github.io/katanakit-css/docs/utilities/interactivity): Pointer events, resize, user-select and scroll utilities.
+- [Line Height](https://senseikatana.github.io/katanakit-css/docs/utilities/line-height): Line height utilities.
+- [Text Transform](https://senseikatana.github.io/katanakit-css/docs/utilities/text-transform): Text transform utilities.
+- [Text Decoration](https://senseikatana.github.io/katanakit-css/docs/utilities/text-decoration): Text decoration utilities.
+- [Font Family](https://senseikatana.github.io/katanakit-css/docs/utilities/font-family): Font family utilities.
+- [List Style](https://senseikatana.github.io/katanakit-css/docs/utilities/list-style): List style utilities.
+
+## Mixins
+
+- [Grid](https://senseikatana.github.io/katanakit-css/docs/mixins/grid): CSS Grid layout mixins — containers, placement, stacking and masonry.
+- [Flexbox](https://senseikatana.github.io/katanakit-css/docs/mixins/flex): Flexbox layout mixins — containers, gaps and item sizing.
+
+## Reference
+
+- [Functions](https://senseikatana.github.io/katanakit-css/docs/reference/functions): Pure helper functions — units, fluid typography and color manipulation.
+- [API Reference](https://senseikatana.github.io/katanakit-css/docs/reference/api-reference): Complete reference of every function, mixin, map and generator.
+- [Architecture](https://senseikatana.github.io/katanakit-css/docs/reference/architecture): How KatanaKIT CSS is organized and how the build pipeline works.
+
+## Getting Started
+
+- [Getting Started](https://senseikatana.github.io/katanakit-css/docs/getting-started): Install katanakit-css and write your first styles.

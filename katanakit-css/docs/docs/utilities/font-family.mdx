@@ -1,0 +1,45 @@
+---
+sidebar_position: 27
+title: Font Family
+description: Utilities for controlling the font family of an element.
+---
+
+# Font Family
+
+Set the font family of an element using predefined system font stacks.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.font-sans` | `font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif` |
+| `.font-serif` | `font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif` |
+| `.font-mono` | `font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace` |
+
+## Basic Usage
+
+```html
+<!-- Sans-serif for body text -->
+<p class="font-sans">Body text with system sans-serif font.</p>
+
+<!-- Serif for headings -->
+<h1 class="font-serif">Heading with serif font</h1>
+
+<!-- Monospace for code -->
+<code class="font-mono">const x = 42;</code>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $font-family-map
+$font-family-map: (
+  "sans": (ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif),
+  "serif": (ui-serif, Georgia, Cambria, "Times New Roman", Times, serif),
+  "mono": (ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace)
+) !default;
+```
+
+:::note
+These font families use system font stacks for optimal performance -- no external font files need to be loaded.
+:::

@@ -1,0 +1,57 @@
+---
+sidebar_position: 6
+title: Dark Mode
+description: Automatic dark theme with palette inversion.
+---
+
+# Dark Mode
+
+The `theme()` mixin automatically inverts color palettes for dark mode.
+
+## Usage
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+@use "katanakit-css/src/scss/mixins" as m;
+
+// Emits :root[data-theme="dark"] with inverted palettes
+@include v.theme("dark");
+
+// System preference hook
+@include m.dark-mode {
+  :root { color-scheme: dark; }
+}
+```
+
+## How it works
+
+The inversion formula is `800 - shade`:
+
+| Light shade | Dark shade |
+|---|---|
+| 100 (lightest) | 700 (darkest) |
+| 200 | 600 |
+| 300 | 500 |
+| 400 | 400 |
+| 500 | 300 |
+| 600 | 200 |
+| 700 (darkest) | 100 (lightest) |
+
+## HTML usage
+
+```html
+<html data-theme="dark">
+  <!-- Dark mode active -->
+</html>
+```
+
+## Custom overrides
+
+```scss
+@include v.theme("dark", (
+  "neutral": (
+    100: hsl(0, 0%, 12%),
+    700: hsl(0, 0%, 93%)
+  )
+));
+```
