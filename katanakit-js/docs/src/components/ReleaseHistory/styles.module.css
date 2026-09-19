@@ -1,0 +1,143 @@
+.releases {
+  padding: 5rem 0;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--kk-release-border);
+  background: var(--kk-release-accent-soft);
+  color: var(--kk-release-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin: 1rem 0 0.75rem;
+}
+
+.subtitle {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 16px;
+  padding: 2rem;
+  background: var(--kk-release-surface);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cardLatest {
+  border-color: var(--kk-release-border-strong);
+  box-shadow:
+    0 0 0 1px var(--kk-release-border),
+    0 12px 40px -12px var(--kk-release-glow);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--kk-release-border);
+  background: var(--kk-release-accent-soft);
+  color: var(--kk-release-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.version {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.date {
+  margin-left: auto;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+}
+
+.summary {
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 2rem;
+}
+
+.highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.25rem;
+  color: #10b981;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .date {
+    margin-left: 0;
+    width: 100%;
+  }
+}

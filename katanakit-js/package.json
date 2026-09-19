@@ -1,0 +1,195 @@
+{
+  "name": "katanakit-js",
+  "version": "3.3.0",
+  "description": "KatanaKit — a sharp, framework-agnostic TypeScript service toolkit organized with hexagonal architecture.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./adapters/express": {
+      "types": "./dist/adapters/express/index.d.ts",
+      "import": "./dist/adapters/express/index.js",
+      "default": "./dist/adapters/express/index.js"
+    },
+    "./adapters/nuxt": {
+      "types": "./dist/adapters/nuxt/index.d.ts",
+      "import": "./dist/adapters/nuxt/index.js",
+      "default": "./dist/adapters/nuxt/index.js"
+    },
+    "./adapters/vue": {
+      "types": "./dist/adapters/vue/index.d.ts",
+      "import": "./dist/adapters/vue/index.js",
+      "default": "./dist/adapters/vue/index.js"
+    },
+    "./adapters/astro": {
+      "types": "./dist/adapters/astro/index.d.ts",
+      "import": "./dist/adapters/astro/index.js",
+      "default": "./dist/adapters/astro/index.js"
+    },
+    "./adapters/assistant": {
+      "types": "./dist/adapters/assistant/index.d.ts",
+      "import": "./dist/adapters/assistant/index.js",
+      "default": "./dist/adapters/assistant/index.js"
+    },
+    "./adapters/telegram": {
+      "types": "./dist/adapters/telegram/index.d.ts",
+      "import": "./dist/adapters/telegram/index.js",
+      "default": "./dist/adapters/telegram/index.js"
+    },
+    "./adapters/whatsapp": {
+      "types": "./dist/adapters/whatsapp/index.d.ts",
+      "import": "./dist/adapters/whatsapp/index.js",
+      "default": "./dist/adapters/whatsapp/index.js"
+    },
+    "./adapters/notion": {
+      "types": "./dist/adapters/notion/index.d.ts",
+      "import": "./dist/adapters/notion/index.js",
+      "default": "./dist/adapters/notion/index.js"
+    },
+    "./adapters/wordpress": {
+      "types": "./dist/adapters/wordpress/index.d.ts",
+      "import": "./dist/adapters/wordpress/index.js",
+      "default": "./dist/adapters/wordpress/index.js"
+    },
+    "./prisma": {
+      "types": "./dist/prisma/index.d.ts",
+      "import": "./dist/prisma/index.js",
+      "default": "./dist/prisma/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "workspaces": [
+    "docs",
+    "playground"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsx src/adapters/express/main.ts",
+    "dev:all": "concurrently --names api,assistant,tg,wa,pw,docs \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\" \"bun run playground:dev\" \"bun run docs:dev\"",
+    "dev:adapters": "concurrently --names api,assistant,tg,wa \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\"",
+    "dev:docs": "concurrently --names pw,docs \"bun run playground:dev\" \"bun run docs:dev\"",
+    "assistant:dev": "tsx src/adapters/assistant/main.ts",
+    "telegram:dev": "tsx src/adapters/telegram/main.ts",
+    "whatsapp:dev": "tsx src/adapters/whatsapp/main.ts",
+    "assistant:demo": "tsx examples/assistant/demo.ts",
+    "api:demo": "tsx examples/api-manager/demo.ts",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "check": "eslint ./src && tsc6 --noEmit && vitest run",
+    "fix": "eslint --fix ./src && tsc6 --noEmit && vitest run",
+    "build": "bun run clean && bun run check && tsc6 -p tsconfig.json",
+    "release": "bun run build && bun run bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:minor": "bun run build && bun run bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:major": "bun run build && bun run bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "bump:patch": "node scripts/bump-version.mjs patch",
+    "bump:minor": "node scripts/bump-version.mjs minor",
+    "bump:major": "node scripts/bump-version.mjs major",
+    "bump:sync": "node scripts/bump-version.mjs --sync",
+    "notes": "node scripts/generate-release-notes.mjs",
+    "docs:dev": "bun run --filter katanakit-docs dev",
+    "docs:build": "bun run docs:sync && bun run --filter katanakit-docs build",
+    "docs:sync": "node scripts/sync-docs-releases.mjs --limit=8",
+    "docs:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
+    "docs:serve": "bun run --filter katanakit-docs serve",
+    "playground:dev": "bun run --filter katanakit-playground dev",
+    "playground:build": "bun run --filter katanakit-playground build",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:senseikatana.git"
+  },
+  "keywords": [
+    "api",
+    "fetch",
+    "http-client",
+    "url-builder",
+    "typescript",
+    "hexagonal-architecture",
+    "astro",
+    "express",
+    "nuxt",
+    "vue",
+    "singleton",
+    "observer",
+    "factory",
+    "notion",
+    "wordpress"
+  ],
+  "author": "senseikatana - Sergio Jurado",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://senseikatana.github.io/issues"
+  },
+  "unpkg": "./dist/index.js",
+  "jsdelivr": "./dist/index.js",
+  "dependencies": {
+    "@js-temporal/polyfill": "0.5.1",
+    "@prisma/orm-postgres": "8.0.0-rc.8",
+    "express-rate-limit": "8.7.0"
+  },
+  "peerDependencies": {
+    "cors": ">=2.8.0",
+    "dotenv": ">=16.0.0",
+    "express": ">=5.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "cors": {
+      "optional": true
+    },
+    "dotenv": {
+      "optional": true
+    },
+    "express": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.6",
+    "@types/node": "26.5.0",
+    "concurrently": "^10.0.5",
+    "cors": "2.8.6",
+    "dotenv": "17.4.2",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "express": "5.2.1",
+    "globals": "^17.12.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.1",
+    "prettier": "^3.9.8",
+    "prisma": "8.0.0-rc.13",
+    "tsx": "4.23.13",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-eslint": "^8.70.0",
+    "vite": "8.2.2",
+    "vitest": "5.0.0",
+    "vue": "3.5.42"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,mts,cts}": [
+      "eslint --fix"
+    ]
+  }
+}
