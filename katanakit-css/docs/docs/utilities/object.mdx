@@ -1,0 +1,59 @@
+---
+sidebar_position: 21
+title: Object Fit & Position
+description: Utilities for controlling how a replaced element's content should be resized and positioned.
+---
+
+# Object Fit & Position
+
+Control how a replaced element (`<img>`, `<video>`, etc.) fills its container and where it is positioned.
+
+## Object Fit
+
+| Class | Properties |
+|---|---|
+| `.object-contain` | `object-fit: contain` |
+| `.object-cover` | `object-fit: cover` |
+| `.object-fill` | `object-fit: fill` |
+| `.object-none` | `object-fit: none` |
+| `.object-scale-down` | `object-fit: scale-down` |
+
+## Object Position
+
+| Class | Properties |
+|---|---|
+| `.object-top-left` | `object-position: top left` |
+| `.object-top` | `object-position: top` |
+| `.object-top-right` | `object-position: top right` |
+| `.object-left` | `object-position: left` |
+| `.object-center` | `object-position: center` |
+| `.object-right` | `object-position: right` |
+| `.object-bottom-left` | `object-position: bottom left` |
+| `.object-bottom` | `object-position: bottom` |
+| `.object-bottom-right` | `object-position: bottom right` |
+
+## Basic Usage
+
+```html
+<!-- Cover the container, cropping if needed -->
+<img class="object-cover w-full h-64" src="photo.jpg" alt="..." />
+
+<!-- Contain within the container -->
+<img class="object-contain w-48 h-48" src="logo.svg" alt="..." />
+
+<!-- Position the image at the top -->
+<img class="object-cover object-top w-full h-64" src="..." alt="..." />
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$object-fit-list: (contain, cover, fill, none, scale-down) !default;
+
+$object-position-map: (
+  "top-left": top left, "top": top, "top-right": top right,
+  "left": left, "center": center, "right": right,
+  "bottom-left": bottom left, "bottom": bottom, "bottom-right": bottom right
+) !default;
+```

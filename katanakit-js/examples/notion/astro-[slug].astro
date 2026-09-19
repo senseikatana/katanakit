@@ -1,0 +1,103 @@
+---
+/**
+ * Astro + Notion — dynamic route for a single blog post.
+ *
+ * This file goes in: src/pages/blog/[slug].astro
+ *
+ * Fetches a page from Notion by slug, then renders its blocks.
+ */
+
+import {
+	useInitNotion,
+	useNotionListAllDatabasePages,
+	useNotionGetPage,
+	useNotionListAllBlockChildren,
+} from "katanakit-js/adapters/notion";
+
+// 1. Init once
+useInitNotion({ token: import.meta.env.NOTION_TOKEN });
+
+// 2. Generate static paths from the database
+export async function getStaticPaths() {
+	const databaseId = import.meta.env.NOTION_DATABASE_ID;
+	const posts = await useNotionListAllDatabasePages(databaseId);
+
+	if (!posts.ok) return [];
+
+	return posts.data
+		.map((page) => {
+			const slug =
+				(page.properties.Slug as any)?.rich_text?.[0]?.plain_text ?? page.id;
+			return { params: { slug }, props: { page } };
+		})
+		.filter(Boolean);
+}
+
+// 3. Get the page and its blocks
+const { page } = Astro.props;
+const title = (page.properties.Name as any)?.title?.[0]?.plain_text ?? "Untitled";
+const date = (page.properties.Date as any)?.date?.start ?? "";
+
+const blocks = await useNotionListAllBlockChildren(page.id);
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{title}</title>
+</head>
+<body>
+  <a href="/blog">&larr; Back to blog</a>
+
+  <article>
+    <h1>{title}</h1>
+    {date && <time datetime={date}>{new Date(date).toLocaleDateString()}</time>}
+
+    {blocks.ok ? (
+      blocks.data.map((block) => {
+        const type = (block as any).type;
+
+        // Render common block types
+        if (type === "paragraph") {
+          const text = (block as any).paragraph?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          return <p>{text}</p>;
+        }
+        if (type === "heading_1") {
+          const text = (block as any).heading_1?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          return <h2>{text}</h2>;
+        }
+        if (type === "heading_2") {
+          const text = (block as any).heading_2?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          return <h3>{text}</h3>;
+        }
+        if (type === "heading_3") {
+          const text = (block as any).heading_3?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          return <h4>{text}</h4>;
+        }
+        if (type === "bulleted_list_item") {
+          const text = (block as any).bulleted_list_item?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          return <li>{text}</li>;
+        }
+        if (type === "code") {
+          const text = (block as any).code?.rich_text?.map((t: any) => t.plain_text).join("") ?? "";
+          const lang = (block as any).code?.language ?? "";
+          return <pre><code class={`language-${lang}`}>{text}</code></pre>;
+        }
+        if (type === "image") {
+          const url = (block as any).image?.external?.url ?? (block as any).image?.file?.url ?? "";
+          const caption = (block as any).image?.caption?.map((t: any) => t.plain_text).join("") ?? "";
+          return <figure><img src={url} alt={caption} />{caption && <figcaption>{caption}</figcaption>}</figure>;
+        }
+        if (type === "divider") {
+          return <hr />;
+        }
+
+        // Fallback: show block type
+        return <p><em>[{type}]</em></p>;
+      })
+    ) : (
+      <p>Error loading content: {blocks.error.message}</p>
+    )}
+  </article>
+</body>
+</html>

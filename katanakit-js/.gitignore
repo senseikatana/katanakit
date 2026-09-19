@@ -1,0 +1,61 @@
+# dependencies
+node_modules
+
+# output
+out
+dist
+*.tgz
+
+# code coverage
+coverage
+*.lcov
+
+# logs
+logs
+*.log
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+*.lock
+# dotenv environment variable files
+.env*
+!.env.example
+
+# Assistant demo runtime notes
+examples/assistant/notes.jsonl
+
+# caches
+.eslintcache
+.cache
+*.tsbuildinfo
+
+
+
+# Generated TypeDoc markdown (produced by docs build / docs:dev)
+docs/docs/api/
+
+# IDE and AI tools
+.idea/
+.vscode/
+.zcode/
+.atl/
+.agents/local/
+.opencode/
+.cursor/
+.claude/
+.devin/
+.codex/
+.windsurf/
+.continue/
+.aider/
+.gemini/
+.cline/
+.roo/
+.kiro/
+.specstory/
+.wrangler/tmp/
+*.cursorrules
+.windsurfrules
+.clinerules
+.roomodes
+
+# MacOS
+.DS_Store

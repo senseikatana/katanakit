@@ -1,0 +1,21 @@
+// ============================================================
+//  examples/theme/dark-mode.scss
+//  Tema oscuro automático: las paletas se invierten (tono 100
+//  ↔ 700) bajo :root[data-theme='dark'].
+//
+//  Compilar:
+//    sass --load-path src/scss examples/theme/dark-mode.scss out.css
+// ============================================================
+
+@use "variables" as v;
+@use "mixins" as m;
+
+// Emite :root[data-theme='dark'] con las paletas invertidas
+@include v.theme("dark");
+
+// Y añade tu propio hook de sistema si quieres:
+@include m.dark-mode {
+  :root {
+    color-scheme: dark;
+  }
+}

@@ -1,0 +1,33 @@
+// ============================================================
+//  examples/tokens/custom-tokens.scss
+//  Cómo sobreescribir los tokens del framework ANTES de usarlos.
+//
+//  Compilar:
+//    sass --load-path src/scss examples/tokens/custom-tokens.scss out.css
+// ============================================================
+
+// 1) Override de mapas con @use ... with (antes de cualquier @include)
+@use "variables" as v with (
+  $spacing-scale: (
+    "0": 0,
+    "1": 0.5rem,
+    "2": 1rem,
+    "3": 1.5rem,
+    "4": 2rem
+  ),
+  $radius: (
+    "default": 0.5rem,
+    "full": 9999px
+  )
+);
+
+// 2) Emite los tokens como custom properties en :root
+@include v.generate-css-tokens();
+
+// 3) Usa las funciones de acceso con los nuevos valores
+.hero {
+  padding: v.spacing(4);
+  border-radius: v.radius("default");
+  box-shadow: v.shadow("lg");
+  font-family: v.font-family("sans-serif");
+}

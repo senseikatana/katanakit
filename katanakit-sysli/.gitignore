@@ -1,0 +1,29 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Binarios precompilados de plataforma (los pone el CI, no se commitean)
+npm-linux-x64/bin/
+npm-linux-arm64/bin/
+npm/bin/ksys-x64
+npm/bin/ksys-arm64
+
+# Paquetes npm empaquetados
+*.tgz
+
+# node_modules de prueba local (el CI instala lo suyo)
+node_modules/
+
+# Env / OS / IDE
+.env
+.env.local
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

@@ -1,0 +1,68 @@
+---
+sidebar_position: 4
+title: Colors
+description: Color palettes, shades, access functions and utility classes.
+---
+
+# Colors
+
+6 color palettes × 7 shades + 4 special colors.
+
+## Palettes
+
+| Palette | Shades |
+|---|---|
+| `neutral` | 100, 200, 300, 400, 500, 600, 700 |
+| `purple` | 100, 200, 300, 400, 500, 600, 700 |
+| `info` | 100, 200, 300, 400, 500, 600, 700 |
+| `warning` | 100, 200, 300, 400, 500, 600, 700 |
+| `danger` | 100, 200, 300, 400, 500, 600, 700 |
+| `success` | 100, 200, 300, 400, 500, 600, 700 |
+
+**Special:** `black`, `white`, `transparent`, `current`
+
+## Access functions
+
+```scss
+@use "katanakit-css/src/scss/variables" as v;
+
+v.get-color("info", 300)        // Info shade 300
+v.get-color("info", 500, 0.5)   // With alpha
+v.get("info")                   // Alias for shade 500
+v.alpha("info", 300, 0.5)       // With custom alpha
+```
+
+## CSS custom properties
+
+```scss
+@include v.generate-css-vars();
+```
+
+```css
+:root {
+  --neutral-100: hsl(0, 0%, 93%);
+  --info-500: hsl(215, 95%, 35%);
+  --white: hsl(0, 0%, 98%);
+}
+```
+
+## Utility classes
+
+```scss
+@include v.all-utilities();
+```
+
+Generates:
+- `.text-{palette}-{shade}` — text color
+- `.bg-{palette}-{shade}` — background color
+- `.border-{palette}-{shade}` — border color
+- `.hover-text-{palette}-{shade}:hover` — hover text color
+- `.hover-bg-{palette}-{shade}:hover` — hover background color
+
+## Dark mode
+
+```scss
+@include v.theme("dark");
+```
+
+Inverts palettes (shade 100 ↔ 700, 200 ↔ 600, 300 ↔ 500) under `:root[data-theme="dark"]`.

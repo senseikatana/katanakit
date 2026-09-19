@@ -1,0 +1,113 @@
+---
+sidebar_position: 34
+title: Flex Classes
+description: Flexbox utility classes for flex shorthand, grow, shrink, and order.
+---
+
+# Flex Classes
+
+Pre-built Flexbox utility classes for controlling flex item sizing, growth, shrink behavior, and ordering.
+
+## Flex Shorthand
+
+| Class | Properties |
+|---|---|
+| `.flex-1` | `flex: 1 1 0%` |
+| `.flex-auto` | `flex: 1 1 auto` |
+| `.flex-initial` | `flex: 0 1 auto` |
+| `.flex-none` | `flex: none` |
+
+## Grow & Shrink
+
+| Class | Properties |
+|---|---|
+| `.grow` | `flex-grow: 1` |
+| `.grow-0` | `flex-grow: 0` |
+| `.shrink` | `flex-shrink: 1` |
+| `.shrink-0` | `flex-shrink: 0` |
+
+## Order
+
+Control the visual order of flex items.
+
+| Class | Properties |
+|---|---|
+| `.order-first` | `order: -9999` |
+| `.order-last` | `order: 9999` |
+| `.order-none` | `order: 0` |
+| `.order-1` | `order: 1` |
+| `.order-2` | `order: 2` |
+| `.order-3` | `order: 3` |
+| `.order-4` | `order: 4` |
+| `.order-5` | `order: 5` |
+| `.order-6` | `order: 6` |
+| `.order-7` | `order: 7` |
+| `.order-8` | `order: 8` |
+| `.order-9` | `order: 9` |
+| `.order-10` | `order: 10` |
+| `.order-11` | `order: 11` |
+| `.order-12` | `order: 12` |
+
+## Basic Usage
+
+```html
+<!-- Equal-width columns -->
+<div class="flex gap-4">
+  <div class="flex-1 bg-info-100 p-4">Equal</div>
+  <div class="flex-1 bg-info-100 p-4">Equal</div>
+  <div class="flex-1 bg-info-100 p-4">Equal</div>
+</div>
+
+<!-- One fixed, one flexible -->
+<div class="flex gap-4">
+  <div class="w-48 bg-purple-100 p-4">Fixed</div>
+  <div class="flex-1 bg-purple-100 p-4">Fills remaining space</div>
+</div>
+
+<!-- Prevent shrinking -->
+<div class="flex gap-4">
+  <div class="shrink-0 w-64 bg-warning-100 p-4">Won't shrink</div>
+  <div class="flex-1 bg-warning-100 p-4">Flexible</div>
+</div>
+
+<!-- Reorder items visually -->
+<div class="flex gap-4">
+  <div class="order-last bg-danger-100 p-4">Appears last</div>
+  <div class="bg-danger-100 p-4">Appears first</div>
+</div>
+```
+
+## Flex Shorthand Comparison
+
+| Class | grow | shrink | basis | Behavior |
+|---|---|---|---|---|
+| `.flex-1` | 1 | 1 | 0% | All items equal width |
+| `.flex-auto` | 1 | 1 | auto | Grows/shrinks based on content |
+| `.flex-initial` | 0 | 1 | auto | Only shrinks, doesn't grow |
+| `.flex-none` | 0 | 0 | auto | Fixed size, no grow/shrink |
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — generate-grid-flex-classes()
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-initial { flex: 0 1 auto; }
+.flex-none { flex: none; }
+
+.grow { flex-grow: 1; }
+.grow-0 { flex-grow: 0; }
+.shrink { flex-shrink: 1; }
+.shrink-0 { flex-shrink: 0; }
+
+.order-first { order: -9999; }
+.order-last { order: 9999; }
+.order-none { order: 0; }
+@for $i from 1 through 12 {
+  .order-#{$i} { order: $i; }
+}
+```
+
+:::tip
+For flex container utilities (direction, wrap, alignment), see the [Flex Mixins](/docs/mixins/flex) documentation.
+:::

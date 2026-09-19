@@ -1,0 +1,102 @@
+---
+sidebar_position: 29
+title: Interactivity
+description: Utilities for pointer events, resize, user select, scroll behavior, and appearance.
+---
+
+# Interactivity
+
+Control how users interact with elements: pointer events, resizing, text selection, scroll behavior, and native element appearance.
+
+## Pointer Events
+
+| Class | Properties |
+|---|---|
+| `.pointer-events-none` | `pointer-events: none` |
+| `.pointer-events-auto` | `pointer-events: auto` |
+
+```html
+<!-- Disable click/hover on an element -->
+<div class="pointer-events-none">Cannot be clicked</div>
+
+<!-- Re-enable pointer events on a child -->
+<div class="pointer-events-none">
+  <button class="pointer-events-auto">Click me</button>
+</div>
+```
+
+## Resize
+
+| Class | Properties |
+|---|---|
+| `.resize-none` | `resize: none` |
+| `.resize` | `resize: both` |
+| `.resize-x` | `resize: horizontal` |
+| `.resize-y` | `resize: vertical` |
+
+```html
+<!-- Vertically resizable textarea -->
+<textarea class="resize-y">Type here...</textarea>
+
+<!-- Disable resizing -->
+<textarea class="resize-none">Fixed size</textarea>
+```
+
+## User Select
+
+| Class | Properties |
+|---|---|
+| `.select-none` | `user-select: none` |
+| `.select-text` | `user-select: text` |
+| `.select-all` | `user-select: all` |
+| `.select-auto` | `user-select: auto` |
+
+```html
+<!-- Prevent text selection -->
+<p class="select-none">This text cannot be selected</p>
+
+<!-- Select all text on click -->
+<code class="select-all">Click to select all</code>
+```
+
+## Scroll Behavior
+
+| Class | Properties |
+|---|---|
+| `.scroll-auto` | `scroll-behavior: auto` |
+| `.scroll-smooth` | `scroll-behavior: smooth` |
+
+```html
+<!-- Smooth scrolling for anchor links -->
+<html class="scroll-smooth">
+  ...
+  <a href="#section">Jump to section</a>
+  ...
+  <section id="section">...</section>
+</html>
+```
+
+## Appearance
+
+| Class | Properties |
+|---|---|
+| `.appearance-none` | `appearance: none` |
+| `.appearance-auto` | `appearance: auto` |
+
+```html
+<!-- Remove native styling from a select -->
+<select class="appearance-none bg-white border rounded px-4 py-2">
+  <option>Option 1</option>
+</select>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss
+$pointer-events-list: (none, auto) !default;
+$resize-list: (none, both, x, y) !default;
+$user-select-list: (none, text, all, auto) !default;
+$scroll-behavior-list: (auto, smooth) !default;
+$appearance-list: (none, auto) !default;
+```

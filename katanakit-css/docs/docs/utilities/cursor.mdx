@@ -1,0 +1,63 @@
+---
+sidebar_position: 22
+title: Cursor
+description: Utilities for controlling the cursor style on hover.
+---
+
+# Cursor
+
+Set the mouse cursor style when hovering over an element.
+
+## Quick Reference
+
+| Class | Properties |
+|---|---|
+| `.cursor-auto` | `cursor: auto` |
+| `.cursor-default` | `cursor: default` |
+| `.cursor-pointer` | `cursor: pointer` |
+| `.cursor-wait` | `cursor: wait` |
+| `.cursor-text` | `cursor: text` |
+| `.cursor-move` | `cursor: move` |
+| `.cursor-help` | `cursor: help` |
+| `.cursor-not-allowed` | `cursor: not-allowed` |
+| `.cursor-none` | `cursor: none` |
+| `.cursor-context-menu` | `cursor: context-menu` |
+| `.cursor-progress` | `cursor: progress` |
+| `.cursor-cell` | `cursor: cell` |
+| `.cursor-crosshair` | `cursor: crosshair` |
+| `.cursor-vertical-text` | `cursor: vertical-text` |
+| `.cursor-alias` | `cursor: alias` |
+| `.cursor-copy` | `cursor: copy` |
+| `.cursor-no-drop` | `cursor: no-drop` |
+| `.cursor-grab` | `cursor: grab` |
+| `.cursor-grabbing` | `cursor: grabbing` |
+| `.cursor-all-scroll` | `cursor: all-scroll` |
+| `.cursor-zoom-in` | `cursor: zoom-in` |
+| `.cursor-zoom-out` | `cursor: zoom-out` |
+
+## Basic Usage
+
+```html
+<!-- Clickable element -->
+<button class="cursor-pointer">Click me</button>
+
+<!-- Disabled button -->
+<button class="cursor-not-allowed opacity-50" disabled>Disabled</button>
+
+<!-- Draggable element -->
+<div class="cursor-grab">Drag me</div>
+
+<!-- Text input -->
+<input class="cursor-text" type="text" />
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — $cursor-list
+$cursor-list: (
+  auto, default, pointer, wait, text, move, help, not-allowed,
+  none, context-menu, progress, cell, crosshair, vertical-text,
+  alias, copy, no-drop, grab, grabbing, all-scroll, zoom-in, zoom-out
+) !default;
+```

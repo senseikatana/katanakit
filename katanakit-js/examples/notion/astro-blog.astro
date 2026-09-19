@@ -1,0 +1,71 @@
+---
+/**
+ * Astro + Notion — fetch from a Notion database and render as a blog.
+ *
+ * This file goes in: src/pages/blog/index.astro
+ *
+ * Setup:
+ *   1. Create a Notion integration at https://www.notion.so/my-integrations
+ *   2. Share your database with the integration
+ *   3. Add NOTION_TOKEN and NOTION_DATABASE_ID to .env
+ *
+ * The database should have at least a "Name" (title) property.
+ * Add "Status", "Date", "Tags" properties for filtering/sorting.
+ */
+
+import {
+	useInitNotion,
+	useNotionQueryDatabase,
+	useNotionListAllDatabasePages,
+	useNotionGetDatabase,
+} from "katanakit-js/adapters/notion";
+
+// 1. Init once
+useInitNotion({ token: import.meta.env.NOTION_TOKEN });
+
+// 2. Query the database — filter by Status = Published, sort by Date
+const posts = await useNotionListAllDatabasePages(
+	import.meta.env.NOTION_DATABASE_ID,
+	{ property: "Status", select: { equals: "Published" } },
+	[{ property: "Date", direction: "descending" }],
+);
+
+// 3. Get schema (optional — to show property names)
+const schema = await useNotionGetDatabase(import.meta.env.NOTION_DATABASE_ID);
+const properties = schema.ok ? Object.keys(schema.data.properties) : [];
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog — from Notion</title>
+</head>
+<body>
+  <h1>Blog</h1>
+  <p>Powered by Notion + KatanaKit</p>
+
+  {posts.ok ? (
+    <ul>
+      {posts.data.map((page) => {
+        // Adjust property names to match your database schema
+        const title = (page.properties.Name as any)?.title?.[0]?.plain_text ?? "Untitled";
+        const status = (page.properties.Status as any)?.select?.name ?? "";
+        const date = (page.properties.Date as any)?.date?.start ?? "";
+        const slug = (page.properties.Slug as any)?.rich_text?.[0]?.plain_text ?? page.id;
+
+        return (
+          <li>
+            <a href={`/blog/${slug}`}>
+              <strong>{title}</strong>
+            </a>
+            {date && <time datetime={date}>{new Date(date).toLocaleDateString()}</time>}
+            {status && <span class="badge">{status}</span>}
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <p>Error: {posts.error.message}</p>
+  )}
+</body>
+</html>

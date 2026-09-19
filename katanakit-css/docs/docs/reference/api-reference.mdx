@@ -1,0 +1,43 @@
+---
+sidebar_position: 17
+title: API Reference
+description: Complete reference for katanakit-css.
+---
+
+# API Reference
+
+Complete reference for `katanakit-css`.
+
+## Module namespaces
+
+```scss
+@use "katanakit-css/src/scss/functions"   as f;
+@use "katanakit-css/src/scss/variables"   as v;
+@use "katanakit-css/src/scss/mixins"      as m;
+@use "katanakit-css/src/scss/utilities"   as u;
+```
+
+## variables (as v)
+
+- Token maps: `$font-families`, `$shadow-sizes`, `$container-sizes`, `$breakpoint-sizes`, `$spacing-scale`, `$spacing-map`, `$radius`, `$z-layers`, `$transition-durations`, `$transition-easings`
+- Color maps: `$colors`, `$special-colors`, `$shades`
+- Token access: `v.font-family()`, `v.shadow()`, `v.container()`, `v.breakpoint()`, `v.spacing()`, `v.radius()`, `v.z()`, `v.duration()`, `v.ease()`
+- Color access: `v.get-color()`, `v.get()`, `v.alpha()`
+- Generators: `v.generate-css-tokens()`, `v.generate-css-vars()`, `v.all-utilities()`, `v.theme()`
+
+## functions (as f)
+
+`f.rem()`, `f.px()`, `f.to-unit()`, `f.strip-unit()`, `f.fluid()`, `f.tint()`, `f.shade()`, `f.saturate-color()`, `f.desaturate-color()`, `f.complement()`, `f.contrast()`, `f.color-mix-var()`, `f.to-class()`
+
+## mixins (as m)
+
+- Breakpoints: `breakpoint()`, `bp()`, `xs`…`xxxl`, `xs-down`…`x3l-down`, feature queries
+- Grid: `grid-responsive`, `grid-container`, `grid-span`, `grid-placement`, `grid-center`, etc.
+- Flex: `flex-container`, `flex-center`, `flex-gap`, `flex-item`, etc.
+- Utils: `vars-list`, `vars-map`, `absolute-center`, `center-mx/my`, `utils-classes`, `utils-classes-hover`
+- Apply: `register-utility()`, `apply()`
+
+## utilities (as u)
+
+- Maps: `$sizing-map`, `$spacing-map`, `$font-size-map`, `$border-width-map`, `$gap-sizes-map`
+- Generators: `get-sizing-classes()`, `generate-flex-utilities()`, `generate-effects-utilities()`, `generate-layout-utilities()`, `generate-all-utilities()`

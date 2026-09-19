@@ -1,0 +1,50 @@
+// Both namespaces point to the same mixins module: `m` is used for
+// apply() and layout mixins; `bp` is available for breakpoint mixins.
+@use "../mixins" as m;
+@use "../mixins" as bp;
+
+// ============================================================
+//  EXAMPLE COMPONENTS (built with @apply)
+//  This is where your custom component styles live. Each class
+//  composes registered utilities via apply() and can nest
+//  breakpoint/media-query mixins.
+// ============================================================
+
+// Simple card: column flexbox with padding, rounded corners,
+// a medium shadow and a white background. Hovering upgrades the shadow.
+.card {
+  @include m.apply(flex, flex-col, p-4, rounded-lg, shadow-md, bg-white);
+
+  &:hover {
+    @include m.apply(shadow-lg);
+  }
+}
+
+// Button: inline-flex, centered content, padding, rounded corners,
+// semibold text and animated color changes on hover/focus.
+.button {
+  @include m.apply(
+    inline-flex, items-center, justify-center,
+    px-4, py-2, rounded-md, font-semibold, transition-colors
+  );
+}
+
+// Responsive container: stacks vertically on mobile, switches to a
+// row with more spacing from the md breakpoint (≥ 768px) upward.
+.container-custom {
+  @include m.apply(flex, flex-col, gap-4, p-6);
+
+  @include m.md {
+    @include m.apply(flex-row, gap-6, p-8);
+  }
+}
+
+// Hero section: single-column grid on small screens, two columns
+// with more generous spacing from the lg breakpoint (≥ 1024px).
+.hero {
+  @include m.apply(grid, grid-cols-1, gap-8, p-8);
+
+  @include m.lg {
+    @include m.apply(grid-cols-2, gap-12, p-12);
+  }
+}

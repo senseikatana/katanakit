@@ -1,0 +1,98 @@
+---
+sidebar_position: 36
+title: Position Values
+description: Utilities for controlling top, right, bottom, left, and inset positioning.
+---
+
+# Position Values
+
+Control the placement of positioned elements using `top`, `right`, `bottom`, `left`, and `inset` properties.
+
+:::tip
+These classes only work on positioned elements. Pair them with `.relative`, `.absolute`, `.fixed`, or `.sticky`.
+:::
+
+## Inset (All Sides)
+
+| Class | Properties |
+|---|---|
+| `.inset-0` | `inset: 0` |
+| `.inset-auto` | `inset: auto` |
+| `.inset-full` | `inset: 100%` |
+| `.inset-px` | `inset: 1px` |
+
+## Inset X (Left & Right)
+
+| Class | Properties |
+|---|---|
+| `.inset-x-0` | `left: 0; right: 0` |
+| `.inset-x-auto` | `left: auto; right: auto` |
+
+## Inset Y (Top & Bottom)
+
+| Class | Properties |
+|---|---|
+| `.inset-y-0` | `top: 0; bottom: 0` |
+| `.inset-y-auto` | `top: auto; bottom: auto` |
+
+## Individual Sides
+
+Each side (`top`, `right`, `bottom`, `left`) supports these values:
+
+| Value | Example | Properties |
+|---|---|---|
+| `0` | `.top-0` | `top: 0` |
+| `1` - `12` | `.top-4` | `top: 1rem` (value * 0.25rem) |
+| `auto` | `.top-auto` | `top: auto` |
+| `full` | `.top-full` | `top: 100%` |
+| `px` | `.top-px` | `top: 1px` |
+
+The numeric scale follows the spacing multiplier: `.top-4` = 4 * 0.25rem = 1rem.
+
+## Basic Usage
+
+```html
+<!-- Cover parent (like inset-0) -->
+<div class="relative w-64 h-64">
+  <div class="absolute inset-0 bg-info-200">Covers parent</div>
+</div>
+
+<!-- Position at top-left corner -->
+<div class="relative w-64 h-64">
+  <div class="absolute top-0 left-0 bg-purple-200 p-2">Top left</div>
+</div>
+
+<!-- Position at bottom-right -->
+<div class="relative w-64 h-64">
+  <div class="absolute bottom-4 right-4 bg-warning-200 p-2">Bottom right</div>
+</div>
+
+<!-- Full width at the bottom -->
+<div class="relative w-64 h-64">
+  <div class="absolute bottom-0 inset-x-0 bg-danger-200 p-2">Full width bottom</div>
+</div>
+```
+
+## SCSS Source
+
+```scss
+// From _utilities.scss — generate-position-utilities()
+.inset-0 { inset: 0; }
+.inset-auto { inset: auto; }
+.inset-full { inset: 100%; }
+.inset-px { inset: 1px; }
+.inset-x-0 { left: 0; right: 0; }
+.inset-x-auto { left: auto; right: auto; }
+.inset-y-0 { top: 0; bottom: 0; }
+.inset-y-auto { top: auto; bottom: auto; }
+
+@each $side in (top, right, bottom, left) {
+  .#{$side}-0 { #{$side}: 0; }
+  .#{$side}-auto { #{$side}: auto; }
+  .#{$side}-full { #{$side}: 100%; }
+  .#{$side}-px { #{$side}: 1px; }
+  @for $i from 1 through 12 {
+    .#{$side}-#{$i} { #{$side}: $i * 0.25rem; }
+  }
+}
+```

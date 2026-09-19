@@ -1,0 +1,22 @@
+// Fixture de regresión de funciones.
+// Se compila con loadPath 'src/scss' desde test/functions.test.mjs.
+// IMPORTANTE: el nombre del fichero no debe coincidir con ningún
+// partial (functions, variables, colors…): Sass resuelve @use
+// relativo a este directorio antes que los loadPaths.
+
+@use "functions" as f;
+@use "variables" as v;
+
+.test {
+  rem-from-px: f.rem(16px);
+  rem-from-unitless: f.rem(16);
+  px-from-rem: f.px(1);
+  fluid-size: f.fluid(16px, 24px);
+  spacing-4: v.spacing(4);
+  duration-200: v.duration(200);
+  z-modal: v.z("modal");
+  z-50: v.z(50);
+  radius-lg: v.radius("lg");
+  neutral-500: v.get-color("neutral", 500);
+  info-alpha: v.alpha("info", 300, 0.5);
+}

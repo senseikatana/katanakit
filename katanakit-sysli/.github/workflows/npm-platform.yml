@@ -1,0 +1,90 @@
+# Publishes ksys to npm as ONE package (`katanakit-sysli`) with both
+# prebuilt binaries bundled (x64 + arm64, ~12 MB total).
+#
+# When it runs:
+#   - Push of an `npm-v*` tag (e.g. npm-v0.2.0) -> build + real publish.
+#   - Manual (workflow_dispatch) or PR -> build only (dry-run).
+#
+# Trusted Publisher (OIDC) mode: NO token. Requires connecting the repo once at
+# npmjs.com > katanakit-sysli > Settings > Trusted Publishers
+# (org `senseikatana`, repo `katanakit-sysli`, workflow `npm-platform.yml`).
+#
+# NOTE (0.1.0 history): platform packages @senseikatana/ksys-linux-* existed
+# and were unpublished/deprecated in favor of this single package.
+
+name: npm-platform
+
+on:
+  push:
+    tags:
+      - "npm-v*"
+  pull_request:
+    paths:
+      - "src/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "npm/**"
+      - "scripts/sync-version.cjs"
+  workflow_dispatch:
+
+jobs:
+  # 0. npm/package.json must match Cargo.toml.
+  versions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/sync-version.cjs --check
+
+  # 1. Build one binary per arch.
+  build:
+    needs: versions
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            runner: ubuntu-24.04
+            binname: ksys-x64
+          - target: aarch64-unknown-linux-gnu
+            runner: ubuntu-24.04-arm
+            binname: ksys-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - run: cargo build --release --target ${{ matrix.target }}
+      - run: cp target/${{ matrix.target }}/release/ksys ${{ matrix.binname }}
+      - run: chmod +x ${{ matrix.binname }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.binname }}
+          path: ${{ matrix.binname }}
+
+  # 2. Publish ONLY katanakit-sysli with both binaries bundled. Tag-gated.
+  publish:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/npm-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC for Trusted Publishers (no NPM_TOKEN)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v4
+        with:
+          path: _artifacts
+      - run: |
+          mkdir -p npm/bin
+          cp _artifacts/ksys-x64/ksys-x64 npm/bin/ksys-x64
+          cp _artifacts/ksys-arm64/ksys-arm64 npm/bin/ksys-arm64
+          chmod +x npm/bin/ksys-x64 npm/bin/ksys-arm64
+          ls -lh npm/bin/
+      - run: npm publish --provenance --access public ./npm
