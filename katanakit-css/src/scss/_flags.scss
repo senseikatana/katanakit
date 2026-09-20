@@ -1,0 +1,179 @@
+:root {
+  /* ====================================================================
+   * FAMILIA: ROJO (Pantone 485 / Carmesí) - Base: Aragón, Cataluña, etc.
+   * ==================================================================== */
+  --color-aragon-rojo-100: hsla(3, 100%, 97%, 1);
+  --color-aragon-rojo-200: hsla(3, 100%, 94%, 1);
+  --color-aragon-rojo-300: hsla(3, 100%, 86%, 1);
+  --color-aragon-rojo-400: hsla(3, 90%, 70%, 1);
+  --color-aragon-rojo-500: hsla(3, 85%, 60%, 1); /* Tono base claro */
+  --color-aragon-rojo-600: hsla(3, 79%, 48%, 1); /* Tono original de la bandera */
+  --color-aragon-rojo-700: hsla(3, 75%, 40%, 1);
+  --color-aragon-rojo-800: hsla(3, 70%, 32%, 1);
+  --color-aragon-rojo-900: hsla(3, 65%, 24%, 1);
+
+  /* (Aplica el mismo escalado para Cataluña, Baleares, C. Valenciana, Murcia, Navarra, La Rioja, País Vasco, Cantabria, CLM) */
+  --color-catalunya-rojo-100: hsla(3, 100%, 97%, 1);
+  --color-catalunya-rojo-200: hsla(3, 100%, 94%, 1);
+  --color-catalunya-rojo-300: hsla(3, 100%, 86%, 1);
+  --color-catalunya-rojo-400: hsla(3, 90%, 70%, 1);
+  --color-catalunya-rojo-500: hsla(3, 85%, 60%, 1);
+  --color-catalunya-rojo-600: hsla(3, 79%, 48%, 1);
+  --color-catalunya-rojo-700: hsla(3, 75%, 40%, 1);
+  --color-catalunya-rojo-800: hsla(3, 70%, 32%, 1);
+  --color-catalunya-rojo-900: hsla(3, 65%, 24%, 1);
+
+  /* ====================================================================
+   * FAMILIA: ROJO MADRID / CYL (Base: Hue 355)
+   * ==================================================================== */
+  --color-madrid-rojo-100: hsla(355, 100%, 97%, 1);
+  --color-madrid-rojo-200: hsla(355, 100%, 94%, 1);
+  --color-madrid-rojo-300: hsla(355, 100%, 86%, 1);
+  --color-madrid-rojo-400: hsla(355, 90%, 70%, 1);
+  --color-madrid-rojo-500: hsla(355, 85%, 60%, 1);
+  --color-madrid-rojo-600: hsla(355, 82%, 46%, 1); /* Tono original */
+  --color-madrid-rojo-700: hsla(355, 75%, 38%, 1);
+  --color-madrid-rojo-800: hsla(355, 70%, 30%, 1);
+  --color-madrid-rojo-900: hsla(355, 65%, 22%, 1);
+
+  --color-cyl-rojo-100: hsla(355, 100%, 97%, 1);
+  --color-cyl-rojo-200: hsla(355, 100%, 94%, 1);
+  --color-cyl-rojo-300: hsla(355, 100%, 86%, 1);
+  --color-cyl-rojo-400: hsla(355, 90%, 70%, 1);
+  --color-cyl-rojo-500: hsla(355, 85%, 60%, 1);
+  --color-cyl-rojo-600: hsla(355, 82%, 46%, 1);
+  --color-cyl-rojo-700: hsla(355, 75%, 38%, 1);
+  --color-cyl-rojo-800: hsla(355, 70%, 30%, 1);
+  --color-cyl-rojo-900: hsla(355, 65%, 22%, 1);
+
+  /* ====================================================================
+   * FAMILIA: AMARILLO / ORO (Pantone 109 / 116) - Aragón, Asturias, C. Valenciana
+   * ==================================================================== */
+  --color-aragon-amarillo-100: hsla(49, 100%, 95%, 1);
+  --color-aragon-amarillo-200: hsla(49, 100%, 90%, 1);
+  --color-aragon-amarillo-300: hsla(49, 100%, 80%, 1);
+  --color-aragon-amarillo-400: hsla(49, 100%, 65%, 1);
+  --color-aragon-amarillo-500: hsla(49, 100%, 55%, 1); /* Tono base */
+  --color-aragon-amarillo-600: hsla(49, 100%, 50%, 1); /* Tono original */
+  --color-aragon-amarillo-700: hsla(49, 90%, 42%, 1);
+  --color-aragon-amarillo-800: hsla(49, 80%, 32%, 1);
+  --color-aragon-amarillo-900: hsla(49, 70%, 22%, 1);
+
+  --color-asturias-amarillo-100: hsla(46, 100%, 95%, 1);
+  --color-asturias-amarillo-200: hsla(46, 100%, 90%, 1);
+  --color-asturias-amarillo-300: hsla(46, 100%, 80%, 1);
+  --color-asturias-amarillo-400: hsla(46, 100%, 65%, 1);
+  --color-asturias-amarillo-500: hsla(46, 100%, 55%, 1);
+  --color-asturias-amarillo-600: hsla(46, 100%, 50%, 1); /* Tono original */
+  --color-asturias-amarillo-700: hsla(46, 90%, 42%, 1);
+  --color-asturias-amarillo-800: hsla(46, 80%, 32%, 1);
+  --color-asturias-amarillo-900: hsla(46, 70%, 22%, 1);
+
+  /* ====================================================================
+   * FAMILIA: VERDE (Andalucía, Extremadura, País Vasco, La Rioja)
+   * ==================================================================== */
+  --color-andalucia-verde-100: hsla(147, 60%, 95%, 1);
+  --color-andalucia-verde-200: hsla(147, 70%, 85%, 1);
+  --color-andalucia-verde-300: hsla(147, 80%, 70%, 1);
+  --color-andalucia-verde-400: hsla(147, 90%, 45%, 1);
+  --color-andalucia-verde-500: hsla(147, 100%, 30%, 1);
+  --color-andalucia-verde-600: hsla(147, 100%, 20%, 1); /* Tono original */
+  --color-andalucia-verde-700: hsla(147, 90%, 16%, 1);
+  --color-andalucia-verde-800: hsla(147, 80%, 12%, 1);
+  --color-andalucia-verde-900: hsla(147, 70%, 8%, 1);
+
+  --color-pv-verde-100: hsla(141, 50%, 95%, 1);
+  --color-pv-verde-200: hsla(141, 60%, 85%, 1);
+  --color-pv-verde-300: hsla(141, 70%, 70%, 1);
+  --color-pv-verde-400: hsla(141, 80%, 50%, 1);
+  --color-pv-verde-500: hsla(141, 70%, 40%, 1);
+  --color-pv-verde-600: hsla(141, 60%, 30%, 1); /* Tono original */
+  --color-pv-verde-700: hsla(141, 60%, 24%, 1);
+  --color-pv-verde-800: hsla(141, 60%, 18%, 1);
+  --color-pv-verde-900: hsla(141, 60%, 12%, 1);
+
+  /* ====================================================================
+   * FAMILIA: AZUL (Asturias, Canarias, Galicia, Melilla)
+   * ==================================================================== */
+  --color-asturias-azul-100: hsla(219, 100%, 95%, 1);
+  --color-asturias-azul-200: hsla(219, 100%, 85%, 1);
+  --color-asturias-azul-300: hsla(219, 100%, 70%, 1);
+  --color-asturias-azul-400: hsla(219, 100%, 50%, 1);
+  --color-asturias-azul-500: hsla(219, 100%, 40%, 1);
+  --color-asturias-azul-600: hsla(219, 100%, 30%, 1); /* Tono original */
+  --color-asturias-azul-700: hsla(219, 90%, 24%, 1);
+  --color-asturias-azul-800: hsla(219, 80%, 18%, 1);
+  --color-asturias-azul-900: hsla(219, 70%, 12%, 1);
+
+  --color-galicia-azul-100: hsla(215, 60%, 95%, 1);
+  --color-galicia-azul-200: hsla(215, 70%, 85%, 1);
+  --color-galicia-azul-300: hsla(215, 76%, 70%, 1);
+  --color-galicia-azul-400: hsla(215, 76%, 55%, 1);
+  --color-galicia-azul-500: hsla(215, 76%, 50%, 1);
+  --color-galicia-azul-600: hsla(215, 76%, 44%, 1); /* Tono original */
+  --color-galicia-azul-700: hsla(215, 70%, 35%, 1);
+  --color-galicia-azul-800: hsla(215, 60%, 25%, 1);
+  --color-galicia-azul-900: hsla(215, 50%, 15%, 1);
+
+  /* ====================================================================
+   * FAMILIA: MORADO / PÚRPURA (Baleares)
+   * ==================================================================== */
+  --color-baleares-morado-100: hsla(269, 60%, 95%, 1);
+  --color-baleares-morado-200: hsla(269, 70%, 85%, 1);
+  --color-baleares-morado-300: hsla(269, 70%, 70%, 1);
+  --color-baleares-morado-400: hsla(269, 70%, 55%, 1);
+  --color-baleares-morado-500: hsla(269, 66%, 45%, 1);
+  --color-baleares-morado-600: hsla(269, 66%, 36%, 1); /* Tono original */
+  --color-baleares-morado-700: hsla(269, 60%, 28%, 1);
+  --color-baleares-morado-800: hsla(269, 50%, 20%, 1);
+  --color-baleares-morado-900: hsla(269, 40%, 12%, 1);
+
+  /* ====================================================================
+   * FAMILIA: BLANCOS Y NEGROS (Ajuste de grises puros)
+   * ==================================================================== */
+  --color-comun-blanco-100: hsla(0, 0%, 100%, 1); /* Blanco base */
+  --color-comun-blanco-200: hsla(0, 0%, 97%, 1);
+  --color-comun-blanco-300: hsla(0, 0%, 92%, 1);
+  --color-comun-blanco-400: hsla(0, 0%, 85%, 1);
+  
+  --color-comun-negro-500: hsla(0, 0%, 30%, 1); /* Gris oscuro base */
+  --color-comun-negro-600: hsla(0, 0%, 20%, 1);
+  --color-comun-negro-700: hsla(0, 0%, 12%, 1);
+  --color-comun-negro-800: hsla(0, 0%, 6%, 1);
+  --color-comun-negro-900: hsla(0, 0%, 0%, 1);  /* Negro base banderas */
+}
+
+// Prompt Chat ZAI https://chat.z.ai/s/d396b707-2a68-48fa-bd7d-4ccf0d05185f
+:root {
+  /* =========================================
+   * COMUNIDAD DE MADRID (Rojo, Blanco y Amarillo)
+   * (Estrellas blancas sobre fondo rojo)
+   * ========================================= */
+  --madrid-rojo: hsla(355, 82%, 46%, 1);       /* Rojo Carmesí (Pantone 485) */
+  --madrid-blanco: hsla(0, 0%, 100%, 1);       /* Blanco */
+  --madrid-amarillo: hsla(44, 100%, 50%, 1);   /* Amarillo */
+
+  /* =========================================
+   * REGIÓN DE MURCIA (Rojo y Blanco)
+   * ========================================= */
+  --murcia-rojo: hsla(3, 79%, 48%, 1);        /* Rojo (Pantone 485) */
+  --murcia-blanco: hsla(0, 0%, 100%, 1);      /* Blanco */
+
+  /* =========================================
+   * COMUNIDAD FORAL DE NAVARRA (Rojo y Oro/Amarillo)
+   * (Cadenas de oro sobre fondo rojo)
+   * ========================================= */
+  --navarra-rojo: hsla(3, 79%, 48%, 1);       /* Rojo (Pantone 485) */
+  --navarra-oro: hsla(45, 100%, 50%, 1);      /* Oro/Amarillo */
+}
+
+
+/*
+ * 💡 Notas sobre este enfoque:
+El método Tailwind: Tailwind no usa transparencias (Alfa) para sus escalas, sino que reduce la saturación a medida que sube la luminosidad (para evitar que los colores claros se vean "deslavados" o pastel) y aumenta la oscuridad reduciendo luminosidad. Este código replica exactamente esa matemática con tus HSLA.
+Familias unificadas: En lugar de tener --color-murcia-rojo-600 y --color-catalunya-rojo-600 con el mismo valor hexadecimal repetido, puedes usar --color-aragon-rojo-600 (que es el Pantone 485 oficial) para cualquier bandera que use ese mismo rojo, manteniendo tu código CSS mucho más limpio. He incluido Cataluña como ejemplo de cómo se replicaría, pero puedes aplicar la escala de Aragón al resto.
+Blancos y Negros: Para los blancos y negros, al no tener matiz (Hue 0) ni saturación (Sat 0%), la escala de Tailwind se convierte en una simple escala de grises (Lightness). He añadido la variable --color-comun- para estas, ya que el blanco de Extremadura es el mismo que el de Madrid o Canarias.
+ * 
+ * 
+ * 
+ */
