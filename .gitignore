@@ -33,3 +33,16 @@ Thumbs.db
 
 # Logs
 *.log
+
+# AI / Agentes de código
+.atl/
+.opencode/
+.cursor/
+.copilot/
+.aider/
+.cline/
+.continue/
+.codeium/
+.agents/
+codegraph/
+.github/
