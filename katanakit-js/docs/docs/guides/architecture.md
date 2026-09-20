@@ -39,7 +39,7 @@ world (browser APIs, HTTP, frameworks) and a shared kernel of contracts.
    │   astro/  (AstroService, RssService)            │
    │   express/ (ServerExpress reference)            │
    │   nuxt/    (pure Nuxt helpers)                  │
-   │   vue/     (useKatanaFetch composable)          │
+   │   vue/     (useRequest composable)          │
    └──────────────────────────────────────────────────┘
    │
    ├── config/   siteConfig (typed SiteConfig) + SEO helpers (seo.service.ts)
@@ -130,7 +130,7 @@ to the default-exported classes (`StorageService`, `ViewportService`,
   `useEventResponse(event, result)`. They bridge KatanaKit `FetchResult` values
   to Nuxt/Nitro server routes without importing `h3`. Published only as the
   `katanakit-js/adapters/nuxt` subpath.
-- `vue/` — `useKatanaFetch`, a Vue 3 composable that wraps `useGet` with the
+- `vue/` — `useRequest`, a Vue 3 composable that wraps `useGet` with the
   reactivity system (`data`, `error`, `loading`, `refetch`). It imports `vue`
   directly and is published only as the `katanakit-js/adapters/vue` subpath;
   `vue` is an optional peer dependency.

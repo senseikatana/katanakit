@@ -5,7 +5,7 @@ const route = useRoute();
 
 const links = [
   { path: "/", label: "Home", icon: "🏠" },
-  { path: "/fetch", label: "useKatanaFetch", icon: "🌐" },
+  { path: "/fetch", label: "useRequest", icon: "🌐" },
   { path: "/query", label: "useQuery", icon: "🔍" },
   { path: "/watch", label: "useWatch", icon: "👁️" },
   { path: "/url-builder", label: "useBuildUrl", icon: "🔗" },

@@ -14,9 +14,9 @@ import { useFetch } from "../../core/services/http.service.js";
 import type { ApiError, FetchResult, UrlOptions } from "../../types/index.js";
 
 /**
- * Reactive state exposed by the {@link useKatanaFetch} composable.
+ * Reactive state exposed by the {@link useRequest} composable.
  */
-export interface KatanaFetchState<T> {
+export interface RequestState<T> {
 	/** The resolved data on success, `null` otherwise. */
 	data: Ref<T | null>;
 	/** The Safe Result error on failure, `null` otherwise. */
@@ -45,20 +45,20 @@ export interface KatanaFetchState<T> {
  *
  * @example
  * ```ts
- * import { useKatanaFetch } from "katanakit-js/adapters/vue";
+ * import { useRequest } from "katanakit-js/adapters/vue";
  *
- * const { data, error, loading } = useKatanaFetch<{ name: string }>(
+ * const { data, error, loading } = useRequest<{ name: string }>(
  *   "pokeapi",
  *   "pokemonById",
  *   { params: { id: 25 } },
  * );
  * ```
  */
-export function useKatanaFetch<T>(
+export function useRequest<T>(
 	apiName: string,
 	endpointName: string,
 	options?: MaybeRef<UrlOptions>,
-): KatanaFetchState<T> {
+): RequestState<T> {
 	const data = shallowRef<T | null>(null);
 	const error = ref<ApiError | null>(null);
 	const loading = ref(true);
@@ -124,3 +124,8 @@ export function useKatanaFetch<T>(
 
 	return { data, error, loading, refetch };
 }
+
+/**
+ * @deprecated Use {@link useRequest} — renamed for brevity.
+ */
+export const useKatanaFetch = useRequest;

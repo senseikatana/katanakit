@@ -44,7 +44,7 @@ Legend: `[x]` done · `[ ]` planned.
       (`useHeadTags`, `useGenerateMetaTags`, `useTitle`, `useRssHeadLink`).
 - [x] Nuxt adapter (`katanakit-js/adapters/nuxt`): `useUnwrap`,
       `useSafeResponse`, `useEventResponse`.
-- [x] Vue adapter (`katanakit-js/adapters/vue`): `useKatanaFetch` composable
+- [x] Vue adapter (`katanakit-js/adapters/vue`): `useRequest` composable
       (`data`, `error`, `loading`, `refetch`).
 - [x] Express reference server (`katanakit-js/adapters/express`) with CORS
       restriction defaults and hardened headers.

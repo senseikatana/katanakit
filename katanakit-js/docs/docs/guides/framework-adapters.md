@@ -16,7 +16,7 @@ KatanaKit ships first-class adapters for the major front-end frameworks. They wr
 - **Vue** — composables with `ref`/`shallowRef` (`katanakit-js/adapters/vue`)
 - **Nuxt** — H3 server helpers (`katanakit-js/adapters/nuxt`)
 
-Every adapter exposes the same surface: `useQuery` and `useMutation`. The return shape is identical in spirit — `data`, `error`, `isLoading`, `isSuccess`, `isError`, `isStale`, `status`, and a `refetch` (or `mutate`/`reset` for mutations) — but the values are the framework's own reactive primitives.
+Every adapter exposes the same surface: `useQuery`, `useMutation`, `useRequest`, and `useWatch`. The return shape is identical in spirit — `data`, `error`, `isLoading`, `isSuccess`, `isError`, `isStale`, `status`, and a `refetch` (or `mutate`/`reset` for mutations) — but the values are the framework's own reactive primitives.
 
 ## useQuery
 
@@ -198,6 +198,43 @@ export class CreateUserComponent {
 
 </TabItem>
 </Tabs>
+
+## useRequest
+
+`useRequest` is a lighter, no-cache reactive GET over a registered API — ideal for one-off fetches that don't need the full query cache. It returns `{ data, error, loading, refetch }` and never throws on HTTP errors. (The Vue adapter previously exported this as `useKatanaFetch`, now aliased for backward compatibility.)
+
+```tsx
+import { useRequest } from "katanakit-js/adapters/react"; // or /solid, /svelte, /angular, /vue
+
+function Pokemon() {
+  const { data, error, loading } = useRequest<{ name: string }>(
+    "pokeapi",
+    "pokemonById",
+    { params: { id: 25 } },
+  );
+  if (loading) return <div>Loading…</div>;
+  if (error) return <div>{error.message}</div>;
+  return <div>{data?.name}</div>;
+}
+```
+
+## useWatch
+
+`useWatch(source, callback)` invokes `callback(value, previous)` whenever the watched value changes. The `source` type is framework-idiomatic: a getter in React/Solid/Angular, a store in Svelte, and a ref/reactive/getter in Vue.
+
+```tsx
+// React / Solid / Angular: a getter
+useWatch(() => product, (next, prev) => console.log(next, prev));
+```
+
+```svelte
+<!-- Svelte: a store -->
+<script>
+  import { writable } from "svelte/store";
+  const product = writable({ name: "", price: 0 });
+  useWatch(product, (next, prev) => console.log(next, prev));
+</script>
+```
 
 ## Sharing state across frameworks
 

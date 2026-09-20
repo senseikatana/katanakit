@@ -8,7 +8,7 @@ import UrlBuilderView from "../views/UrlBuilderView.vue";
 
 const routes = [
   { path: "/", component: HomeView, meta: { title: "Home" } },
-  { path: "/fetch", component: FetchView, meta: { title: "useKatanaFetch" } },
+  { path: "/fetch", component: FetchView, meta: { title: "useRequest" } },
   { path: "/query", component: QueryView, meta: { title: "useQuery" } },
   { path: "/watch", component: WatchView, meta: { title: "useWatch" } },
   {

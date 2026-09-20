@@ -1,5 +1,5 @@
 /**
- * Example: Vue 3 `useKatanaFetch` composable with reactive params.
+ * Example: Vue 3 `useRequest` composable with reactive params.
  *
  * Run with: `bun run examples/vue/demo.ts`
  *
@@ -8,7 +8,7 @@
  * refs are unwrapped automatically in templates, e.g. `{{ pokemon.name }}`.
  */
 
-import { useKatanaFetch } from "@/adapters/vue";
+import { useRequest } from "@/adapters/vue";
 import { useGet, useInit } from "@/core/services/http.service";
 
 interface Pokemon {
@@ -25,7 +25,7 @@ async function main(): Promise<void> {
 	});
 
 	// 1. Reactive fetch — the composable calls `useGet` once on setup.
-	const { data, error, loading, refetch } = useKatanaFetch<Pokemon>("pokeapi", "pokemonById", {
+	const { data, error, loading, refetch } = useRequest<Pokemon>("pokeapi", "pokemonById", {
 		params: { id: 25 },
 	});
 

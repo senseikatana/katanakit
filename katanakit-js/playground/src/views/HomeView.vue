@@ -6,7 +6,7 @@ const router = useRouter();
 const demos = [
   {
     path: "/fetch",
-    title: "useKatanaFetch",
+    title: "useRequest",
     description: "Reactive HTTP fetch composable with auto-refetch",
     icon: "🌐",
   },

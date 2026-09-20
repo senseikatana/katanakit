@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
-import { useKatanaFetch } from "@/adapters/vue/vue.service";
+import { useRequest } from "@/adapters/vue/vue.service";
 import { useInit } from "@/core/services/http.service";
 
 function jsonResponse(body: unknown, status = 200): Response {
@@ -10,7 +10,7 @@ function jsonResponse(body: unknown, status = 200): Response {
 	});
 }
 
-describe("Vue adapter — useKatanaFetch", () => {
+describe("Vue adapter — useRequest", () => {
 	afterEach(() => {
 		vi.unstubAllGlobals();
 	});
@@ -22,7 +22,7 @@ describe("Vue adapter — useKatanaFetch", () => {
 			vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({ items: [1, 2, 3] }))),
 		);
 
-		const { data, error, loading, refetch } = useKatanaFetch<{ items: number[] }>("api", "list");
+		const { data, error, loading, refetch } = useRequest<{ items: number[] }>("api", "list");
 
 		await refetch();
 
@@ -38,7 +38,7 @@ describe("Vue adapter — useKatanaFetch", () => {
 			vi.fn().mockImplementation(() => Promise.resolve(jsonResponse({}, 404))),
 		);
 
-		const { data, error, loading, refetch } = useKatanaFetch("api", "missing");
+		const { data, error, loading, refetch } = useRequest("api", "missing");
 
 		await refetch();
 
@@ -53,7 +53,7 @@ describe("Vue adapter — useKatanaFetch", () => {
 		vi.stubGlobal("fetch", fetchMock);
 
 		const options = ref({ params: { id: 1 } });
-		useKatanaFetch<{ id: number }>("api", "item", options);
+		useRequest<{ id: number }>("api", "item", options);
 
 		// The composable fetches once on setup.
 		await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));

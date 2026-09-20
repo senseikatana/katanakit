@@ -613,7 +613,7 @@ const result = await useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })
 
 ```ts
 import { useLogger, useInitApis, useGetApi } from "katanakit-js";
-import { useKatanaFetch } from "katanakit-js/adapters/vue";   // Vue only
+import { useRequest } from "katanakit-js/adapters/vue";   // Vue only
 import { useUnwrap } from "katanakit-js/adapters/nuxt";         // Nuxt only
 ```
 
@@ -632,7 +632,7 @@ See [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-
 |---------|--------|-------------|
 | **Express** | `katanakit-js/adapters/express` | Reference server with CORS and hardened headers |
 | **Nuxt** | `katanakit-js/adapters/nuxt` | `useUnwrap`, `useSafeResponse`, `useEventResponse` |
-| **Vue** | `katanakit-js/adapters/vue` | `useKatanaFetch` composable with reactivity |
+| **Vue** | `katanakit-js/adapters/vue` | `useRequest` composable with reactivity |
 | **Astro** | `katanakit-js` or `katanakit-js/adapters/astro` | `AstroService`, `RssService` |
 | **Assistant** | `katanakit-js/adapters/assistant` | REST digital assistant (`useStartAssistant`) |
 | **Telegram** | `katanakit-js/adapters/telegram` | BotFather bot (`useInitTelegram`, `useStartTelegramPolling`) |

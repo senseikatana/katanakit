@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { useKatanaFetch } from "katanakit-js/adapters/vue";
+import { useRequest } from "katanakit-js/adapters/vue";
 import { usePlaygroundApis } from "../composables/usePlaygroundApis";
 import JsonViewer from "../components/JsonViewer.vue";
 
@@ -8,7 +8,7 @@ const pokemonId = ref(25);
 
 usePlaygroundApis();
 
-const { data, error, loading, refetch } = useKatanaFetch<{
+const { data, error, loading, refetch } = useRequest<{
   name: string;
   id: number;
   height: number;

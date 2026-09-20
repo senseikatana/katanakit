@@ -76,7 +76,7 @@ import {
 // Optional narrower / framework-only subpaths
 import { AstroService, RssService } from "katanakit-js/adapters/astro";
 import { useUnwrap } from "katanakit-js/adapters/nuxt";
-import { useKatanaFetch } from "katanakit-js/adapters/vue";
+import { useRequest } from "katanakit-js/adapters/vue";
 import { ServerExpress } from "katanakit-js/adapters/express";
 ```
 
@@ -171,7 +171,7 @@ import { useLogger, useInitApis, useGetApi } from "katanakit-js";
 import { useUnwrap } from "katanakit-js/adapters/nuxt";
 
 // Vue reactivity wrapper around useGetApi
-import { useKatanaFetch } from "katanakit-js/adapters/vue";
+import { useRequest } from "katanakit-js/adapters/vue";
 ```
 
 ### Vanilla HTML
@@ -747,7 +747,7 @@ export default defineEventHandler(async (event) => {
 
 ```ts
 import { useInitApis } from "katanakit-js";
-import { useKatanaFetch } from "katanakit-js/adapters/vue";
+import { useRequest } from "katanakit-js/adapters/vue";
 
 useInitApis({
   pokeapi: {
@@ -759,9 +759,9 @@ useInitApis({
 
 ```vue
 <script setup lang="ts">
-import { useKatanaFetch } from "katanakit-js/adapters/vue";
+import { useRequest } from "katanakit-js/adapters/vue";
 
-const { data, error, loading, refetch } = useKatanaFetch<{ name: string }>(
+const { data, error, loading, refetch } = useRequest<{ name: string }>(
   "pokeapi", "pokemonById", { params: { id: 25 } }
 );
 </script>
