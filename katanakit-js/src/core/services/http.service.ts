@@ -306,7 +306,10 @@ export async function useFetch<T = unknown>(
 	}
 
 	try {
-		const response = await fetch(url, init);
+		// Fail closed on redirects: the scheme allow-list only validates the
+		// initial URL, so following a 3xx could steer the request to a private
+		// host (SSRF). Callers that need redirects can pass `redirect: "follow"`.
+		const response = await fetch(url, { redirect: "error", ...init });
 
 		if (!response.ok) {
 			const errorDetails = await readBody(response);

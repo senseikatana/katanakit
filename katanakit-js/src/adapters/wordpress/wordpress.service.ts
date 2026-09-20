@@ -72,7 +72,7 @@ function getAuthHeaders(): Record<string, string> {
 		case "jwt":
 			return { Authorization: `Bearer ${auth.token}` };
 		case "nonce":
-			return { "X-WP-Nonce": auth.nonce };
+			return { "X-WP-Nonce": auth.nonce, Cookie: auth.cookie };
 		default:
 			return {};
 	}
@@ -127,9 +127,10 @@ function buildQueryParams(options?: WpQueryParams): string {
  * @internal
  */
 async function wpFetch<T>(endpoint: string, options: RequestInit = {}): Promise<FetchResult<T>> {
-	const url = `${getApiBase()}${endpoint}`;
+	let url = "";
 
 	try {
+		url = `${getApiBase()}${endpoint}`;
 		const response = await fetch(url, {
 			...options,
 			headers: {
@@ -187,9 +188,10 @@ async function wpUpload<T>(
 	file: File | Blob | Buffer,
 	meta?: Record<string, unknown>,
 ): Promise<FetchResult<T>> {
-	const url = `${getApiBase()}${endpoint}`;
+	let url = "";
 
 	try {
+		url = `${getApiBase()}${endpoint}`;
 		const formData = new FormData();
 
 		// Add the file
@@ -1175,6 +1177,7 @@ export async function useWpBatch(
  *
  * @param options - Query params for filtering (`status`, `categories`, `tags`,
  *   `author`, `search`, `orderby`, `order`). Do NOT pass `page` or `per_page`.
+ * @param maxItems - Optional cap on the total number of posts to fetch.
  * @returns All posts as a flat array.
  *
  * @example
@@ -1187,7 +1190,10 @@ export async function useWpBatch(
  * const cat5 = await useWpListAllPosts({ categories: 5 });
  * ```
  */
-export async function useWpListAllPosts(options?: WpQueryParams): Promise<FetchResult<WpPost[]>> {
+export async function useWpListAllPosts(
+	options?: WpQueryParams,
+	maxItems?: number,
+): Promise<FetchResult<WpPost[]>> {
 	const allPosts: WpPost[] = [];
 	let page = 1;
 
@@ -1197,12 +1203,13 @@ export async function useWpListAllPosts(options?: WpQueryParams): Promise<FetchR
 
 		allPosts.push(...result.data);
 
+		if (maxItems && allPosts.length >= maxItems) break;
 		if (result.data.length < 100) break;
 		page++;
 	}
 
 	return {
-		data: allPosts,
+		data: maxItems ? allPosts.slice(0, maxItems) : allPosts,
 		error: null,
 		url: "",
 		status: 200,

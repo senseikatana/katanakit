@@ -328,16 +328,6 @@ export interface ISerializedError {
 	code: number;
 }
 
-/** Contract of the error factory. */
-// export interface IErrorFactory {
-// 	useBadRequest(message?: string): AppError;
-// 	useUnauthorized(message?: string): AppError;
-// 	useForbidden(message?: string): AppError;
-// 	useNotFound(message?: string): AppError;
-// 	useInternal(message?: string): AppError;
-// 	useCustom(message: string, code: number): AppError;
-// }
-
 /* -------------------------------------------------------------------------- */
 /* Formatter / Converter                                                      */
 /* -------------------------------------------------------------------------- */

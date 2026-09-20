@@ -267,6 +267,9 @@ export async function useRetry<T>(fn: () => Promise<T>, retries = 3, delayMs = 1
  * ```
  */
 export async function useCopyToClipboard(text: string): Promise<boolean> {
+	if (typeof navigator === "undefined" || !navigator.clipboard) {
+		return false;
+	}
 	try {
 		await navigator.clipboard.writeText(text);
 		return true;

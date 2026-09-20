@@ -49,7 +49,7 @@
     },
     "docs": {
       "name": "katanakit-docs",
-      "version": "3.2.4",
+      "version": "3.3.0",
       "dependencies": {
         "@docusaurus/core": "3.10.2",
         "@docusaurus/faster": "3.10.2",

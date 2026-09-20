@@ -172,7 +172,14 @@ async function requestCompletion(
 	});
 
 	const text = await response.text();
-	const parsed: ChatCompletionResponse = text ? (JSON.parse(text) as ChatCompletionResponse) : {};
+	let parsed: ChatCompletionResponse = {};
+	if (text) {
+		try {
+			parsed = JSON.parse(text) as ChatCompletionResponse;
+		} catch {
+			parsed = { error: { message: text.slice(0, 500) } };
+		}
+	}
 
 	if (!response.ok) {
 		throw createAiHttpError(

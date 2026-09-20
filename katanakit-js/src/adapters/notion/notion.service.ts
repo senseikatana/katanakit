@@ -47,7 +47,15 @@ async function notionFetch<T>(
 	endpoint: string,
 	options: RequestInit = {},
 ): Promise<FetchResult<T>> {
-	const { token, apiVersion, apiBaseUrl } = getConfig();
+	let cfg: NotionConfig;
+	try {
+		cfg = getConfig();
+	} catch (err: unknown) {
+		const message = err instanceof Error ? err.message : String(err);
+		return { data: null, error: { message, status: 0 }, url: "", status: 0, ok: false };
+	}
+
+	const { token, apiVersion, apiBaseUrl } = cfg;
 	const base = apiBaseUrl ?? NOTION_API_BASE;
 	const version = apiVersion ?? NOTION_API_VERSION;
 	const url = `${base}${endpoint}`;
@@ -604,6 +612,7 @@ export async function useNotionSearchContent(
  * pagination cursors. Loops through all pages until `has_more` is false.
  *
  * @param blockId - The parent block ID (usually a page ID).
+ * @param maxItems - Optional cap on the total number of blocks to fetch.
  * @returns All child blocks as a flat array.
  *
  * @example
@@ -617,6 +626,7 @@ export async function useNotionSearchContent(
  */
 export async function useNotionListAllBlockChildren(
 	blockId: string,
+	maxItems?: number,
 ): Promise<FetchResult<NotionBlock[]>> {
 	const allBlocks: NotionBlock[] = [];
 	let cursor: string | undefined;
@@ -630,11 +640,12 @@ export async function useNotionListAllBlockChildren(
 		if (!result.ok) return result;
 
 		allBlocks.push(...result.data.results);
+		if (maxItems && allBlocks.length >= maxItems) break;
 		cursor = result.data.has_more ? (result.data.next_cursor ?? undefined) : undefined;
 	} while (cursor);
 
 	return {
-		data: allBlocks,
+		data: maxItems ? allBlocks.slice(0, maxItems) : allBlocks,
 		error: null,
 		url: "",
 		status: 200,
@@ -652,6 +663,7 @@ export async function useNotionListAllBlockChildren(
  * @param databaseId - The database UUID.
  * @param filter - Optional filter to apply (same syntax as Notion API).
  * @param sorts - Optional sort options.
+ * @param maxItems - Optional cap on the total number of pages to fetch.
  * @returns All pages matching the filter as a flat array.
  *
  * @example
@@ -672,6 +684,7 @@ export async function useNotionListAllDatabasePages(
 	databaseId: string,
 	filter?: NotionFilter,
 	sorts?: NotionSort[],
+	maxItems?: number,
 ): Promise<FetchResult<NotionPage[]>> {
 	const allPages: NotionPage[] = [];
 	let cursor: string | undefined;
@@ -687,11 +700,12 @@ export async function useNotionListAllDatabasePages(
 		if (!result.ok) return result;
 
 		allPages.push(...result.data.results);
+		if (maxItems && allPages.length >= maxItems) break;
 		cursor = result.data.has_more ? (result.data.next_cursor ?? undefined) : undefined;
 	} while (cursor);
 
 	return {
-		data: allPages,
+		data: maxItems ? allPages.slice(0, maxItems) : allPages,
 		error: null,
 		url: "",
 		status: 200,

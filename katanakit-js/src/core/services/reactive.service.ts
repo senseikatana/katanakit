@@ -85,11 +85,6 @@ export function useCreateSignal<T>(initialValue: T): [SignalGetter<T>, SignalSet
 	return [get, set];
 }
 
-const [counter, updateCounter] = useCreateSignal(0);
-
-useLogger("log", "Counter values is: ", counter);
-useLogger("log", "Counter updated is: ", updateCounter(1));
-
 /**
  * Creates a side effect that re-runs whenever any of the provided signals
  * emit a new value. An optional cleanup function returned from the callback

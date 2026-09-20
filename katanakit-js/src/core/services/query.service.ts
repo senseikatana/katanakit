@@ -162,6 +162,7 @@ interface QueryEntry<T> {
 	retryCount: number;
 	fetchPromise: Promise<FetchResult<T>> | null;
 	subscriberCount: number;
+	cancelled: boolean;
 }
 
 // ============================================================
@@ -194,10 +195,17 @@ export class QueryClient {
 		if (!entry) {
 			entry = this.createEntry<T>(mergedConfig);
 			this.cache.set(hash, entry);
+		} else {
+			// `subscribe()` may have created a placeholder entry whose `queryFn`
+			// returns an empty result. Always refresh the config with the real one.
+			entry.config = mergedConfig;
 		}
 
 		// Cancel GC if the entry was scheduled for removal.
 		this.cache.cancelGC(hash);
+
+		// A new fetch supersedes any prior cancellation.
+		entry.cancelled = false;
 
 		// If data is fresh, return it immediately.
 		if (entry.state.status === "success" && !this.isStale(entry)) {
@@ -335,13 +343,15 @@ export class QueryClient {
 
 	/**
 	 * Cancels an in-flight request for a query.
+	 *
+	 * Marks the entry as cancelled; the next time its fetch resolves, the
+	 * result is discarded without updating state or notifying observers.
 	 */
 	cancelQueries(queryKey: QueryKey): void {
 		const hash = hashQueryKey(queryKey);
 		const entry = this.cache.get(hash);
 		if (!entry) return;
-		// The fetch itself uses AbortController via the underlying useFetch.
-		// We mark the fetchPromise as null to prevent result application.
+		entry.cancelled = true;
 		entry.fetchPromise = null;
 	}
 
@@ -384,6 +394,7 @@ export class QueryClient {
 			retryCount: 0,
 			fetchPromise: null,
 			subscriberCount: 0,
+			cancelled: false,
 		};
 	}
 
@@ -422,67 +433,70 @@ export class QueryClient {
 		const fetchPromise = fetchWithRetry(0);
 		entry.fetchPromise = fetchPromise;
 
+		let result: FetchResult<T>;
 		try {
-			const result = await fetchPromise;
-
-			// If the entry was removed or superseded, discard.
-			if (this.cache.get(hash) !== entry) {
-				return result.ok ? result.data : Promise.reject(result.error);
-			}
-
-			if (result.ok) {
-				entry.state = {
-					status: "success",
-					data: result.data,
-					error: null,
-					isLoading: false,
-					isSuccess: true,
-					isError: false,
-					isStale: false,
-					dataUpdatedAt: Date.now(),
-					errorUpdatedAt: entry.state.errorUpdatedAt,
-					fetchCount: entry.state.fetchCount,
-				};
-				entry.retryCount = 0;
-				entry.config.onSuccess?.(result.data);
-			} else {
-				entry.state = {
-					...entry.state,
-					status: "error",
-					error: result.error,
-					isLoading: false,
-					isSuccess: false,
-					isError: true,
-					errorUpdatedAt: Date.now(),
-				};
-				entry.config.onError?.(result.error);
-			}
-
-			entry.fetchPromise = null;
-			this.notifyObservers(entry);
-
-			if (result.ok) return result.data;
-			throw result.error;
+			result = await fetchPromise;
 		} catch (err) {
 			entry.fetchPromise = null;
-			if (this.cache.get(hash) === entry) {
-				const error: ApiError =
-					err instanceof Error
-						? { message: err.message, status: 0 }
-						: { message: String(err), status: 0 };
-
-				entry.state = {
-					...entry.state,
-					status: "error",
-					error,
-					isLoading: false,
-					isError: true,
-					errorUpdatedAt: Date.now(),
-				};
-				this.notifyObservers(entry);
-			}
-			throw err;
+			const error: ApiError =
+				err instanceof Error
+					? { message: err.message, status: 0 }
+					: { message: String(err), status: 0 };
+			this.applyError(entry, hash, error);
+			throw error;
 		}
+
+		entry.fetchPromise = null;
+
+		// Cancellation wins over result application.
+		if (entry.cancelled) {
+			return Promise.reject({
+				message: "Query cancelled",
+				status: 0,
+			} as ApiError);
+		}
+
+		// If the entry was removed or superseded, discard.
+		if (this.cache.get(hash) !== entry) {
+			return result.ok ? result.data : Promise.reject(result.error);
+		}
+
+		if (result.ok) {
+			entry.state = {
+				status: "success",
+				data: result.data,
+				error: null,
+				isLoading: false,
+				isSuccess: true,
+				isError: false,
+				isStale: false,
+				dataUpdatedAt: Date.now(),
+				errorUpdatedAt: entry.state.errorUpdatedAt,
+				fetchCount: entry.state.fetchCount,
+			};
+			entry.retryCount = 0;
+			entry.config.onSuccess?.(result.data);
+			this.notifyObservers(entry);
+			return result.data;
+		}
+
+		this.applyError(entry, hash, result.error);
+		entry.config.onError?.(result.error);
+		throw result.error;
+	}
+
+	private applyError<T>(entry: QueryEntry<T>, hash: string, error: ApiError): void {
+		if (this.cache.get(hash) !== entry) return;
+		entry.state = {
+			...entry.state,
+			status: "error",
+			error,
+			isLoading: false,
+			isSuccess: false,
+			isError: true,
+			errorUpdatedAt: Date.now(),
+		};
+		this.notifyObservers(entry);
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: internal type erasure.

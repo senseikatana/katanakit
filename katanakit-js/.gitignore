@@ -59,3 +59,6 @@ docs/docs/api/
 
 # MacOS
 .DS_Store
+
+# Prisma local machine state
+.prisma/local.json

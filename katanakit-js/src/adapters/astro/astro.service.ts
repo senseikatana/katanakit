@@ -62,7 +62,6 @@ export function useAstroPathsFrom<T, TParam extends string = "slug", TProps = T>
  * export async function getStaticPaths() {
  *   const result = await useAstroGetStaticPaths(getCollection, "blog");
  *   if (result.ok) return result.data;
- *   TODO: traer el useLogger('error', result.error)
  *   console.error(result.error);
  *   return [];
  * }

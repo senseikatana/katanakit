@@ -53,7 +53,7 @@ export function useCreateAssistantRouter(options: AssistantRouterOptions = {}): 
 			}
 
 			const result = await useReply(sessionId, message);
-			response.status(result.ok ? 200 : 502).json(result);
+			response.status(result.ok ? 200 : (result.error?.status ?? 502)).json(result);
 		},
 	);
 

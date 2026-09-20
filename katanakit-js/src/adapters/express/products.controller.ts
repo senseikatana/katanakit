@@ -5,6 +5,9 @@ import type { ProductType } from "../../types/index.js";
 /** Module-level products storage. */
 const products: ProductType[] = [];
 
+/** Monotonically increasing id counter (avoids reuse after deletions). */
+let nextId = 1;
+
 /**
  * Get all products.
  *
@@ -65,7 +68,7 @@ export const useExpressCreateProduct = (request: Request, response: Response): v
 	};
 
 	const product: ProductType = {
-		id: products.length + 1,
+		id: nextId++,
 		name,
 		price: Number(price),
 	};

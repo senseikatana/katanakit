@@ -155,14 +155,22 @@ export function MemoryStorageStrategy(): StorageStrategy {
  * Returns `window.localStorage` in browser, or `null` in SSR/Node.
  */
 function getDefaultLocalStorage(): Storage | null {
-	return typeof window !== "undefined" ? window.localStorage : null;
+	try {
+		return typeof window !== "undefined" ? window.localStorage : null;
+	} catch {
+		return null;
+	}
 }
 
 /**
  * Returns `window.sessionStorage` in browser, or `null` in SSR/Node.
  */
 function getDefaultSessionStorage(): Storage | null {
-	return typeof window !== "undefined" ? window.sessionStorage : null;
+	try {
+		return typeof window !== "undefined" ? window.sessionStorage : null;
+	} catch {
+		return null;
+	}
 }
 
 // ============================================================

@@ -1,6 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 
 import type { Locale, TemporalInput } from "../../types/index.js";
+import { useLogger } from "./logger.service.js";
 
 /**
  * Internal helper that adapts flexible inputs into a `PlainDate`.
@@ -84,7 +85,7 @@ export function useFormat(
 
 		return date.toLocaleString(locale, options);
 	} catch (error) {
-		console.error("Invalid date input:", error);
+		useLogger("error", "Invalid date input:", error);
 		throw new Error(`Invalid date input: ${dateInput}`);
 	}
 }

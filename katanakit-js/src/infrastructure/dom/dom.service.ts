@@ -255,10 +255,28 @@ export const useSetAttribute = (target: Element | string, attr: string, value: s
 
 	const normalizedAttr = attr.toLowerCase();
 	const urlLikeAttrs = new Set(["href", "src", "xlink:href", "action", "formaction"]);
-	if (urlLikeAttrs.has(normalizedAttr) && /^\s*javascript:/i.test(value)) {
-		throw new Error(`[DomService] javascript: URLs are not allowed in attribute "${attr}".`);
+
+	// Strip control characters so "java\nscript:" can't bypass the scheme check.
+	const sanitized = value.replace(/\p{Cc}+/gu, "");
+
+	if (urlLikeAttrs.has(normalizedAttr)) {
+		const scheme = sanitized
+			.trim()
+			.match(/^\s*([a-z][a-z0-9+.-]*):/i)?.[1]
+			.toLowerCase();
+
+		if (scheme === "javascript" || scheme === "vbscript") {
+			throw new Error(`[DomService] "${scheme}:" URLs are not allowed in attribute "${attr}".`);
+		}
+		if (scheme === "data" && !/^data:image\//i.test(sanitized.trim())) {
+			throw new Error(`[DomService] Only data:image/* URLs are allowed in attribute "${attr}".`);
+		}
 	}
-	if (normalizedAttr === "srcdoc" && /(?:javascript:|<script\b)/i.test(value)) {
+
+	if (
+		normalizedAttr === "srcdoc" &&
+		/(?:javascript:|vbscript:|<script\b|on\w+\s*=)/i.test(sanitized)
+	) {
 		throw new Error(`[DomService] Potentially unsafe srcdoc value is not allowed.`);
 	}
 

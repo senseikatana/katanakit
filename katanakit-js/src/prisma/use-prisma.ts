@@ -38,11 +38,13 @@
  * const db = usePrismaClient();
  *
  * // Query using Prisma Next API
- * const accounts = await db.public.Account.findMany();
+ * const accounts = await db.orm.public.Account.findMany();
  * ```
  *
  * @module prisma/use-prisma
  */
+
+import "dotenv/config";
 
 import postgres from "@prisma/orm-postgres/runtime";
 
@@ -63,11 +65,11 @@ let client: ReturnType<typeof postgres<Contract>> | null = null;
  * ```ts
  * // Basic usage (reads DATABASE_URL from env)
  * const db = usePrismaClient();
- * const accounts = await db.public.Account.findMany();
- *
+ * const accounts = await db.orm.public.Account.findMany();
+
  * // With custom URL
  * const db = usePrismaClient("postgresql://localhost:5432/test");
- * const posts = await db.public.Post.findMany();
+ * const posts = await db.orm.public.Post.findMany();
  * ```
  */
 export function usePrismaClient(datasourceUrl?: string): ReturnType<typeof postgres<Contract>> {

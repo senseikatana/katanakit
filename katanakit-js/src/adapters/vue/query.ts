@@ -1,4 +1,13 @@
-import { type MaybeRef, onUnmounted, type Ref, ref, shallowRef, toValue, watch } from "vue";
+import {
+	getCurrentInstance,
+	type MaybeRef,
+	onUnmounted,
+	type Ref,
+	ref,
+	shallowRef,
+	toValue,
+	watch,
+} from "vue";
 
 import {
 	type QueryClient,
@@ -191,11 +200,13 @@ export function useQuery<T>(config: UseQueryConfig<T>, client?: QueryClient): Us
 	// Initial fetch.
 	void runQuery();
 
-	// Cleanup on unmount.
-	onUnmounted(() => {
-		disposed = true;
-		stopSubscription?.();
-	});
+	// Cleanup on unmount (only inside a component instance; skipped in SSR).
+	if (getCurrentInstance()) {
+		onUnmounted(() => {
+			disposed = true;
+			stopSubscription?.();
+		});
+	}
 
 	const refetch = async (): Promise<void> => {
 		const qKey = toValue(config.queryKey);
