@@ -247,7 +247,7 @@ await usePost("myApi", "upload", form);
 
 ### Full example
 
-See [`examples/api-manager/demo.ts`](https://github.com/senseikatana/katanakit-js/tree/main/examples/api-manager) for a runnable demo
+See [`examples/api-manager/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/api-manager) for a runnable demo
 covering all CRUD operations, auth injection, URL building, and error handling
 against a real API (JSONPlaceholder).
 
@@ -433,7 +433,7 @@ Also on the main barrel:
 | `useResetSession` | `(sessionId) => Promise<void>` |
 | `useCreateMemoryStore` | `() => ConversationStore` |
 
-Then start a channel (see below). Copy keys from [`.env.example`](https://github.com/senseikatana/katanakit-js/blob/main/.env.example):
+Then start a channel (see below). Copy keys from [`.env.example`](https://github.com/senseikatana/katanakit/blob/main/.env.example):
 
 ```env
 DASHSCOPE_API_KEY=
@@ -569,7 +569,7 @@ owns the database, run `prisma contract emit` then `prisma db init` in that app.
 
 ### Real use case
 
-[`examples/assistant/`](https://github.com/senseikatana/katanakit-js/tree/main/examples/assistant) is a generic digital assistant with two demo tools:
+[`examples/assistant/`](https://github.com/senseikatana/katanakit/tree/main/examples/assistant) is a generic digital assistant with two demo tools:
 `readFile` on `knowledge-base.md` and `saveNote` to `notes.jsonl`.
 
 ```bash
@@ -848,15 +848,15 @@ if (users.ok) users.data.results.forEach(u => console.log(u.name));
 
 | Framework | Example | Description |
 |-----------|---------|-------------|
-| **Vue 3** | [`examples/notion/vue-blog.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/vue-blog.vue) | Blog listing with `useQuery` composable |
-| **Vue 3** | [`examples/notion/vue-post.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/vue-post.vue) | Single post view |
-| **Nuxt 3** | [`examples/notion/nuxt-blog.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
-| **Nuxt 3** | [`examples/notion/nuxt-post.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/nuxt-post.vue) | SSR single post view |
-| **Astro** | [`examples/notion/astro-blog.astro`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/astro-blog.astro) | Static blog listing |
-| **Astro** | [`examples/notion/astro-[slug].astro`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/astro-[slug].astro) | Dynamic `[slug]` route |
-| **Next.js** | [`examples/notion/next-blog.tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/next-blog.tsx) | Server component blog listing |
-| **Next.js** | [`examples/notion/next-[slug].tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/next-[slug].tsx) | Dynamic `[slug]` page |
-| **Node.js** | [`examples/notion/demo.ts`](https://github.com/senseikatana/katanakit-js/tree/main/examples/notion/demo.ts) | Runnable demo covering all Notion operations |
+| **Vue 3** | [`examples/notion/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-blog.vue) | Blog listing with `useQuery` composable |
+| **Vue 3** | [`examples/notion/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-post.vue) | Single post view |
+| **Nuxt 3** | [`examples/notion/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
+| **Nuxt 3** | [`examples/notion/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-post.vue) | SSR single post view |
+| **Astro** | [`examples/notion/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-blog.astro) | Static blog listing |
+| **Astro** | [`examples/notion/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-[slug].astro) | Dynamic `[slug]` route |
+| **Next.js** | [`examples/notion/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-blog.tsx) | Server component blog listing |
+| **Next.js** | [`examples/notion/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-[slug].tsx) | Dynamic `[slug]` page |
+| **Node.js** | [`examples/notion/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/demo.ts) | Runnable demo covering all Notion operations |
 
 ### WordPress
 
@@ -1187,15 +1187,15 @@ const full = await useWpGetPosts({
 
 | Framework | Example | Description |
 |-----------|---------|-------------|
-| **Vue 3** | [`examples/wordpress/vue-blog.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/vue-blog.vue) | Blog listing with categories, featured images, `_embed` |
-| **Vue 3** | [`examples/wordpress/vue-post.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/vue-post.vue) | Single post view with embedded author |
-| **Nuxt 3** | [`examples/wordpress/nuxt-blog.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
-| **Nuxt 3** | [`examples/wordpress/nuxt-post.vue`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/nuxt-post.vue) | SSR single post view |
-| **Astro** | [`examples/wordpress/astro-blog.astro`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/astro-blog.astro) | Static blog listing |
-| **Astro** | [`examples/wordpress/astro-[slug].astro`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/astro-[slug].astro) | Dynamic `[slug]` route |
-| **Next.js** | [`examples/wordpress/next-blog.tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/next-blog.tsx) | Server component blog listing |
-| **Next.js** | [`examples/wordpress/next-[slug].tsx`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/next-[slug].tsx) | Dynamic `[slug]` page |
-| **Node.js** | [`examples/wordpress/demo.ts`](https://github.com/senseikatana/katanakit-js/tree/main/examples/wordpress/demo.ts) | Runnable demo covering all WP operations, `_fields`, `_embed`, ACF |
+| **Vue 3** | [`examples/wordpress/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-blog.vue) | Blog listing with categories, featured images, `_embed` |
+| **Vue 3** | [`examples/wordpress/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-post.vue) | Single post view with embedded author |
+| **Nuxt 3** | [`examples/wordpress/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
+| **Nuxt 3** | [`examples/wordpress/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-post.vue) | SSR single post view |
+| **Astro** | [`examples/wordpress/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-blog.astro) | Static blog listing |
+| **Astro** | [`examples/wordpress/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-[slug].astro) | Dynamic `[slug]` route |
+| **Next.js** | [`examples/wordpress/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-blog.tsx) | Server component blog listing |
+| **Next.js** | [`examples/wordpress/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-[slug].tsx) | Dynamic `[slug]` page |
+| **Node.js** | [`examples/wordpress/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/demo.ts) | Runnable demo covering all WP operations, `_fields`, `_embed`, ACF |
 
 ## Contributing
 
@@ -1206,7 +1206,7 @@ better for everyone.
 ### Quick start
 
 ```bash
-git clone https://github.com/senseikatana/katanakit-js.git
+git clone https://github.com/senseikatana/katanakit.git
 cd katanakit-js
 git checkout dev
 bun install
@@ -1215,8 +1215,8 @@ bun run check  # verify everything works
 
 ### Ways to contribute
 
-- **Report bugs** — [Open an issue](https://github.com/senseikatana/katanakit-js/issues) with a clear description and reproduction steps
-- **Suggest features** — [Start a discussion](https://github.com/senseikatana/katanakit-js/discussions) to propose new ideas
+- **Report bugs** — [Open an issue](https://github.com/senseikatana/katanakit/issues) with a clear description and reproduction steps
+- **Suggest features** — [Start a discussion](https://github.com/senseikatana/katanakit/discussions) to propose new ideas
 - **Submit a PR** — Fork the repo, create a branch from `dev`, make your changes, and open a PR
 - **Improve docs** — Fix typos, add examples, or clarify explanations
 - **Add adapters** — Build integrations for new APIs or frameworks

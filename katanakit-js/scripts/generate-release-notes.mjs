@@ -11,7 +11,7 @@
  */
 import { execFileSync } from "node:child_process";
 
-const REPO = "senseikatana/katanakit-js";
+const REPO = "senseikatana/katanakit";
 
 const SECTIONS = [
 	{ type: "feat", title: "🚀 Features" },

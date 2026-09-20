@@ -33,7 +33,7 @@ const CHANGELOG_SRC = join(ROOT, "CHANGELOG.md");
 const CHANGELOG_DST = join(ROOT, "docs", "docs", "changelog.md");
 const DOCS_CONFIG = join(ROOT, "docs", "docusaurus.config.ts");
 
-const GITHUB_TAGS = "https://github.com/senseikatana/katanakit-js/releases/tag";
+const GITHUB_TAGS = "https://github.com/senseikatana/katanakit/releases/tag";
 
 const args = process.argv.slice(2);
 const parseLimit = (name, fallback) => {

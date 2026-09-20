@@ -32,7 +32,7 @@ TypeScript service toolkit (ESM, hexagonal). Bun for package management and scri
 - PRs to `main` come only from `dev`. Merge only green. Delete branches after merge.
 - CHANGELOG `[Unreleased]` entry for user-visible changes; README + docs updated with features.
 - Release via CI: trigger `.github/workflows/release.yml` (workflow_dispatch, pick patch/minor/major). Manual fallback: `bun run release[:minor|:major]`.
-- **PREREQUISITE**: Trusted publishing must be configured on npmjs.com (Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit-js`, workflow `release.yml`).
+- **PREREQUISITE**: Trusted publishing must be configured on npmjs.com (Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit`, workflow `release.yml`).
 
 ## CI (.github/workflows/ci.yml + release.yml)
 
@@ -58,7 +58,7 @@ TypeScript service toolkit (ESM, hexagonal). Bun for package management and scri
 - **Pending (npm account suspended):**
   1. Create `katanakit-publish` token on npmjs.com (bypass-2FA unchecked, scoped to `katanakit-js`, read-write)
   2. Revoke old `NPM_TOKEN` (id: `1e997c`, has bypass-2FA=true)
-  3. Configure Trusted Publishers: npmjs.com → Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit-js`, workflow `release.yml`
+  3. Configure Trusted Publishers: npmjs.com → Package Settings → Publishing access → Trusted publishing → repo `senseikatana/katanakit`, workflow `release.yml`
 
 ## Agent skills
 

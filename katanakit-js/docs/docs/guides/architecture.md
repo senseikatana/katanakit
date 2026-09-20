@@ -225,4 +225,4 @@ and the client is not exported from the main barrel.
 - `bun run docs -- <dev|build|serve>` — docs site (`build` runs `check` + clear first).
 - `bun run dev` — the bundled Express example server.
 
-See [CONTRIBUTING.md](https://github.com/senseikatana/katanakit-js/blob/dev/CONTRIBUTING.md) for the full development contract.
+See [CONTRIBUTING.md](https://github.com/senseikatana/katanakit/blob/dev/CONTRIBUTING.md) for the full development contract.

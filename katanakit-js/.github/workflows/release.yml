@@ -1,7 +1,7 @@
 # Trusted Publishing (OIDC) — no long-lived NPM_TOKEN needed.
 # PREREQUISITE: Configure trusted publishing on npmjs.com:
 #   npmjs.com → Package Settings → Publishing access → Trusted publishing
-#   → Add: repo=senseikatana/katanakit-js, workflow=release.yml, environment=(none)
+#   → Add: repo=senseikatana/katanakit, workflow=release.yml, environment=(none)
 # Without this, `npm publish --provenance` will fail with 401/403.
 name: Release
 

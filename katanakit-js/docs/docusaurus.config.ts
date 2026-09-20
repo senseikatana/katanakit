@@ -47,7 +47,7 @@ const config: Config = {
 			{
 				docs: {
 					sidebarPath: "./sidebars.ts",
-					editUrl: "https://github.com/senseikatana/katanakit-js/edit/dev/docs/",
+					editUrl: "https://github.com/senseikatana/katanakit/edit/dev/katanakit-js/docs/",
 				},
 				blog: false,
 				theme: {
@@ -83,41 +83,41 @@ const config: Config = {
 				items: [
 					{
 						label: "v3.2.4",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.2.4`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.2.4`,
 					},
 					{
 						label: "v3.2.1",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.2.1`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.2.1`,
 					},
 					{
 						label: "v3.1.4",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.1.4`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.1.4`,
 					},
 					{
 						label: "v3.1.1",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.1.1`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.1.1`,
 					},
 					{
 						label: "v3.1.0",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.1.0`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.1.0`,
 					},
 					{
 						label: "v3.0.1",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.0.1`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.0.1`,
 					},
 					{
 						label: "v3.0.0",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v3.0.0`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v3.0.0`,
 					},
 					{
 						label: "v2.15.0",
-						href: `https://github.com/senseikatana/katanakit-js/releases/tag/v2.15.0`,
+						href: `https://github.com/senseikatana/katanakit/releases/tag/v2.15.0`,
 					},
 				],
 				// </RELEASES-NAVBAR-ITEMS>
 			},
 			{
-				href: "https://github.com/senseikatana/katanakit-js",
+				href: "https://github.com/senseikatana/katanakit",
 				label: "GitHub",
 				position: "right",
 			},
@@ -152,11 +152,11 @@ const config: Config = {
 					items: [
 						{
 							label: "GitHub",
-							href: "https://github.com/senseikatana/katanakit-js",
+							href: "https://github.com/senseikatana/katanakit",
 						},
 						{
 							label: "Issues",
-							href: "https://github.com/senseikatana/katanakit-js/issues",
+							href: "https://github.com/senseikatana/katanakit/issues",
 						},
 					],
 				},

@@ -64,7 +64,7 @@ These rules keep the codebase consistent and maintainable. Please read
 
 ```bash
 # Prerequisites: Node.js >= 22.18, bun >= 12
-git clone https://github.com/senseikatana/katanakit-js.git
+git clone https://github.com/senseikatana/katanakit.git
 cd katanakit-js
 git checkout dev
 bun install
@@ -174,6 +174,6 @@ not be tolerated.
 
 ## Questions?
 
-- [Open an issue](https://github.com/senseikatana/katanakit-js/issues) for bugs
-- [Start a discussion](https://github.com/senseikatana/katanakit-js/discussions) for questions
+- [Open an issue](https://github.com/senseikatana/katanakit/issues) for bugs
+- [Start a discussion](https://github.com/senseikatana/katanakit/discussions) for questions
 - [Read the docs](https://senseikatana.com/katanakit-js/) for guides and API reference
