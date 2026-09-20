@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [3.3.0] - 2026-09-20
+
 ### Added
 
 - **Framework adapters for React, Solid, Svelte and Angular** — new optional subpaths (`katanakit-js/adapters/react`, `katanakit-js/adapters/solid`, `katanakit-js/adapters/svelte`, `katanakit-js/adapters/angular`) exposing `useQuery`, `useMutation`, `useRequest`, and `useWatch` over the core `QueryClient` and HTTP layer, each with the framework's native reactivity: React hooks (`useState`/`useEffect`), Solid signals, Svelte readable stores, and Angular signals (injection-context aware via `DestroyRef`). All adapters share the global query cache, so data is shared across frameworks.
