@@ -1,0 +1,24 @@
+{
+  // Theme-level supports: plain feature names.
+  "supports": ["title-tag", "post-thumbnails"],
+
+  /* Menus are location => description. */
+  "menus": {
+    "primary": "Primary Menu",
+    "footer": "Footer Menu"
+  },
+
+  "image_sizes": {
+    "hero": [1600, 900, true],
+    "card": [600, 400, false]
+  },
+
+  "assets": {
+    "styles": [
+      { "handle": "main", "src": "assets/css/main.css" }
+    ],
+    "scripts": [
+      { "handle": "main", "src": "assets/js/main.js", "in_footer": true }
+    ]
+  }
+}

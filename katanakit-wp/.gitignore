@@ -1,0 +1,8 @@
+/vendor/
+/composer.lock
+/.phpunit.result.cache
+/.phpunit.cache/
+/.wp-env.json.local
+/node_modules/
+.DS_Store
+*.log

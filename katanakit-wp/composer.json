@@ -1,0 +1,57 @@
+{
+    "name": "katanakit/wp",
+    "description": "KatanaWP — code-first custom fields, post types, taxonomies and theme configuration for WordPress, without plugins.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "wordpress",
+        "custom-fields",
+        "acf",
+        "rest-api",
+        "headless",
+        "custom-post-types",
+        "taxonomy",
+        "theme"
+    ],
+    "authors": [
+        {
+            "name": "senseikatana - Sergio Jurado",
+            "email": "hello@senseikatana.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "squizlabs/php_codesniffer": "^3.10",
+        "symfony/yaml": "^6.4 || ^7.0",
+        "wp-coding-standards/wpcs": "^3.1"
+    },
+    "suggest": {
+        "symfony/yaml": "Required only if you load configuration from katana.yaml files."
+    },
+    "autoload": {
+        "psr-4": {
+            "KatanaWP\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KatanaWP\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "phpcs --standard=phpcs.xml",
+        "lint:fix": "phpcbf --standard=phpcs.xml"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

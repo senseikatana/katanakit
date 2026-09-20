@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="KatanaWP">
+    <description>KatanaWP coding standards (PSR-12).</description>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="s"/>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+
+    <rule ref="PSR12"/>
+
+    <!--
+        WordPress-specific security sniffs (escaping, nonce verification,
+        sanitization, DB prepare) will be enabled for the Meta/Save layer in a
+        later phase. `wp-coding-standards/wpcs` is kept in require-dev so the
+        sniffs are ready to activate without a new install.
+    -->
+</ruleset>

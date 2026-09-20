@@ -1,0 +1,7 @@
+{
+  // Comments must not corrupt string literals like URLs.
+  "site": {
+    "url": "https://example.com/wp-content/uploads/2024/01/image.jpg",
+    "api": "//example.com/wp-json"
+  }
+}
