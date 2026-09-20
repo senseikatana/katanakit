@@ -10,6 +10,9 @@ export default defineConfig({
 		alias: {
 			"@": resolve(root, "src"),
 			"@/docs": resolve(root, "docs/"),
+			// Resolve Solid's client build in tests — the default node condition
+			// maps "solid-js" to the SSR build where `createEffect` is a no-op.
+			"solid-js": resolve(root, "node_modules/solid-js/dist/solid.js"),
 		},
 		tsconfigPaths: true,
 	},

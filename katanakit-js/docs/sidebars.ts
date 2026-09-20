@@ -12,6 +12,7 @@ const sidebars: SidebarsConfig = {
 			items: [
 				"guides/getting-started",
 				"guides/query-client",
+				"guides/framework-adapters",
 				"guides/watch",
 				"guides/architecture",
 				"guides/roadmap",
