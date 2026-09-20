@@ -1,0 +1,13 @@
+{
+  "name": "katanakit",
+  "version": "0.1.0",
+  "description": "Proyecto katanakit",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run dev",
+    "build": "bun run build",
+    "test": "bun run test"
+  },
+  "author": "senseikatana - Sergio Jurado",
+  "license": "MIT"
+}
