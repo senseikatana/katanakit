@@ -4,6 +4,7 @@
 
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
+    <arg name="report-width" value="80"/>
     <arg value="s"/>
 
     <file>src</file>
