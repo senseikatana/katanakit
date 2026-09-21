@@ -1,0 +1,34 @@
+/*
+Theme Name: KatanaWP Demo
+Theme URI: https://github.com/senseikatana/katanakit
+Author: senseikatana - Sergio Jurado
+Author URI: https://senseikatana.com
+Description: Minimal demo theme that boots KatanaWP from a katana.json config.
+Version: 0.1.0
+Requires at least: 6.0
+Requires PHP: 8.1
+License: MIT
+License URI: https://opensource.org/licenses/MIT
+Text Domain: katanakit-wp-demo
+*/
+
+:root {
+	color-scheme: light dark;
+}
+
+body {
+	max-width: 48rem;
+	margin: 0 auto;
+	padding: 1.5rem;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	line-height: 1.6;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+article {
+	padding: 1rem 0;
+	border-bottom: 1px solid #ddd;
+}

@@ -9,6 +9,8 @@
 
     <file>src</file>
     <file>tests</file>
+    <file>functions.php</file>
+    <file>index.php</file>
 
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>tests/bootstrap.php</exclude-pattern>
