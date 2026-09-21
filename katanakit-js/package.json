@@ -17,6 +17,11 @@
       "import": "./dist/adapters/express/index.js",
       "default": "./dist/adapters/express/index.js"
     },
+    "./adapters/bun": {
+      "types": "./dist/adapters/bun/index.d.ts",
+      "import": "./dist/adapters/bun/index.js",
+      "default": "./dist/adapters/bun/index.js"
+    },
     "./adapters/nuxt": {
       "types": "./dist/adapters/nuxt/index.d.ts",
       "import": "./dist/adapters/nuxt/index.js",
@@ -100,6 +105,7 @@
   },
   "scripts": {
     "dev": "tsx src/adapters/express/main.ts",
+    "bun:dev": "bun run src/adapters/bun/main.ts",
     "dev:all": "concurrently --names api,assistant,tg,wa,pw,docs \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\" \"bun run playground:dev\" \"bun run docs:dev\"",
     "dev:adapters": "concurrently --names api,assistant,tg,wa \"bun run dev\" \"bun run assistant:dev\" \"bun run telegram:dev\" \"bun run whatsapp:dev\"",
     "dev:docs": "concurrently --names pw,docs \"bun run playground:dev\" \"bun run docs:dev\"",
@@ -215,6 +221,7 @@
     "@types/node": "26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "bun-types": "^1.4.2",
     "concurrently": "^10.0.5",
     "cors": "2.8.6",
     "dotenv": "18.0.1",

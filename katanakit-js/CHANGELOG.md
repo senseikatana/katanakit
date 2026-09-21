@@ -4,6 +4,10 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- **Bun server adapter** (`katanakit-js/adapters/bun`) — a Bun-native alternative to Express built on `Bun.serve` with the `routes` API (Bun v1.2.3+). Ships a dummyjson.com demo: typed route table (`useBuildDummyJsonRoutes`), HTTP handlers over the core `useFetch` (`useDummyJsonProducts`, `useDummyJsonProductById`, `useDummyJsonProductSearch`, `useDummyJsonUsers`, `useDummyJsonPosts`, `useDummyJsonRandomQuote`, …), offline seed data (`useGetDummyJsonSeed`), and a singleton server facade (`useBunCreate`/`useBunStart`/`useBunGetServer`/`useBunStop`). Run locally with `bun run bun:dev`.
+
 ## [4.0.0] - 2026-09-20
 
 ### Added

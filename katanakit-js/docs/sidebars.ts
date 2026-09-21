@@ -13,6 +13,7 @@ const sidebars: SidebarsConfig = {
 				"guides/getting-started",
 				"guides/query-client",
 				"guides/framework-adapters",
+				"guides/bun-adapter",
 				"guides/watch",
 				"guides/architecture",
 				"guides/roadmap",
