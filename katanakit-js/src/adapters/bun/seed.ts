@@ -46,11 +46,24 @@ export interface DummyJsonSeed {
 	quotes: SeedQuote[];
 }
 
+/** Recursively freezes a value (arrays and plain objects) in place. */
+function deepFreeze<T>(value: T): T {
+	if (value && typeof value === "object" && !Object.isFrozen(value)) {
+		Object.freeze(value);
+		for (const key of Object.keys(value)) {
+			deepFreeze((value as Record<string, unknown>)[key]);
+		}
+	}
+	return value;
+}
+
 /**
  * Offline seed data shaped after https://dummyjson.com responses.
  * Useful for tests, demos and local development without hitting the network.
+ *
+ * Deep-frozen so callers can't mutate the shared module singleton.
  */
-export const dummyJsonSeed: DummyJsonSeed = {
+export const dummyJsonSeed: DummyJsonSeed = deepFreeze({
 	products: [
 		{
 			id: 1,
@@ -134,12 +147,12 @@ export const dummyJsonSeed: DummyJsonSeed = {
 			author: "Napoleon Hill",
 		},
 	],
-};
+});
 
 /**
  * Returns the Bun adapter seed data.
  *
- * @returns A deep-frozen copy-safe reference to {@link dummyJsonSeed}.
+ * @returns The deep-frozen {@link dummyJsonSeed}.
  *
  * @example
  * ```ts

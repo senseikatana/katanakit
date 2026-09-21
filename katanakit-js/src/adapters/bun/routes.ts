@@ -16,50 +16,57 @@ import {
 } from "./dummyjson.service.js";
 import { useGetDummyJsonSeed } from "./seed.js";
 
-/** Route table type for the Bun adapter (per-path handlers with params). */
-export type DummyJsonRoutes = Bun.Serve.Routes<undefined, string>;
-
 /**
  * Builds the Bun.serve `routes` table for the dummyjson.com demo.
  *
  * Maps KatanaKit's dummyjson handlers onto a Bun router: static routes,
- * `:param` routes, per-method handlers, and a `/api/*` catch-all.
+ * `:param` routes (with typed `req.params`), per-method handlers, and a
+ * `/api/*` catch-all.
  *
- * @returns A {@link DummyJsonRoutes} table ready for `Bun.serve({ routes })`.
+ * @returns A route table ready for `Bun.serve({ routes })`.
  *
  * @example
  * ```ts
  * import { useBuildDummyJsonRoutes } from "katanakit-js/adapters/bun";
  *
- * const routes = useBuildDummyJsonRoutes();
- * Bun.serve({ routes, fetch: () => new Response("Not Found", { status: 404 }) });
+ * Bun.serve({
+ *   routes: useBuildDummyJsonRoutes(),
+ *   fetch: () => new Response("Not Found", { status: 404 }),
+ * });
  * ```
  */
-export function useBuildDummyJsonRoutes(): DummyJsonRoutes {
+export function useBuildDummyJsonRoutes() {
 	return {
 		"/api/status": jsonResponse({ status: "ok", service: "katanakit-js/adapters/bun" }),
 
 		// Products
 		"/api/products": { GET: () => useDummyJsonProducts() },
-		"/api/products/:id": { GET: (req) => useDummyJsonProductById(req.params.id) },
+		"/api/products/:id": {
+			GET: (req: Bun.BunRequest<"/api/products/:id">) => useDummyJsonProductById(req.params.id),
+		},
 		"/api/products/search": {
-			GET: (req) => {
+			GET: (req: Request) => {
 				const query = new URL(req.url).searchParams.get("q") ?? "";
 				return useDummyJsonProductSearch(query);
 			},
 		},
 		"/api/products/categories": { GET: () => useDummyJsonProductCategories() },
 		"/api/products/category/:category": {
-			GET: (req) => useDummyJsonProductsByCategory(req.params.category),
+			GET: (req: Bun.BunRequest<"/api/products/category/:category">) =>
+				useDummyJsonProductsByCategory(req.params.category),
 		},
 
 		// Users
 		"/api/users": { GET: () => useDummyJsonUsers() },
-		"/api/users/:id": { GET: (req) => useDummyJsonUserById(req.params.id) },
+		"/api/users/:id": {
+			GET: (req: Bun.BunRequest<"/api/users/:id">) => useDummyJsonUserById(req.params.id),
+		},
 
 		// Posts
 		"/api/posts": { GET: () => useDummyJsonPosts() },
-		"/api/posts/:id": { GET: (req) => useDummyJsonPostById(req.params.id) },
+		"/api/posts/:id": {
+			GET: (req: Bun.BunRequest<"/api/posts/:id">) => useDummyJsonPostById(req.params.id),
+		},
 
 		// Quotes
 		"/api/quotes": { GET: () => useDummyJsonQuotes() },
@@ -72,3 +79,6 @@ export function useBuildDummyJsonRoutes(): DummyJsonRoutes {
 		"/api/*": jsonResponse({ message: "Not found" }, 404),
 	};
 }
+
+/** Route table type inferred from {@link useBuildDummyJsonRoutes}. */
+export type DummyJsonRoutes = ReturnType<typeof useBuildDummyJsonRoutes>;

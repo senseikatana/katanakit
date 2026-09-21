@@ -43,14 +43,16 @@ export function useInitDummyJson(): void {
  * Converts a Safe Result into a JSON {@link Response}.
  *
  * @param result - The Safe Result from `useFetch`.
- * @param status - HTTP status override for success (default `200`).
  * @returns A JSON `Response` with the data or error body.
  */
-function toResponse<T>(result: FetchResult<T>, status = 200): Response {
+function toResponse<T>(result: FetchResult<T>): Response {
 	if (result.ok) {
-		return jsonResponse(result.data, status);
+		return jsonResponse(result.data);
 	}
-	return jsonResponse({ message: result.error.message }, result.error.status || 500);
+	return jsonResponse(
+		{ message: result.error.message, details: result.error.details },
+		result.error.status || 500,
+	);
 }
 
 /** Serializes `data` into a JSON {@link Response}. */

@@ -38,7 +38,7 @@ export interface BunServerOptions {
 export function useBunCreate(options: BunServerOptions = {}): Bun.Server<undefined> {
 	if (server) return server;
 
-	server = Bun.serve<undefined, string>({
+	server = Bun.serve<undefined>({
 		port: options.port ?? 3000,
 		hostname: options.hostname ?? "localhost",
 		routes: options.routes ?? useBuildDummyJsonRoutes(),
