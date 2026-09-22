@@ -11,6 +11,7 @@
 import { useMutation, useQuery, useQueryClient, useSafeQueryFn } from "katanakit-js/adapters/svelte";
 import { useGetApi, useInitApis, usePost } from "katanakit-js";
 
+// App bootstrap: register the APIs once (in a real app this lives in your entry file).
 useInitApis({
   pokeapi: {
     baseUri: "https://pokeapi.co/api/v2",

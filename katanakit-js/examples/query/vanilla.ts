@@ -7,6 +7,10 @@
  * cache hits, invalidation, and a mutation. No DOM, no framework — just the
  * observer. Swap the fake `apiGetPokemon` for `useGetApi`/`useFetch` and the
  * pattern is identical.
+ *
+ * `@/…` is this repo's internal alias (it points at `src/`, so the file runs
+ * without a build). In your app the imports are:
+ *   `katanakit-js/adapters/vanilla`  and  `katanakit-js`.
  */
 import { useMutation, useQuery, useQueryClient } from "@/adapters/vanilla";
 import { useSafeQueryFn } from "@/core/services/query.service";

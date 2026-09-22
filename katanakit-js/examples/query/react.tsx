@@ -8,9 +8,18 @@
  *
  * Result shape is TanStack's: `{ data, error, isPending, isFetching, isSuccess, isError, status, refetch }`.
  */
-import { useMutation, useQuery, useQueryClient, useSafeQueryFn } from "katanakit-js/adapters/react";
+import { useState } from "react";
+
+import {
+	useCreateQueryClient,
+	useMutation,
+	useQuery,
+	useQueryClient,
+	useSafeQueryFn,
+} from "katanakit-js/adapters/react";
 import { useGetApi, useInitApis, usePost } from "katanakit-js";
 
+// App bootstrap: register the APIs once (in a real app this lives in your entry file).
 useInitApis({
 	pokeapi: {
 		baseUri: "https://pokeapi.co/api/v2",
@@ -61,9 +70,14 @@ export function CreatePokemon() {
  * Scoping: every adapter accepts an optional `QueryClient` as the last argument.
  * Use `useCreateQueryClient()` for an isolated cache (widgets, tests, tenants),
  * or `useInitQueryClient({…})` once to configure the shared one.
+ *
+ * An isolated client must be created once — in React, wrap it in lazy `useState`
+ * (or `useRef`); recreating it on every render would defeat the cache.
  */
 export function IsolatedWidget({ id }: { id: number }) {
-	const client = useCreateQueryClient({ defaultOptions: { queries: { staleTime: 0 } } });
+	const [client] = useState(() =>
+		useCreateQueryClient({ defaultOptions: { queries: { staleTime: 0 } } }),
+	);
 	const { data } = useQuery(
 		{
 			queryKey: ["pokemon", id],
