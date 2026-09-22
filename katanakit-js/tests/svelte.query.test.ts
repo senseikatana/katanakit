@@ -1,55 +1,78 @@
+import {
+	type MutationObserverResult,
+	QueryClient,
+	type QueryObserverResult,
+} from "@tanstack/query-core";
 import { get } from "svelte/store";
 import { describe, expect, it, vi } from "vitest";
 
 import { useMutation, useQuery } from "@/adapters/svelte/query.js";
-import { QueryClient } from "@/core/services/query.service.js";
-import type { FetchResult } from "@/types/index.js";
 
-const ok = <T>(data: T): FetchResult<T> => ({ data, error: null, url: "", status: 200, ok: true });
-const fail = <T>(message: string, status = 500): FetchResult<T> => ({
-	data: null,
-	error: { message, status },
-	url: "",
-	status,
-	ok: false,
-});
+/** Subscribes like a component's `$store` would, returning the latest value. */
+function track<T>(store: { subscribe: (run: (value: T) => void) => () => void }): {
+	current: () => T;
+	stop: () => void;
+} {
+	let latest = get(store);
+	const unsubscribe = store.subscribe((value) => {
+		latest = value;
+	});
+	return { current: () => latest, stop: unsubscribe };
+}
 
 describe("svelte/useQuery", () => {
-	it("resolves data from a successful fetch", async () => {
+	it("resolves data and exposes TanStack flags", async () => {
 		const client = new QueryClient();
-		const q = useQuery<{ name: string }>(
-			{ queryKey: ["pokemon", 1], queryFn: async () => ok({ name: "bulbasaur" }) },
-			client,
-		);
-
-		await vi.waitFor(() => expect(get(q.data)).toEqual({ name: "bulbasaur" }));
-		expect(get(q.isSuccess)).toBe(true);
-	});
-
-	it("sets the error store on failure", async () => {
-		const client = new QueryClient();
-		const q = useQuery<{ name: string }>(
+		const query = useQuery(
 			{
-				queryKey: ["pokemon", "missing"],
-				queryFn: async () => fail("Not found", 404),
-				retry: 0,
+				queryKey: ["pokemon", 1],
+				queryFn: async () => ({ name: "bulbasaur" }),
+				retry: false,
 			},
 			client,
 		);
 
-		await vi.waitFor(() => expect(get(q.error)?.message).toBe("Not found"));
+		const state = track<QueryObserverResult<{ name: string }, Error>>(query);
+
+		await vi.waitFor(() => expect(state.current().data).toEqual({ name: "bulbasaur" }));
+		expect(state.current().isPending).toBe(false);
+		expect(state.current().isSuccess).toBe(true);
+		state.stop();
+	});
+
+	it("exposes the error state on failure", async () => {
+		const client = new QueryClient();
+		const query = useQuery(
+			{
+				queryKey: ["pokemon", "missing"],
+				queryFn: async (): Promise<{ name: string }> => {
+					throw new Error("Not found");
+				},
+				retry: false,
+			},
+			client,
+		);
+
+		const state = track<QueryObserverResult<{ name: string }, Error>>(query);
+
+		await vi.waitFor(() => expect(state.current().error?.message).toBe("Not found"));
+		expect(state.current().isError).toBe(true);
+		state.stop();
 	});
 });
 
 describe("svelte/useMutation", () => {
-	it("runs the mutation and sets success state", async () => {
-		const m = useMutation<{ id: number; name: string }, string>({
-			mutationFn: async (name) => ok({ id: 1, name }),
-		});
+	it("runs the mutation and exposes TanStack flags", async () => {
+		const client = new QueryClient();
+		const mutation = useMutation({ mutationFn: async (name: string) => ({ id: 1, name }) }, client);
 
-		await m.mutate("pikachu");
+		const state =
+			track<MutationObserverResult<{ id: number; name: string }, Error, string>>(mutation);
 
-		expect(get(m.data)).toEqual({ id: 1, name: "pikachu" });
-		expect(get(m.status)).toBe("success");
+		await get(mutation).mutate("pikachu");
+
+		expect(state.current().data).toEqual({ id: 1, name: "pikachu" });
+		expect(state.current().isSuccess).toBe(true);
+		state.stop();
 	});
 });

@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [4.0.2]
+
+### Changed
+
+- **Query layer now runs on TanStack Query Core** — `@tanstack/query-core` ships as a dependency (no separate install). The full engine is re-exported from `katanakit-js` (`QueryClient`, `QueryObserver`, `MutationObserver`, `focusManager`, `onlineManager`, `dehydrate`/`hydrate`, `keepPreviousData`, and every type), and the framework adapters (`useQuery`/`useMutation` for React, Vue, Solid, Svelte and Angular) are now thin bindings over it, returning TanStack's native result object — `isPending`, `isFetching`, `isSuccess`, `isError`, `data`, `error`, `status`, `fetchStatus`, `refetch`, `mutate`, `reset`. This replaces the hand-rolled `QueryClient`/`QueryCache`, which had correctness gaps (no-op `invalidateQueries`, blocking refetch instead of stale-while-revalidate, dead `refetchOnWindowFocus`/`refetchOnReconnect`, incomplete cancellation) and lacked infinite queries, optimistic updates, SSR hydration and devtools.
+
+### Added
+
+- **`useSafeQueryFn` helper** — bridges KatanaKit's Safe Result (`useGetApi`/`useFetch`) into TanStack's throw-on-error `queryFn`. It receives TanStack's `QueryFunctionContext`, so `signal` can be forwarded for real request cancellation.
+- **`useCreateQueryClient` helper** — creates a fresh `QueryClient` per call. Use it on the server (SSR) to keep one cache per request instead of the module-level singleton (`useQueryClient()` stays the browser default).
+
+### Security
+
+- `useSafeQueryFn` now throws a real `Error` carrying only `message` + `status`; the upstream response body (`ApiError.details`) is no longer attached to the error or persisted in the query cache.
+- `useInitQueryClient` clears the previous client's caches before swapping the singleton.
+- `@tanstack/query-core` is pinned to an exact version.
+
 ## [4.0.1]
 
 ### Added

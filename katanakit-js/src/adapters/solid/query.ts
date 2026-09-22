@@ -1,162 +1,87 @@
-import { createEffect, createSignal, onCleanup, type Signal } from "solid-js";
-
 import {
+	MutationObserver,
+	type MutationObserverOptions,
+	type MutationObserverResult,
 	type QueryClient,
-	type QueryKey,
-	type QueryState,
-	useQueryClient,
-} from "../../core/services/query.service.js";
-import type { ApiError, FetchResult } from "../../types/index.js";
+	QueryObserver,
+	type QueryObserverOptions,
+	type QueryObserverResult,
+} from "@tanstack/query-core";
+import { createEffect, onCleanup } from "solid-js";
+import { createStore } from "solid-js/store";
 
-/** Configuration for `useQuery` (Solid primitive). */
-export interface UseQueryConfig<T = unknown> {
-	/** Cache key (stable array). */
-	queryKey: QueryKey;
-	/** Fetcher function returning a Safe Result. */
-	queryFn: () => Promise<FetchResult<T>>;
-	/** Time in ms before cached data is stale (default: 0). */
-	staleTime?: number;
-	/** Time in ms to keep unused data (default: 5 min). */
-	cacheTime?: number;
-	/** Retry count on failure (default: 3). */
-	retry?: number;
-	/** Base delay for exponential backoff (default: 1000). */
-	retryDelay?: number;
-	/** Whether the query is enabled (default: true). */
-	enabled?: boolean;
-}
+import { useQueryClient } from "../../core/services/query.service.js";
 
-/** Reactive return value of `useQuery` (Solid signals are accessors). */
-export interface UseQueryReturn<T = unknown> {
-	data: Signal<T | null>[0];
-	error: Signal<ApiError | null>[0];
-	isLoading: Signal<boolean>[0];
-	isSuccess: Signal<boolean>[0];
-	isError: Signal<boolean>[0];
-	isStale: Signal<boolean>[0];
-	status: Signal<QueryState<T>["status"]>[0];
-	/** Manually refetch the query. */
-	refetch: () => Promise<void>;
-}
-
-/** Configuration for `useMutation`. */
-export interface UseMutationConfig<TData = unknown, TVariables = unknown> {
-	mutationFn: (variables: TVariables) => Promise<FetchResult<TData>>;
-	onSuccess?: (data: TData, variables: TVariables) => void;
-	onError?: (error: ApiError, variables: TVariables) => void;
-	onSettled?: (data: TData | null, error: ApiError | null, variables: TVariables) => void;
-}
-
-/** Reactive return value of `useMutation`. */
-export interface UseMutationReturn<TData = unknown, TVariables = unknown> {
-	data: Signal<TData | null>[0];
-	error: Signal<ApiError | null>[0];
-	isLoading: Signal<boolean>[0];
-	isSuccess: Signal<boolean>[0];
-	isError: Signal<boolean>[0];
-	status: Signal<"idle" | "loading" | "success" | "error">[0];
-	/** Execute the mutation. */
-	mutate: (variables: TVariables) => Promise<void>;
-	/** Reset the mutation state. */
-	reset: () => void;
-}
+/** Options for the Solid binding: a plain object or a reactive getter. */
+export type SolidQueryOptions<TQueryFnData, TError, TData> =
+	| QueryObserverOptions<TQueryFnData, TError, TData>
+	| (() => QueryObserverOptions<TQueryFnData, TError, TData>);
 
 /**
- * Solid primitive that wraps the {@link QueryClient} with fine-grained signals.
- * Integrates with the API manager — your `queryFn` typically calls `useGetApi`
- * or `useFetch` and returns the Safe Result.
+ * Solid primitive for a cached query, backed by TanStack Query Core.
  *
- * @param config - Query configuration.
- * @param client - Optional QueryClient instance (uses global singleton by default).
- * @returns Signal accessors for `{ data, error, isLoading, isSuccess, isError, isStale, status }` plus `refetch`.
+ * Returns a reactive {@link QueryObserverResult} store — read `query.data`,
+ * `query.isPending`, `query.isError`, `query.status`, etc. directly. Pass a
+ * getter (`() => ({ queryKey, queryFn })`) to react to key changes.
+ *
+ * Call it inside a component or `createRoot` so `onCleanup` disposes the observer.
+ *
+ * @param options - TanStack query options, or a getter returning them.
+ * @param client - Optional {@link QueryClient} (defaults to the shared singleton).
+ * @returns A reactive {@link QueryObserverResult} store.
  *
  * @example
  * ```tsx
- * import { useQuery } from "katanakit-js/adapters/solid";
+ * import { Show } from "solid-js";
+ * import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/solid";
  * import { useGetApi } from "katanakit-js";
  *
  * function Pokemon() {
- *   const { data, isLoading, error } = useQuery({
+ *   const query = useQuery(() => ({
  *     queryKey: ["pokemon", 25],
- *     queryFn: () => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } }),
- *   });
- *   return <Show when={!isLoading() && !error()} fallback={<div>Loading…</div>}>
- *     <div>{data()?.name}</div>
- *   </Show>;
+ *     queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })),
+ *   }));
+ *   return (
+ *     <Show when={!query.isPending} fallback={<div>Loading…</div>}>
+ *       <div>{query.data?.name}</div>
+ *     </Show>
+ *   );
  * }
  * ```
  */
-export function useQuery<T>(config: UseQueryConfig<T>, client?: QueryClient): UseQueryReturn<T> {
-	const qc = client ?? useQueryClient();
+export function useQuery<TQueryFnData = unknown, TError = Error, TData = TQueryFnData>(
+	options: SolidQueryOptions<TQueryFnData, TError, TData>,
+	client?: QueryClient,
+): QueryObserverResult<TData, TError> {
+	const queryClient = client ?? useQueryClient();
+	const getOptions = typeof options === "function" ? options : (): typeof options => options;
 
-	const [data, setData] = createSignal<T | null>(null);
-	const [error, setError] = createSignal<ApiError | null>(null);
-	const [isLoading, setIsLoading] = createSignal(false);
-	const [isSuccess, setIsSuccess] = createSignal(false);
-	const [isError, setIsError] = createSignal(false);
-	const [isStale, setIsStale] = createSignal(true);
-	const [status, setStatus] = createSignal<QueryState<T>["status"]>("idle");
+	const observer = new QueryObserver(queryClient, queryClient.defaultQueryOptions(getOptions()));
 
-	const sync = (state: QueryState<T>): void => {
-		// Updater form avoids Solid's "function as value" ambiguity for generic T.
-		setData(() => state.data);
-		setError(state.error);
-		setIsLoading(state.isLoading);
-		setIsSuccess(state.isSuccess);
-		setIsError(state.isError);
-		setIsStale(state.isStale);
-		setStatus(state.status);
-	};
+	const [state, setState] = createStore<QueryObserverResult<TData, TError>>(
+		observer.getCurrentResult(),
+	);
 
-	createEffect(() => {
-		const qKey = config.queryKey;
-		const unsubscribe = qc.subscribe<T>(qKey, (next) => sync(next as QueryState<T>));
-
-		const existing = qc.getQueryState<T>(qKey);
-		if (existing) sync(existing);
-
-		if (config.enabled !== false) {
-			void qc
-				.fetchQuery<T>({
-					queryKey: qKey,
-					queryFn: config.queryFn,
-					staleTime: config.staleTime,
-					cacheTime: config.cacheTime,
-					retry: config.retry,
-					retryDelay: config.retryDelay,
-				})
-				.catch(() => {
-					// Error is already reflected in the cache state.
-				});
-		}
-
-		onCleanup(unsubscribe);
+	const unsubscribe = observer.subscribe((result) => {
+		setState(result);
 	});
 
-	const refetch = async (): Promise<void> => {
-		await qc
-			.fetchQuery<T>({
-				queryKey: config.queryKey,
-				queryFn: config.queryFn,
-				staleTime: 0,
-				cacheTime: config.cacheTime,
-				retry: config.retry,
-				retryDelay: config.retryDelay,
-			})
-			.catch(() => {
-				// Error is already reflected in the cache state.
-			});
-	};
+	// Re-apply options whenever the reactive getter's dependencies change.
+	createEffect(() => {
+		observer.setOptions(queryClient.defaultQueryOptions(getOptions()));
+	});
 
-	return { data, error, isLoading, isSuccess, isError, isStale, status, refetch };
+	onCleanup(unsubscribe);
+
+	return state;
 }
 
 /**
- * Solid primitive for mutations (POST/PUT/PATCH/DELETE).
- * Does not cache — returns a `mutate` function that executes the mutation.
+ * Solid primitive for a mutation, backed by TanStack Query Core.
  *
- * @param config - Mutation configuration.
- * @returns Signal accessors plus `{ mutate, reset }`.
+ * @param options - TanStack mutation options, or a getter returning them.
+ * @param client - Optional {@link QueryClient} (defaults to the shared singleton).
+ * @returns A reactive {@link MutationObserverResult} store.
  *
  * @example
  * ```tsx
@@ -165,72 +90,38 @@ export function useQuery<T>(config: UseQueryConfig<T>, client?: QueryClient): Us
  *
  * function CreateUser() {
  *   const qc = useQueryClient();
- *   const { mutate, isLoading } = useMutation({
+ *   const mutation = useMutation(() => ({
  *     mutationFn: (name: string) => usePost("api", "createUser", { name }),
  *     onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
- *   });
- *   return <button disabled={isLoading()} onClick={() => mutate("Ada")}>Create</button>;
+ *   }));
+ *   return <button disabled={mutation.isPending} onClick={() => mutation.mutate("Ada")}>Create</button>;
  * }
  * ```
  */
-export function useMutation<TData = unknown, TVariables = unknown>(
-	config: UseMutationConfig<TData, TVariables>,
-): UseMutationReturn<TData, TVariables> {
-	const [data, setData] = createSignal<TData | null>(null);
-	const [error, setError] = createSignal<ApiError | null>(null);
-	const [isLoading, setIsLoading] = createSignal(false);
-	const [isSuccess, setIsSuccess] = createSignal(false);
-	const [isError, setIsError] = createSignal(false);
-	const [status, setStatus] = createSignal<"idle" | "loading" | "success" | "error">("idle");
+export function useMutation<TData = unknown, TError = Error, TVariables = void, TContext = unknown>(
+	options:
+		| MutationObserverOptions<TData, TError, TVariables, TContext>
+		| (() => MutationObserverOptions<TData, TError, TVariables, TContext>),
+	client?: QueryClient,
+): MutationObserverResult<TData, TError, TVariables, TContext> {
+	const queryClient = client ?? useQueryClient();
+	const getOptions = typeof options === "function" ? options : (): typeof options => options;
 
-	const mutate = async (variables: TVariables): Promise<void> => {
-		setIsLoading(true);
-		setIsSuccess(false);
-		setIsError(false);
-		setStatus("loading");
+	const observer = new MutationObserver(queryClient, getOptions());
 
-		try {
-			const result = await config.mutationFn(variables);
+	const [state, setState] = createStore<MutationObserverResult<TData, TError, TVariables, TContext>>(
+		observer.getCurrentResult(),
+	);
 
-			if (result.ok) {
-				setData(() => result.data);
-				setError(null);
-				setIsSuccess(true);
-				setStatus("success");
-				config.onSuccess?.(result.data, variables);
-				config.onSettled?.(result.data, null, variables);
-			} else {
-				setData(null);
-				setError(result.error);
-				setIsError(true);
-				setStatus("error");
-				config.onError?.(result.error, variables);
-				config.onSettled?.(null, result.error, variables);
-			}
-		} catch (caught) {
-			const apiError: ApiError =
-				caught instanceof Error
-					? { message: caught.message, status: 0 }
-					: { message: String(caught), status: 0 };
-			setData(null);
-			setError(apiError);
-			setIsError(true);
-			setStatus("error");
-			config.onError?.(apiError, variables);
-			config.onSettled?.(null, apiError, variables);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	const unsubscribe = observer.subscribe((result) => {
+		setState(result);
+	});
 
-	const reset = (): void => {
-		setData(null);
-		setError(null);
-		setIsLoading(false);
-		setIsSuccess(false);
-		setIsError(false);
-		setStatus("idle");
-	};
+	createEffect(() => {
+		observer.setOptions(getOptions());
+	});
 
-	return { data, error, isLoading, isSuccess, isError, status, mutate, reset };
+	onCleanup(unsubscribe);
+
+	return state;
 }

@@ -1,65 +1,62 @@
 import { DestroyRef, Injector, runInInjectionContext } from "@angular/core";
+import { QueryClient } from "@tanstack/query-core";
 import { describe, expect, it, vi } from "vitest";
 
 import { useMutation, useQuery } from "@/adapters/angular/query.js";
-import { QueryClient } from "@/core/services/query.service.js";
-import type { FetchResult } from "@/types/index.js";
-
-const ok = <T>(data: T): FetchResult<T> => ({ data, error: null, url: "", status: 200, ok: true });
-const fail = <T>(message: string, status = 500): FetchResult<T> => ({
-	data: null,
-	error: { message, status },
-	url: "",
-	status,
-	ok: false,
-});
 
 const injector = Injector.create({
 	providers: [{ provide: DestroyRef, useValue: { onDestroy: () => {} } }],
 });
 
 describe("angular/useQuery", () => {
-	it("resolves data from a successful fetch", async () => {
+	it("resolves data and exposes TanStack flags", async () => {
 		const client = new QueryClient();
-		const q = runInInjectionContext(injector, () =>
-			useQuery<{ name: string }>(
-				{ queryKey: ["pokemon", 1], queryFn: async () => ok({ name: "bulbasaur" }) },
-				client,
-			),
-		);
-
-		await vi.waitFor(() => expect(q.data()).toEqual({ name: "bulbasaur" }));
-		expect(q.isSuccess()).toBe(true);
-	});
-
-	it("sets the error signal on failure", async () => {
-		const client = new QueryClient();
-		const q = runInInjectionContext(injector, () =>
-			useQuery<{ name: string }>(
+		const query = runInInjectionContext(injector, () =>
+			useQuery(
 				{
-					queryKey: ["pokemon", "missing"],
-					queryFn: async () => fail("Not found", 404),
-					retry: 0,
+					queryKey: ["pokemon", 1],
+					queryFn: async () => ({ name: "bulbasaur" }),
+					retry: false,
 				},
 				client,
 			),
 		);
 
-		await vi.waitFor(() => expect(q.error()?.message).toBe("Not found"));
+		await vi.waitFor(() => expect(query.data()).toEqual({ name: "bulbasaur" }));
+		expect(query.isPending()).toBe(false);
+		expect(query.isSuccess()).toBe(true);
+	});
+
+	it("exposes the error state on failure", async () => {
+		const client = new QueryClient();
+		const query = runInInjectionContext(injector, () =>
+			useQuery(
+				{
+					queryKey: ["pokemon", "missing"],
+					queryFn: async (): Promise<{ name: string }> => {
+						throw new Error("Not found");
+					},
+					retry: false,
+				},
+				client,
+			),
+		);
+
+		await vi.waitFor(() => expect(query.error()?.message).toBe("Not found"));
+		expect(query.isError()).toBe(true);
 	});
 });
 
 describe("angular/useMutation", () => {
-	it("runs the mutation and sets success state", async () => {
-		const m = runInInjectionContext(injector, () =>
-			useMutation<{ id: number; name: string }, string>({
-				mutationFn: async (name) => ok({ id: 1, name }),
-			}),
+	it("runs the mutation and exposes TanStack flags", async () => {
+		const client = new QueryClient();
+		const mutation = runInInjectionContext(injector, () =>
+			useMutation({ mutationFn: async (name: string) => ({ id: 1, name }) }, client),
 		);
 
-		await m.mutate("pikachu");
+		await mutation.mutate("pikachu");
 
-		expect(m.data()).toEqual({ id: 1, name: "pikachu" });
-		expect(m.status()).toBe("success");
+		expect(mutation.data()).toEqual({ id: 1, name: "pikachu" });
+		expect(mutation.isSuccess()).toBe(true);
 	});
 });

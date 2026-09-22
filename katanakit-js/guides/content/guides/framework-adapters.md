@@ -16,7 +16,7 @@ KatanaKit ships first-class adapters for the major front-end frameworks. They wr
 - **Vue** — composables with `ref`/`shallowRef` (`katanakit-js/adapters/vue`)
 - **Nuxt** — H3 server helpers (`katanakit-js/adapters/nuxt`)
 
-Every adapter exposes the same surface: `useQuery`, `useMutation`, `useRequest`, and `useWatch`. The return shape is identical in spirit — `data`, `error`, `isLoading`, `isSuccess`, `isError`, `isStale`, `status`, and a `refetch` (or `mutate`/`reset` for mutations) — but the values are the framework's own reactive primitives.
+Every adapter exposes the same surface: `useQuery`, `useMutation`, `useRequest`, and `useWatch`. `useQuery`/`useMutation` wrap TanStack Query and return its native result object (`isPending`, `isFetching`, `isSuccess`, `isError`, `data`, `error`, `status`, …); `useRequest`/`useWatch` are KatanaKit's own primitives, each exposed with the framework's reactivity.
 
 ## useQuery
 
@@ -24,7 +24,7 @@ Every adapter exposes the same surface: `useQuery`, `useMutation`, `useRequest`,
 <TabItem value="react" label="React">
 
 ```tsx
-import { useQuery } from "katanakit-js/adapters/react";
+import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/react";
 import { useGetApi, useInitApis } from "katanakit-js";
 
 useInitApis({
@@ -35,12 +35,12 @@ useInitApis({
 });
 
 function Pokemon({ id }: { id: number }) {
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["pokemon", id],
-    queryFn: () => useGetApi("pokeapi", "pokemonById", { params: { id } }),
+    queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id } })),
   });
 
-  if (isLoading) return <div>Loading…</div>;
+  if (isPending) return <div>Loading…</div>;
   if (error) return <div>{error.message}</div>;
   return <div>{data?.name}</div>;
 }
@@ -51,18 +51,18 @@ function Pokemon({ id }: { id: number }) {
 
 ```tsx
 import { Show } from "solid-js";
-import { useQuery } from "katanakit-js/adapters/solid";
+import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/solid";
 import { useGetApi } from "katanakit-js";
 
 function Pokemon() {
-  const { data, isLoading, error } = useQuery({
+  const query = useQuery(() => ({
     queryKey: ["pokemon", 25],
-    queryFn: () => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } }),
-  });
+    queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })),
+  }));
 
   return (
-    <Show when={!isLoading() && !error()} fallback={<div>Loading…</div>}>
-      <div>{data()?.name}</div>
+    <Show when={!query.isPending} fallback={<div>Loading…</div>}>
+      <div>{query.data?.name}</div>
     </Show>
   );
 }
@@ -73,21 +73,21 @@ function Pokemon() {
 
 ```svelte
 <script lang="ts">
-  import { useQuery } from "katanakit-js/adapters/svelte";
+  import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/svelte";
   import { useGetApi } from "katanakit-js";
 
-  const { data, isLoading, error } = useQuery({
+  const query = useQuery({
     queryKey: ["pokemon", 25],
-    queryFn: () => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } }),
+    queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })),
   });
 </script>
 
-{#if $isLoading}
+{#if $query.isPending}
   <div>Loading…</div>
-{:else if $error}
-  <div>{$error.message}</div>
+{:else if $query.isError}
+  <div>{$query.error?.message}</div>
 {:else}
-  <div>{$data?.name}</div>
+  <div>{$query.data?.name}</div>
 {/if}
 ```
 
@@ -96,20 +96,18 @@ function Pokemon() {
 
 ```ts
 import { Component } from "@angular/core";
-import { useQuery } from "katanakit-js/adapters/angular";
+import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/angular";
 import { useGetApi } from "katanakit-js";
 
 @Component({
   selector: "app-pokemon",
-  template: `@if (isLoading()) { Loading… } @else { {{ data()?.name }} }`,
+  template: `@if (query.isPending()) { Loading… } @else { {{ query.data()?.name }} }`,
 })
 export class PokemonComponent {
-  readonly result = useQuery({
+  readonly query = useQuery({
     queryKey: ["pokemon", 25],
-    queryFn: () => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } }),
+    queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })),
   });
-  readonly data = this.result.data;
-  readonly isLoading = this.result.isLoading;
 }
 ```
 
@@ -131,12 +129,12 @@ import { usePost } from "katanakit-js";
 
 function CreateUser() {
   const qc = useQueryClient();
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (name: string) => usePost("api", "createUser", { name }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
   });
 
-  return <button disabled={isLoading} onClick={() => mutate("Ada")}>Create</button>;
+  return <button disabled={isPending} onClick={() => mutate("Ada")}>Create</button>;
 }
 ```
 
@@ -149,12 +147,12 @@ import { usePost } from "katanakit-js";
 
 function CreateUser() {
   const qc = useQueryClient();
-  const { mutate, isLoading } = useMutation({
+  const mutation = useMutation(() => ({
     mutationFn: (name: string) => usePost("api", "createUser", { name }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
-  });
+  }));
 
-  return <button disabled={isLoading()} onClick={() => mutate("Ada")}>Create</button>;
+  return <button disabled={mutation.isPending} onClick={() => mutation.mutate("Ada")}>Create</button>;
 }
 ```
 
@@ -167,13 +165,13 @@ function CreateUser() {
   import { usePost } from "katanakit-js";
 
   const qc = useQueryClient();
-  const { mutate, isLoading } = useMutation({
+  const mutation = useMutation({
     mutationFn: (name: string) => usePost("api", "createUser", { name }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
   });
 </script>
 
-<button disabled={$isLoading} on:click={() => mutate("Ada")}>Create</button>
+<button disabled={$mutation.isPending} on:click={() => $mutation.mutate("Ada")}>Create</button>
 ```
 
 </TabItem>
@@ -184,15 +182,13 @@ import { Component } from "@angular/core";
 import { useMutation, useQueryClient } from "katanakit-js/adapters/angular";
 import { usePost } from "katanakit-js";
 
-@Component({ selector: "app-create", template: `<button [disabled]="isLoading()" (click)="mutate('Ada')">Create</button>` })
+@Component({ selector: "app-create", template: `<button [disabled]="mutation.isPending()" (click)="mutation.mutate('Ada')">Create</button>` })
 export class CreateUserComponent {
   private readonly qc = useQueryClient();
-  readonly result = useMutation({
+  readonly mutation = useMutation({
     mutationFn: (name: string) => usePost("api", "createUser", { name }),
     onSuccess: () => this.qc.invalidateQueries({ queryKey: ["users"] }),
   });
-  readonly isLoading = this.result.isLoading;
-  readonly mutate = this.result.mutate;
 }
 ```
 

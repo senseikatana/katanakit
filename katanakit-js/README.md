@@ -256,43 +256,42 @@ against a real API (JSONPlaceholder).
 
 ## QueryClient — Cached Data Fetching
 
-The QueryClient is a data-fetching and caching layer built on the reactive kernel.
-It integrates with the API manager — your `queryFn` typically calls `useGetApi` or
-`useFetch` and returns the Safe Result.
+The query layer is powered by **TanStack Query Core**, bundled as a dependency —
+install `katanakit-js` and the engine comes with it. KatanaKit re-exports the full
+`@tanstack/query-core` API and adds framework bindings plus a bridge for the
+Safe Result pattern.
 
 ```ts
-import { QueryClient, useQueryClient } from "katanakit-js";
+import { useQueryClient, useInitQueryClient, useSafeQueryFn } from "katanakit-js";
 import { useGetApi } from "katanakit-js";
 
-// Initialize once (global singleton).
-const qc = useQueryClient();
-
-// Fetch with cache, stale-while-revalidate, retry, and dedup.
-const pokemon = await qc.fetchQuery<Pokemon>({
-	queryKey: ["pokemon", 25],
-	queryFn: () => useGetApi<Pokemon>("pokeapi", "pokemonById", { params: { id: 25 } }),
-	staleTime: 60_000, // Cache is fresh for 60s.
-	retry: 3, // Retry 3 times on failure.
-	refetchOnWindowFocus: true,
+// Configure the shared client once (defaults for every query).
+useInitQueryClient({
+	defaultOptions: { queries: { staleTime: 60_000, retry: 2 } },
 });
+
+// Access it anywhere to invalidate, prefetch, or set data.
+const qc = useQueryClient();
+await qc.invalidateQueries({ queryKey: ["pokemon"] });
 ```
 
 ### Vue composables
 
 ```vue
 <script setup>
-import { useQuery, useMutation, useQueryClient } from "katanakit-js/adapters/vue";
+import { useQuery, useMutation, useQueryClient, useSafeQueryFn } from "katanakit-js/adapters/vue";
 import { useGetApi, usePost } from "katanakit-js";
 
 const qc = useQueryClient();
 
-const { data, isLoading, error, refetch } = useQuery({
-  queryKey: () => ["users"],
-  queryFn: () => useGetApi<User[]>("myApi", "users"),
+const query = useQuery({
+  queryKey: ["users"],
+  queryFn: useSafeQueryFn(() => useGetApi<User[]>("myApi", "users")),
   staleTime: 30_000,
 });
+// query.data, query.isPending, query.isFetching, query.error, query.status…
 
-const { mutate, isLoading: mutating } = useMutation({
+const mutation = useMutation({
   mutationFn: (name: string) => usePost("myApi", "createUser", { name }),
   onSuccess: () => qc.invalidateQueries({ queryKey: ["users"] }),
 });

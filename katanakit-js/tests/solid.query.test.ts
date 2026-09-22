@@ -1,75 +1,65 @@
 // @vitest-environment jsdom
+import { type QueryObserverResult, QueryClient } from "@tanstack/query-core";
 import { createRoot } from "solid-js";
 import { describe, expect, it, vi } from "vitest";
 
 import { useMutation, useQuery } from "@/adapters/solid/query.js";
-import { QueryClient } from "@/core/services/query.service.js";
-import type { FetchResult } from "@/types/index.js";
-
-const ok = <T>(data: T): FetchResult<T> => ({ data, error: null, url: "", status: 200, ok: true });
-const fail = <T>(message: string, status = 500): FetchResult<T> => ({
-	data: null,
-	error: { message, status },
-	url: "",
-	status,
-	ok: false,
-});
 
 describe("solid/useQuery", () => {
-	it("resolves data from a successful fetch", async () => {
+	it("resolves data and exposes TanStack flags", async () => {
 		const client = new QueryClient();
-		const queryFn = vi.fn(async () => ok({ name: "bulbasaur" }));
-
-		const accessors: (() => { name: string } | null)[] = [];
-		createRoot(() => {
-			const q = useQuery<{ name: string }>({ queryKey: ["pokemon", 1], queryFn }, client);
-			accessors.push(q.data);
-		});
-
-		await vi.waitFor(() => expect(accessors[0]()).toEqual({ name: "bulbasaur" }));
-		expect(queryFn).toHaveBeenCalled();
-	});
-
-	it("sets the error signal on failure", async () => {
-		const client = new QueryClient();
-		const errorAccessors: (() => { message: string } | null)[] = [];
+		let query!: QueryObserverResult<{ name: string }, Error>;
 
 		createRoot(() => {
-			const q = useQuery<{ name: string }>(
+			query = useQuery(
 				{
-					queryKey: ["pokemon", "missing"],
-					queryFn: async () => fail("Not found", 404),
-					retry: 0,
+					queryKey: ["pokemon", 1],
+					queryFn: async () => ({ name: "bulbasaur" }),
+					retry: false,
 				},
 				client,
 			);
-			errorAccessors.push(q.error);
 		});
 
-		await vi.waitFor(() => expect(errorAccessors[0]()?.message).toBe("Not found"));
+		await vi.waitFor(() => expect(query.data).toEqual({ name: "bulbasaur" }));
+		expect(query.isPending).toBe(false);
+		expect(query.isSuccess).toBe(true);
+	});
+
+	it("exposes the error state on failure", async () => {
+		const client = new QueryClient();
+		let query!: QueryObserverResult<{ name: string }, Error>;
+
+		createRoot(() => {
+			query = useQuery(
+				{
+					queryKey: ["pokemon", "missing"],
+					queryFn: async (): Promise<{ name: string }> => {
+						throw new Error("Not found");
+					},
+					retry: false,
+				},
+				client,
+			);
+		});
+
+		await vi.waitFor(() => expect(query.error?.message).toBe("Not found"));
+		expect(query.isError).toBe(true);
 	});
 });
 
 describe("solid/useMutation", () => {
-	it("runs the mutation and sets success state", async () => {
-		const mutationFn = vi.fn(async (name: string) => ok({ id: 1, name }));
-
-		const state: { data: (() => { id: number; name: string } | null)[]; status: (() => string)[] } = {
-			data: [],
-			status: [],
-		};
-		let mutate!: (name: string) => Promise<void>;
+	it("runs the mutation and exposes TanStack flags", async () => {
+		const client = new QueryClient();
+		let mutation!: ReturnType<typeof useMutation<{ id: number; name: string }, Error, string>>;
 
 		createRoot(() => {
-			const m = useMutation<{ id: number; name: string }, string>({ mutationFn });
-			mutate = m.mutate;
-			state.data.push(m.data);
-			state.status.push(m.status);
+			mutation = useMutation({ mutationFn: async (name: string) => ({ id: 1, name }) }, client);
 		});
 
-		await mutate("pikachu");
+		await mutation.mutate("pikachu");
 
-		expect(state.data[0]()).toEqual({ id: 1, name: "pikachu" });
-		expect(state.status[0]()).toBe("success");
+		expect(mutation.data).toEqual({ id: 1, name: "pikachu" });
+		expect(mutation.isSuccess).toBe(true);
 	});
 });
