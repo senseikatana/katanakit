@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [4.0.1]
+
+### Added
+
+- **Bun server adapter** (`katanakit-js/adapters/bun`) — a Bun-native alternative to Express built on `Bun.serve` with the `routes` API (Bun v1.2.3+). Ships a dummyjson.com demo: typed route table (`useBuildDummyJsonRoutes`), HTTP handlers over the core `useFetch` (`useDummyJsonProducts`, `useDummyJsonProductById`, `useDummyJsonProductSearch`, `useDummyJsonUsers`, `useDummyJsonPosts`, `useDummyJsonRandomQuote`, …), offline seed data (`useGetDummyJsonSeed`), and a singleton server facade (`useBunCreate`/`useBunStart`/`useBunGetServer`/`useBunStop`). Run locally with `bun run bun:dev`.
 
 ### Breaking
 
@@ -22,12 +26,6 @@ All notable changes to this project are documented in this file.
 - **Express `app` export is now lazy** — importing `katanakit-js/adapters/express` no longer builds the app as a side effect.
 - **Restored CI + release workflows** — `.github/workflows/ci.yml` and `release.yml` (OIDC trusted publishing) were recreated.
 - **Removed dead code** — the broken `ErrorService` singleton and the Astro re-export from the main barrel.
-
-## [4.0.1]
-
-### Added
-
-- **Bun server adapter** (`katanakit-js/adapters/bun`) — a Bun-native alternative to Express built on `Bun.serve` with the `routes` API (Bun v1.2.3+). Ships a dummyjson.com demo: typed route table (`useBuildDummyJsonRoutes`), HTTP handlers over the core `useFetch` (`useDummyJsonProducts`, `useDummyJsonProductById`, `useDummyJsonProductSearch`, `useDummyJsonUsers`, `useDummyJsonPosts`, `useDummyJsonRandomQuote`, …), offline seed data (`useGetDummyJsonSeed`), and a singleton server facade (`useBunCreate`/`useBunStart`/`useBunGetServer`/`useBunStop`). Run locally with `bun run bun:dev`.
 
 ## [4.0.0] - 2026-09-20
 
