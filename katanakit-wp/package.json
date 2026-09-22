@@ -1,6 +1,6 @@
 {
   "name": "katanakit-wp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "KatanaWP — code-first WordPress configuration. Bun scripts that wrap PHP via Docker (no local PHP required).",
   "license": "MIT",
   "author": "senseikatana - Sergio Jurado",
