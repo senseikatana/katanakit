@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Breaking
+
+- **Logger API simplified** — `useLogger` now takes `(message, data?, level?)` with levels reduced to `log | warn | error` (removed `info`/`debug`). The Strategy abstraction (`LogStrategy`, `ConsoleStrategy`, `useSetLogLevel`, `useSetStrategy`) and `useLog` were removed; logging maps directly onto the native `console`.
+
+### Changed
+
+- **Renamed `docs/` → `guides/`** — the Docusaurus site is now the `guides` workspace (`katanakit-guides`); deployment paths, scripts, `sync-docs-releases.mjs` and the Docusaurus config (`path: "content"`, TypeDoc `out`) were updated.
+- **Prettier + ESLint as lint/format** — added `.vscode/settings.json` + `extensions.json` (Prettier default formatter, Biome disabled), formatted the whole codebase, removed stale `biome-ignore` comments and the redundant `eslint-config-prettier`.
+- **Reduced `package.json` scripts** — removed broken/redundant scripts (`bump:all`, `assistant:demo`, `api:demo`, `notes`, `dev:adapters`) and dropped husky/lint-staged (the pre-commit hook could not find `.git` in the monorepo).
+
+### Fixed
+
+- **`invalidateQueries` prefix matching** — now matches query keys by array prefix instead of serialized string, so invalidating `["users"]` correctly invalidates `["users", 1]`.
+- **XSS hardening in `useSetAttribute`** — `srcdoc` is now rejected outright (a regex cannot safely sanitize entity-encoded HTML); `data:` URIs are restricted to raster images (`png|jpg|gif|webp`).
+- **Pagination caps** — `useWpListAllPosts`, `useNotionListAllBlockChildren` and `useNotionListAllDatabasePages` now default to `maxItems = 1000`.
+- **Express `app` export is now lazy** — importing `katanakit-js/adapters/express` no longer builds the app as a side effect.
+- **Restored CI + release workflows** — `.github/workflows/ci.yml` and `release.yml` (OIDC trusted publishing) were recreated.
+- **Removed dead code** — the broken `ErrorService` singleton and the Astro re-export from the main barrel.
+
 ## [4.0.1]
 
 ### Added
@@ -29,6 +50,15 @@ All notable changes to this project are documented in this file.
 - **npm v12 security hardening** — added `.npmrc` with `allow-scripts=` to block dependency lifecycle scripts (npm v12 default). Added `.github/workflows/release.yml` with OIDC trusted publishing for automated releases without long-lived NPM_TOKEN. Updated AGENTS.md with new release workflow and security notes.
 - **Improved documentation** — expanded `useBuildUrl` section with real-world use cases (navigation links, image URLs, third-party libraries, debugging, SSR), updated `CONTRIBUTING.md` to reflect current tooling (pnpm), added contribution invitation to README.
 - **Kitt AI assistant documentation** — added "When to use Kitt" and "When to use alternatives" comparison table with links to Vercel AI SDK, LangChain, CrewAI, and Botpress.
+
+### Fixed
+
+- **Query cache** — `fetchQuery` no longer reuses the placeholder `queryFn` from `subscribe()` (which returned empty data); the error state is no longer corrupted to `[object Object]`; `cancelQueries` now actually cancels.
+- **SSRF** — `useFetch` fails closed on redirects (`redirect: "error"`).
+- **DOM sanitizer** — blocks `data:`, `vbscript:` and control-character scheme bypasses.
+- **Prisma subpath** — importing `katanakit-js/prisma` no longer throws without `DATABASE_URL` (lazy client).
+- **Notion/WordPress** — return Safe Results when unconfigured; WordPress nonce auth now sends the cookie.
+- **SSR guards** — `useCopyToClipboard` and storage access are now SSR-safe.
 
 ## [3.1.0] - 2026-09-14
 
