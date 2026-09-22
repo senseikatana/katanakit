@@ -1,20 +1,20 @@
 /**
  * Vanilla (framework-free) query demo — pure TypeScript, no framework.
  *
- * Run it:  bun run examples/query/vanilla.ts
+ * Run it:  bun run build && bun run examples/query/vanilla.ts
  *
  * Shows the whole loop you own with the vanilla adapter: subscribe → paint,
  * cache hits, invalidation, and a mutation. No DOM, no framework — just the
  * observer. Swap the fake `apiGetPokemon` for `useGetApi`/`useFetch` and the
  * pattern is identical.
- *
- * `@/…` is this repo's internal alias (it points at `src/`, so the file runs
- * without a build). In your app the imports are:
- *   `katanakit-js/adapters/vanilla`  and  `katanakit-js`.
  */
-import { useMutation, useQuery, useQueryClient } from "@/adapters/vanilla";
-import { useSafeQueryFn } from "@/core/services/query.service";
-import type { FetchResult } from "@/types";
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+	useSafeQueryFn,
+} from "katanakit-js/adapters/vanilla";
+import type { FetchResult } from "katanakit-js";
 
 interface Pokemon {
 	id: number;

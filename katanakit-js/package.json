@@ -118,6 +118,7 @@
 		"whatsapp:dev": "tsx src/adapters/whatsapp/main.ts",
 		"clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
 		"check": "eslint ./src && tsc6 --noEmit && vitest run",
+		"examples:check": "tsc6 -p tsconfig.examples.json && tsc6 -p tsconfig.examples.solid.json",
 		"fix": "eslint --fix ./src && tsc6 --noEmit && vitest run",
 		"build": "bun run clean && bun run check && tsc6 -p tsconfig.json",
 		"release": "bun run build && bun run bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",

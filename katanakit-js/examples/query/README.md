@@ -14,10 +14,20 @@ reactivity bridge changes.
 | [`svelte.svelte`](./svelte.svelte) | `katanakit-js/adapters/svelte`  | `Readable` store (`$query`)             |
 | [`angular.ts`](./angular.ts)       | `katanakit-js/adapters/angular` | one signal per field                    |
 
-Run the vanilla one (no framework, no network — it uses a fake API):
+Run the vanilla one (no framework, no network — it uses a fake API). It imports
+the built package, so build once first:
 
 ```bash
+bun run build
 bun run examples/query/vanilla.ts
+```
+
+The Vue and Svelte files need their own compiler; the React, Solid and Angular
+ones are plain components to drop into an app. The `.ts`/`.tsx` files are
+type-checked on demand, deliberately **outside** `bun run check`:
+
+```bash
+bun run examples:check
 ```
 
 ## The helpers (what each one is for)

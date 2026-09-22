@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"rootDir": ".",
+		"jsx": "react-jsx"
+	},
+	"include": ["examples/query/vanilla.ts", "examples/query/react.tsx", "examples/query/angular.ts"],
+	"exclude": ["node_modules", "dist"]
+}
