@@ -10,12 +10,8 @@ import type {
 /* Logging                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export type LogLevel = "log" | "info" | "warn" | "error" | "debug";
-
-/** Strategy contract: defines the output using type-safe levels. */
-export interface LogStrategy {
-	useOutput(level: LogLevel, message: string, data?: unknown): void;
-}
+/** Native console methods used as log levels. */
+export type LogLevel = "log" | "warn" | "error";
 
 /* -------------------------------------------------------------------------- */
 /* DOM / Observers                                                            */

@@ -68,7 +68,7 @@ export function useCreateSignal<T>(initialValue: T): [SignalGetter<T>, SignalSet
 					try {
 						listener(value, oldValue);
 					} catch (error) {
-						useLogger("error", "[createSignal] Listener error:", error);
+						useLogger("[createSignal] Listener error:", error, "error");
 					}
 				}
 			});
@@ -118,14 +118,14 @@ export function useCreateEffect(
 			try {
 				cleanup();
 			} catch (error) {
-				useLogger("error", "[createEffect] Previous cleanup error:", error);
+				useLogger("[createEffect] Previous cleanup error:", error, "error");
 			}
 		}
 
 		try {
 			cleanup = callback() as void | (() => void);
 		} catch (error) {
-			useLogger("error", "[createEffect] Effect execution error:", error);
+			useLogger("[createEffect] Effect execution error:", error, "error");
 		}
 	};
 
@@ -143,7 +143,7 @@ export function useCreateEffect(
 			try {
 				cleanup();
 			} catch (error) {
-				useLogger("error", "[createEffect] Final cleanup error:", error);
+				useLogger("[createEffect] Final cleanup error:", error, "error");
 			}
 		}
 		for (const unsub of unsubscribes) {
@@ -239,7 +239,7 @@ export function useCreateStorageSignal<T>(
 			initial = stored;
 		}
 	} catch (error) {
-		useLogger("error", `[createStorageSignal] Error reading from ${target}:`, error);
+		useLogger(`[createStorageSignal] Error reading from ${target}:`, error, "error");
 	}
 
 	const [get, set] = useCreateSignal<T>(initial);
@@ -251,7 +251,7 @@ export function useCreateStorageSignal<T>(
 			try {
 				useSetStorage(key, newValue, target);
 			} catch (error) {
-				useLogger("error", `[createStorageSignal] Error writing to ${target}:`, error);
+				useLogger(`[createStorageSignal] Error writing to ${target}:`, error, "error");
 			}
 
 			return newValue;
@@ -333,7 +333,7 @@ export function useCreateBatch(): (callback: () => void) => void {
 		try {
 			callback();
 		} catch (error) {
-			useLogger("error", "[createBatch] Batch block error:", error);
+			useLogger("[createBatch] Batch block error:", error, "error");
 		} finally {
 			if (!wasBatching) {
 				isBatching = false;

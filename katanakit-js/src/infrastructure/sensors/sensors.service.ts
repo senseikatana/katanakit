@@ -36,14 +36,14 @@ export async function useGetMediaStream(
 	constraints: MediaStreamConstraints = { video: true, audio: true },
 ): Promise<MediaStream | null> {
 	if (!isBrowser() || !navigator.mediaDevices?.getUserMedia) {
-		useLogger("warn", "[getMediaStream] API not supported in this environment.");
+		useLogger("[getMediaStream] API not supported in this environment.", undefined, "warn");
 		return null;
 	}
 
 	try {
 		return await navigator.mediaDevices.getUserMedia(constraints);
 	} catch (error) {
-		useLogger("error", "[getMediaStream] Permission denied or error:", error);
+		useLogger("[getMediaStream] Permission denied or error:", error, "error");
 		return null;
 	}
 }
@@ -125,7 +125,7 @@ export async function useGetGeolocation(options?: PositionOptions): Promise<GeoP
 				});
 			},
 			(error) => {
-				useLogger("error", "[getGeolocation] Error:", error.message);
+				useLogger("[getGeolocation] Error:", error.message, "error");
 				resolve(null);
 			},
 			{ enableHighAccuracy: true, timeout: 10000, ...options },
@@ -164,7 +164,7 @@ export function useWatchGeolocation(
 			});
 		},
 		(error) => {
-			useLogger("error", "[watchGeolocation] Error:", error.message);
+			useLogger("[watchGeolocation] Error:", error.message, "error");
 		},
 		{ enableHighAccuracy: true, ...options },
 	);
@@ -205,7 +205,7 @@ export async function useRequestMotionPermission(): Promise<boolean> {
 			const response = await DeviceOrientationEventExtended.requestPermission();
 			return response === "granted";
 		} catch (error) {
-			useLogger("error", "[requestMotionPermission] Error:", error);
+			useLogger("[requestMotionPermission] Error:", error, "error");
 			return false;
 		}
 	}
@@ -324,7 +324,7 @@ export async function useGetBattery(): Promise<BatteryManager | null> {
 	try {
 		return await nav.getBattery();
 	} catch (error) {
-		useLogger("error", "[getBattery] Error:", error);
+		useLogger("[getBattery] Error:", error, "error");
 		return null;
 	}
 }

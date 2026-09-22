@@ -85,7 +85,7 @@ export function useFormat(
 
 		return date.toLocaleString(locale, options);
 	} catch (error) {
-		useLogger("error", "Invalid date input:", error);
+		useLogger("Invalid date input:", error, "error");
 		throw new Error(`Invalid date input: ${dateInput}`);
 	}
 }

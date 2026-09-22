@@ -74,7 +74,7 @@ export function useObserverCreate(
 	autoUnobserve = true,
 ): void {
 	if (!useIsSupported()) {
-		useLogger("warn", "[ObserverService] IntersectionObserver not supported.");
+		useLogger("[ObserverService] IntersectionObserver not supported.", undefined, "warn");
 		return;
 	}
 
@@ -115,7 +115,7 @@ export function useObserverObserve(key: string, element: ObserverTarget): void {
 
 	const target = resolveTarget(element);
 	if (!target) {
-		useLogger("warn", `[ObserverService] Target not found for key "${key}":`, element);
+		useLogger(`[ObserverService] Target not found for key "${key}":`, element, "warn");
 		return;
 	}
 

@@ -9,6 +9,19 @@ const ERROR_DEFAULTS: Record<number, string> = {
 	500: "Internal Server Error",
 };
 
+export class ErrorService {
+	private static instance: ErrorService;
+
+	private constructor() {}
+
+	public static getInstance(): ErrorService {
+		if (ErrorService) {
+			ErrorService.instance = new ErrorService();
+		}
+		return ErrorService.instance;
+	}
+}
+
 /**
  * Serialize an error into a plain object.
  * Uses sensible defaults based on the status code when message is omitted.
@@ -45,7 +58,7 @@ export function useErrorSerialize(message = "", code = 400): ISerializedError {
  * import { useErrorCustom, useLogger } from "katanakit-js";
  *
  * const error = useErrorCustom("User not found", 404);
- * useLogger("error", error.message, error);
+ * useLogger(error.message, error, "error");
  * // { message: "User not found", code: 404 }
  * ```
  */

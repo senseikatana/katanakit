@@ -222,7 +222,7 @@ export function useCreateWhatsAppRouter(): Router {
 		response.status(200).json({ status: "ok" });
 		void useHandleWhatsAppMessage(request.body).catch((error: unknown) => {
 			const message = error instanceof Error ? error.message : String(error);
-			useLogger("error", `[WhatsApp] ${message}`);
+			useLogger(`[WhatsApp] ${message}`, undefined, "error");
 		});
 	});
 

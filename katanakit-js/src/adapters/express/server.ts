@@ -96,7 +96,7 @@ function useExpressSetupRoutes(expressApp: Application): void {
  */
 function useExpressSetupErrorHandling(expressApp: Application): void {
 	expressApp.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-		useLogger("error", "Unhandled error:", err);
+		useLogger("Unhandled error:", err, "error");
 		res.status(500).json({ error: "Internal Server Error" });
 	});
 
@@ -167,7 +167,7 @@ export const useExpressStart = (port = 3000, host = "localhost"): void => {
 	const expressApp = useExpressCreate();
 
 	expressApp.listen(port, host, () => {
-		useLogger("info", `Server running on http://${host}:${port}`);
+		useLogger(`Server running on http://${host}:${port}`);
 	});
 };
 

@@ -135,7 +135,7 @@ export async function useStartTelegramPolling(options: TelegramPollingOptions = 
 		} catch (error: unknown) {
 			if (signal?.aborted) break;
 			const message = error instanceof Error ? error.message : String(error);
-			useLogger("error", `[Telegram] ${message}`);
+			useLogger(`[Telegram] ${message}`, undefined, "error");
 		}
 
 		await useSleep(intervalMs);

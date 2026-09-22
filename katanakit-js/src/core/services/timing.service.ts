@@ -85,7 +85,7 @@ export function useInterval(
 		try {
 			await callback();
 		} catch (error) {
-			useLogger("error", "[interval] Callback error:", error);
+			useLogger("[interval] Callback error:", error, "error");
 		} finally {
 			isExecuting = false;
 		}
@@ -164,7 +164,7 @@ export function useDebounce<T extends (...args: unknown[]) => unknown>(
 			try {
 				func(...args);
 			} catch (error) {
-				useLogger("error", "[debounce] Callback error:", error);
+				useLogger("[debounce] Callback error:", error, "error");
 			}
 			timeoutId = undefined;
 		}, delayMs);
@@ -207,7 +207,7 @@ export function useDebounceImmediate<T extends (...args: unknown[]) => unknown>(
 			try {
 				func(...args);
 			} catch (error) {
-				useLogger("error", "[debounceImmediate] Callback error:", error);
+				useLogger("[debounceImmediate] Callback error:", error, "error");
 			}
 		}
 
@@ -220,7 +220,7 @@ export function useDebounceImmediate<T extends (...args: unknown[]) => unknown>(
 				try {
 					func(...lastArgs);
 				} catch (error) {
-					useLogger("error", "[debounceImmediate] Callback error:", error);
+					useLogger("[debounceImmediate] Callback error:", error, "error");
 				}
 			}
 			invoked = false;
@@ -256,7 +256,7 @@ export function useThrottle<T extends (...args: unknown[]) => unknown>(
 			try {
 				func(...args);
 			} catch (error) {
-				useLogger("error", "[throttle] Callback error:", error);
+				useLogger("[throttle] Callback error:", error, "error");
 			}
 			inThrottle = true;
 			setTimeout(() => {
@@ -293,7 +293,7 @@ export function useThrottleTrailing<T extends (...args: unknown[]) => unknown>(
 			try {
 				func(...args);
 			} catch (error) {
-				useLogger("error", "[throttleTrailing] Callback error:", error);
+				useLogger("[throttleTrailing] Callback error:", error, "error");
 			}
 			inThrottle = true;
 			lastArgs = null;
@@ -304,7 +304,7 @@ export function useThrottleTrailing<T extends (...args: unknown[]) => unknown>(
 					try {
 						func(...lastArgs);
 					} catch (error) {
-						useLogger("error", "[throttleTrailing] Callback error:", error);
+						useLogger("[throttleTrailing] Callback error:", error, "error");
 					}
 				}
 			}, limitMs);
@@ -339,7 +339,7 @@ export async function useRepeat(
 		try {
 			await callback(i);
 		} catch (error) {
-			useLogger("error", "[repeat] Callback error:", error);
+			useLogger("[repeat] Callback error:", error, "error");
 		}
 
 		if (i < iterations - 1 && delayMs > 0) {

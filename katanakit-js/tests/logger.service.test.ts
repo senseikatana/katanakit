@@ -1,75 +1,52 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import {
-	type LogStrategy,
-	useLogger,
-	useSetLogLevel,
-	useSetStrategy,
-} from "@/core/services/logger.service";
+import { useLogger, useLoggerClear, useLoggerTable } from "@/core/services/logger.service";
 
 describe("LoggerService", () => {
 	afterEach(() => {
-		useSetLogLevel("info");
+		vi.restoreAllMocks();
 	});
 
-	it("logs message with level first", () => {
-		const calls: Array<{ level: string; message: string; data?: unknown }> = [];
-		const strategy: LogStrategy = {
-			useOutput: (level, message, data) => calls.push({ level, message, data }),
-		};
+	it("logs a message at the default log level", () => {
+		const spy = vi.spyOn(console, "log").mockImplementation(() => {});
 
-		useSetStrategy(strategy);
-		useLogger("info", "hello", { id: 1 });
+		useLogger("plain message");
 
-		expect(calls).toEqual([{ level: "info", message: "hello", data: { id: 1 } }]);
+		expect(spy).toHaveBeenCalledWith("plain message");
 	});
 
-	it("defaults to the log level when only a message is provided", () => {
-		const calls: Array<{ level: string; message: string }> = [];
-		const strategy: LogStrategy = {
-			useOutput: (level, message) => calls.push({ level, message }),
-		};
+	it("logs a message with data", () => {
+		const spy = vi.spyOn(console, "log").mockImplementation(() => {});
 
-		useSetStrategy(strategy);
-		useLogger("log", "plain message");
+		useLogger("hello", { id: 1 });
 
-		expect(calls).toEqual([{ level: "log", message: "plain message" }]);
+		expect(spy).toHaveBeenCalledWith("hello", { id: 1 });
 	});
 
-	it("accepts level as the first argument", () => {
-		const calls: Array<{ level: string; message: string }> = [];
-		const strategy: LogStrategy = {
-			useOutput: (level, message) => calls.push({ level, message }),
-		};
+	it("logs at warn level", () => {
+		const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
-		useSetStrategy(strategy);
-		useLogger("warn", "Cache miss");
+		useLogger("Cache miss", undefined, "warn");
 
-		expect(calls).toEqual([{ level: "warn", message: "Cache miss" }]);
+		expect(spy).toHaveBeenCalledWith("Cache miss");
 	});
 
-	it("logs error level messages", () => {
-		const calls: Array<{ level: string; message: string }> = [];
-		const strategy: LogStrategy = {
-			useOutput: (level, message) => calls.push({ level, message }),
-		};
+	it("logs at error level with data", () => {
+		const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-		useSetStrategy(strategy);
-		useLogger("error", "Something broke");
+		useLogger("Something broke", { code: 500 }, "error");
 
-		expect(calls).toEqual([{ level: "error", message: "Something broke" }]);
+		expect(spy).toHaveBeenCalledWith("Something broke", { code: 500 });
 	});
 
-	it("logs non-string data with level", () => {
-		const calls: Array<{ level: string; message: string; data?: unknown }> = [];
-		const strategy: LogStrategy = {
-			useOutput: (level, message, data) => calls.push({ level, message, data }),
-		};
+	it("clears and tables via the native console", () => {
+		const clearSpy = vi.spyOn(console, "clear").mockImplementation(() => {});
+		const tableSpy = vi.spyOn(console, "table").mockImplementation(() => {});
 
-		useSetStrategy(strategy);
-		useSetLogLevel("debug");
-		useLogger("debug", "object data", { id: 42 });
+		useLoggerClear();
+		useLoggerTable([{ id: 1 }]);
 
-		expect(calls).toEqual([{ level: "debug", message: "object data", data: { id: 42 } }]);
+		expect(clearSpy).toHaveBeenCalled();
+		expect(tableSpy).toHaveBeenCalledWith([{ id: 1 }]);
 	});
 });
