@@ -8,6 +8,17 @@
     "lint": "docker run --rm -v \"$PWD\":/app -w /app php:8.3-cli vendor/bin/phpcs --standard=phpcs.xml",
     "lint:fix": "docker run --rm -v \"$PWD\":/app -w /app php:8.3-cli vendor/bin/phpcbf --standard=phpcs.xml",
     "wp:start": "bunx @wordpress/env start",
-    "wp:stop": "bunx @wordpress/env stop"
+    "wp:stop": "bunx @wordpress/env stop",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "check": "eslint ./src && tsc6 --noEmit && vitest run",
+    "fix": "eslint --fix ./src && tsc6 --noEmit && vitest run",
+    "build": "bun run clean && bun run check && tsc6 -p tsconfig.json",
+    "release": "bun run build && bun run bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:minor": "bun run build && bun run bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:major": "bun run build && bun run bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"v$(node -p \"require('./package.json').version\")\" | gh release create \"v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "bump:patch": "node scripts/bump-version.mjs patch",
+    "bump:minor": "node scripts/bump-version.mjs minor",
+    "bump:major": "node scripts/bump-version.mjs major",
+    "bump:sync": "node scripts/bump-version.mjs --sync"
   }
 }
