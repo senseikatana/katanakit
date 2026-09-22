@@ -16,9 +16,6 @@
     "katana.json",
     "composer.json"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "composer": "docker run --rm -v \"$PWD\":/app -w /app composer:2",
     "test": "docker run --rm -v \"$PWD\":/app -w /app php:8.3-cli vendor/bin/phpunit",
@@ -28,9 +25,9 @@
     "wp:stop": "bunx @wordpress/env stop",
     "check": "bun run lint && bun run test",
     "fix": "bun run lint:fix",
-    "release": "bun run check && bun run bump:patch && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:minor": "bun run check && bun run bump:minor && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
-    "release:major": "bun run check && bun run bump:major && npm publish --access public && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release": "bun run check && bun run bump:patch && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:minor": "bun run check && bun run bump:minor && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
+    "release:major": "bun run check && bun run bump:major && git push && git push --tags && node scripts/generate-release-notes.mjs \"wp/v$(node -p \"require('./package.json').version\")\" | gh release create \"wp/v$(node -p \"require('./package.json').version\")\" --notes-file -",
     "bump:patch": "node scripts/bump-version.mjs patch",
     "bump:minor": "node scripts/bump-version.mjs minor",
     "bump:major": "node scripts/bump-version.mjs major",
