@@ -110,7 +110,6 @@ function delayMs(base: number, attempt: number): number {
 // ============================================================
 
 class QueryCache {
-	// biome-ignore lint/suspicious/noExplicitAny: internal type erasure for the cache map.
 	private entries = new Map<string, QueryEntry<any>>();
 
 	get<T>(hash: string): QueryEntry<T> | undefined {
@@ -118,7 +117,6 @@ class QueryCache {
 	}
 
 	set<T>(hash: string, entry: QueryEntry<T>): void {
-		// biome-ignore lint/suspicious/noExplicitAny: internal type erasure.
 		this.entries.set(hash, entry as QueryEntry<any>);
 	}
 
@@ -128,7 +126,6 @@ class QueryCache {
 		this.entries.delete(hash);
 	}
 
-	// biome-ignore lint/suspicious/noExplicitAny: internal type erasure.
 	entries_(): Map<string, QueryEntry<any>> {
 		return this.entries;
 	}
@@ -398,7 +395,6 @@ export class QueryClient {
 		};
 	}
 
-	// biome-ignore lint/suspicious/noExplicitAny: internal type erasure.
 	private isStale(entry: QueryEntry<any>): boolean {
 		if (entry.state.isStale) return true;
 		const staleTime = entry.config.staleTime ?? 0;
@@ -499,7 +495,6 @@ export class QueryClient {
 		this.notifyObservers(entry);
 	}
 
-	// biome-ignore lint/suspicious/noExplicitAny: internal type erasure.
 	private notifyObservers(entry: QueryEntry<any>): void {
 		for (const observer of entry.observers) {
 			try {

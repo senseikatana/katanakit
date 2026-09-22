@@ -1,16 +1,16 @@
 services:
-  - type: static_site
-    name: katanakit-docs
-    branch: deploy
-    buildCommand: pnpm install && pnpm run docs:build
-    staticPublishPath: ./docs/build
-    nodeVersion: 22.18.0
-    domains:
-      - senseikatana.com
-    headers:
-      - path: "/*"
-        name: X-Frame-Options
-        value: DENY
-      - path: "/*"
-        name: X-Content-Type-Options
-        value: nosniff
+ - type: static_site
+   name: katanakit-guides
+   branch: deploy
+   buildCommand: bun install && bun run guides:build
+   staticPublishPath: ./guides/build
+   nodeVersion: 22.18.0
+   domains:
+    - senseikatana.com
+   headers:
+    - path: "/*"
+      name: X-Frame-Options
+      value: DENY
+    - path: "/*"
+      name: X-Content-Type-Options
+      value: nosniff

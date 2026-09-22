@@ -35,11 +35,14 @@ describe("solid/useQuery", () => {
 		const errorAccessors: (() => { message: string } | null)[] = [];
 
 		createRoot(() => {
-			const q = useQuery<{ name: string }>({
-				queryKey: ["pokemon", "missing"],
-				queryFn: async () => fail("Not found", 404),
-				retry: 0,
-			}, client);
+			const q = useQuery<{ name: string }>(
+				{
+					queryKey: ["pokemon", "missing"],
+					queryFn: async () => fail("Not found", 404),
+					retry: 0,
+				},
+				client,
+			);
 			errorAccessors.push(q.error);
 		});
 

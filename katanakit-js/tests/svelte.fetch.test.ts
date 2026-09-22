@@ -36,6 +36,9 @@ describe("svelte/useWatch", () => {
 		expect(captured).toEqual([["a", undefined]]);
 
 		store.set("b");
-		expect(captured).toEqual([["a", undefined], ["b", "a"]]);
+		expect(captured).toEqual([
+			["a", undefined],
+			["b", "a"],
+		]);
 	});
 });

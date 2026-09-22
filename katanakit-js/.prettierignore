@@ -1,5 +1,5 @@
 dist
-docs
+guides
 node_modules
 src/prisma/schema.d.ts
 src/prisma/schema.json

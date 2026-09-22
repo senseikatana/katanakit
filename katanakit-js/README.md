@@ -18,16 +18,16 @@ In the browser, use jsDelivr **`/+esm`** so named exports and dependencies resol
 
 ```html
 <script type="module">
-  import { useLogger, useGetApi, useInitApis } from "https://cdn.jsdelivr.net/npm/katanakit-js/+esm";
-  useLogger("ready");
+	import { useLogger, useGetApi, useInitApis } from "https://cdn.jsdelivr.net/npm/katanakit-js/+esm";
+	useLogger("ready");
 </script>
 ```
 
-| CDN | URL |
-|-----|-----|
-| **jsDelivr `/+esm`** (recommended) | `https://cdn.jsdelivr.net/npm/katanakit-js/+esm` |
-| **esm.sh** | `https://esm.sh/katanakit-js` |
-| **Raw ESM file** | `https://cdn.jsdelivr.net/npm/katanakit-js/dist/index.js` (needs bundler or import map) |
+| CDN                                | URL                                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------------------- |
+| **jsDelivr `/+esm`** (recommended) | `https://cdn.jsdelivr.net/npm/katanakit-js/+esm`                                        |
+| **esm.sh**                         | `https://esm.sh/katanakit-js`                                                           |
+| **Raw ESM file**                   | `https://cdn.jsdelivr.net/npm/katanakit-js/dist/index.js` (needs bundler or import map) |
 
 Pin a version in production (e.g. `@2.14.2/+esm`). There is no IIFE/UMD build.
 
@@ -40,21 +40,21 @@ useLogger("boot");
 
 // Register your APIs once
 useInitApis({
-  pokeapi: {
-    baseUri: "https://pokeapi.co/api/v2",
-    endpoints: { pokemonById: "/pokemon/:id/" },
-  },
+	pokeapi: {
+		baseUri: "https://pokeapi.co/api/v2",
+		endpoints: { pokemonById: "/pokemon/:id/" },
+	},
 });
 
 // Fetch with Safe Result — no try/catch needed for HTTP failures
 const result = await useGetApi<{ name: string }>("pokeapi", "pokemonById", {
-  params: { id: 25 },
+	params: { id: 25 },
 });
 
 if (result.ok) {
-  console.log(result.data.name); // "pikachu"
+	console.log(result.data.name); // "pikachu"
 } else {
-  console.error(result.error.message);
+	console.error(result.error.message);
 }
 ```
 
@@ -70,28 +70,28 @@ and returns a **Safe Result** (`{ ok, data, error }`) that never throws on HTTP 
 import { useInitApis } from "katanakit-js";
 
 useInitApis({
-  // A public REST API
-  jsonplaceholder: {
-    baseUri: "https://jsonplaceholder.typicode.com",
-    endpoints: {
-      posts: "/posts",
-      postById: "/posts/:id",
-    },
-    // Applied automatically to specific endpoints (overridable per-call)
-    defaultQueryParams: {
-      posts: { _limit: 10 },
-    },
-  },
+	// A public REST API
+	jsonplaceholder: {
+		baseUri: "https://jsonplaceholder.typicode.com",
+		endpoints: {
+			posts: "/posts",
+			postById: "/posts/:id",
+		},
+		// Applied automatically to specific endpoints (overridable per-call)
+		defaultQueryParams: {
+			posts: { _limit: 10 },
+		},
+	},
 
-  // Your own backend
-  myApi: {
-    baseUri: "https://api.myapp.com/v1",
-    endpoints: {
-      users: "/users",
-      userById: "/users/:id",
-      createUser: "/users",
-    },
-  },
+	// Your own backend
+	myApi: {
+		baseUri: "https://api.myapp.com/v1",
+		endpoints: {
+			users: "/users",
+			userById: "/users/:id",
+			createUser: "/users",
+		},
+	},
 });
 ```
 
@@ -106,13 +106,13 @@ if (list.ok) console.log(list.data);
 
 // Read by ID — :id is replaced by params
 const post = await useGetApi<{ title: string }>("jsonplaceholder", "postById", {
-  params: { id: 1 },
+	params: { id: 1 },
 });
 if (post.ok) console.log(post.data.title);
 
 // Override default query params
 const filtered = await useGetApi("jsonplaceholder", "posts", {
-  query: { _limit: 5, userId: 1 },
+	query: { _limit: 5, userId: 1 },
 });
 ```
 
@@ -123,8 +123,8 @@ import { usePost, usePut, usePatch, useDelete } from "katanakit-js";
 
 // POST — body is auto-serialized to JSON
 const created = await usePost<{ id: number }>("myApi", "createUser", {
-  name: "Alice",
-  email: "alice@example.com",
+	name: "Alice",
+	email: "alice@example.com",
 });
 
 // PUT — full replacement (body + path params)
@@ -143,10 +143,10 @@ There's no global interceptor — pass `headers` directly. This keeps things exp
 
 ```ts
 const result = await useFetch("myApi", "users", {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${getToken()}`,
-  },
+	method: "GET",
+	headers: {
+		Authorization: `Bearer ${getToken()}`,
+	},
 });
 ```
 
@@ -158,14 +158,14 @@ Every fetch returns `{ ok, data, error, status, url }`. No try/catch needed for 
 const result = await useGetApi("myApi", "userById", { params: { id: 99999 } });
 
 if (result.ok) {
-  // result.data is typed
-  console.log(result.data);
+	// result.data is typed
+	console.log(result.data);
 } else {
-  // result.error is always structured
-  console.log(result.error.status);   // 404
-  console.log(result.error.message);  // "HTTP Error: Not Found"
-  console.log(result.error.details);  // parsed response body (if any)
-  console.log(result.url);            // the URL that was called
+	// result.error is always structured
+	console.log(result.error.status); // 404
+	console.log(result.error.message); // "HTTP Error: Not Found"
+	console.log(result.error.details); // parsed response body (if any)
+	console.log(result.url); // the URL that was called
 }
 ```
 
@@ -208,7 +208,7 @@ const avatarUrl = useBuildUrl("myApi", "userAvatar", {
 ```ts
 // Charts, maps, analytics — libraries that fetch their own data
 const chartDataUrl = useBuildUrl("myApi", "analytics", {
-  query: { range: "7d", metric: "visits" },
+	query: { range: "7d", metric: "visits" },
 });
 new Chart(canvas, { data: chartDataUrl });
 ```
@@ -217,9 +217,12 @@ new Chart(canvas, { data: chartDataUrl });
 
 ```ts
 // See the full URL before making the request
-console.log("Will fetch:", useBuildUrl("myApi", "users", {
-  query: { page: 1, per_page: 20 },
-}));
+console.log(
+	"Will fetch:",
+	useBuildUrl("myApi", "users", {
+		query: { page: 1, per_page: 20 },
+	}),
+);
 // → "https://api.myapp.com/v1/users?page=1&per_page=20"
 ```
 
@@ -228,7 +231,7 @@ console.log("Will fetch:", useBuildUrl("myApi", "users", {
 ```ts
 // In Astro, Next.js, or Nuxt server code
 const apiUrl = useBuildUrl("notion", "database", {
-  params: { id: "db-123" },
+	params: { id: "db-123" },
 });
 // Pass to client component or pre-render
 ```
@@ -266,11 +269,11 @@ const qc = useQueryClient();
 
 // Fetch with cache, stale-while-revalidate, retry, and dedup.
 const pokemon = await qc.fetchQuery<Pokemon>({
-  queryKey: ["pokemon", 25],
-  queryFn: () => useGetApi<Pokemon>("pokeapi", "pokemonById", { params: { id: 25 } }),
-  staleTime: 60_000,      // Cache is fresh for 60s.
-  retry: 3,                // Retry 3 times on failure.
-  refetchOnWindowFocus: true,
+	queryKey: ["pokemon", 25],
+	queryFn: () => useGetApi<Pokemon>("pokeapi", "pokemonById", { params: { id: 25 } }),
+	staleTime: 60_000, // Cache is fresh for 60s.
+	retry: 3, // Retry 3 times on failure.
+	refetchOnWindowFocus: true,
 });
 ```
 
@@ -349,12 +352,12 @@ Use it when you need:
 
 ### When to use alternatives
 
-| Need | Use instead |
-|------|------------|
-| Streaming token-by-token | [Vercel AI SDK](https://sdk.vercel.ai) |
-| RAG with embeddings | [LangChain.js](https://js.langchain.com) |
+| Need                      | Use instead                                   |
+| ------------------------- | --------------------------------------------- |
+| Streaming token-by-token  | [Vercel AI SDK](https://sdk.vercel.ai)        |
+| RAG with embeddings       | [LangChain.js](https://js.langchain.com)      |
 | Multi-agent orchestration | [CrewAI](https://github.com/crewAIInc/crewAI) |
-| Full chatbot framework | [Botpress](https://botpress.com) |
+| Full chatbot framework    | [Botpress](https://botpress.com)              |
 
 Kitt stays small (0 dependencies) because it does one thing well:
 **chat completions with tool calls, using any OpenAI-compatible endpoint.**
@@ -370,21 +373,21 @@ useInitAgent({ model: "qwen3.8-max" });
 
 // Assistant — single-shot review / question.
 const review = await useChat([
-  { role: "user", content: "Summarize the benefits of solar energy in three bullet points." },
+	{ role: "user", content: "Summarize the benefits of solar energy in three bullet points." },
 ]);
 if (review.ok) console.log(review.data);
 
 // Agent — autonomous tool-calling loop that can act (read/write/run).
 const result = await useRunAgent("Fix the type errors in src/", {
-  tools: [
-    {
-      name: "readFile",
-      description: "Returns file contents",
-      parameters: { type: "object", properties: { path: { type: "string" } } },
-      execute: ({ path }) => fs.readFile(path, "utf8"),
-    },
-  ],
-  maxSteps: 12,
+	tools: [
+		{
+			name: "readFile",
+			description: "Returns file contents",
+			parameters: { type: "object", properties: { path: { type: "string" } } },
+			execute: ({ path }) => fs.readFile(path, "utf8"),
+		},
+	],
+	maxSteps: 12,
 });
 ```
 
@@ -404,20 +407,20 @@ import "dotenv/config";
 import { useInitAssistant, useReply } from "katanakit-js";
 
 useInitAssistant({
-  // apiKey      — process.env.DASHSCOPE_API_KEY
-  // baseUrl     — KITT_BASE_URL
-  // model       — "qwen3.8-max"
-  // systemPrompt — KITT_SYSTEM_PROMPT
-  // store       — in-memory (useCreateMemoryStore)
-  // tools       — AiTool[]
-  // maxSteps    — number
+	// apiKey      — process.env.DASHSCOPE_API_KEY
+	// baseUrl     — KITT_BASE_URL
+	// model       — "qwen3.8-max"
+	// systemPrompt — KITT_SYSTEM_PROMPT
+	// store       — in-memory (useCreateMemoryStore)
+	// tools       — AiTool[]
+	// maxSteps    — number
 });
 
 const result = await useReply(undefined, "What are your hours?");
 if (result.ok) {
-  console.log(result.data.reply, result.data.sessionId);
+	console.log(result.data.reply, result.data.sessionId);
 } else {
-  console.error(result.error.message);
+	console.error(result.error.message);
 }
 ```
 
@@ -426,12 +429,12 @@ if (result.ok) {
 
 Also on the main barrel:
 
-| Helper | Signature |
-|--------|-----------|
-| `useCreateSession` | `(channel?) => Promise<string>` |
-| `useGetHistory` | `(sessionId) => Promise<AiMessage[]>` |
-| `useResetSession` | `(sessionId) => Promise<void>` |
-| `useCreateMemoryStore` | `() => ConversationStore` |
+| Helper                 | Signature                             |
+| ---------------------- | ------------------------------------- |
+| `useCreateSession`     | `(channel?) => Promise<string>`       |
+| `useGetHistory`        | `(sessionId) => Promise<AiMessage[]>` |
+| `useResetSession`      | `(sessionId) => Promise<void>`        |
+| `useCreateMemoryStore` | `() => ConversationStore`             |
 
 Then start a channel (see below). Copy keys from [`.env.example`](https://github.com/senseikatana/katanakit/blob/main/.env.example):
 
@@ -450,11 +453,11 @@ DATABASE_URL=
 
 ### Run standalone (this repo)
 
-| Script | Starts |
-|--------|--------|
-| `bun run assistant:dev` | REST assistant. Uses Prisma when `DATABASE_URL` is set. |
-| `bun run telegram:dev` | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`. |
-| `bun run whatsapp:dev` | WhatsApp webhook. Requires `WHATSAPP_*`. |
+| Script                   | Starts                                                                      |
+| ------------------------ | --------------------------------------------------------------------------- |
+| `bun run assistant:dev`  | REST assistant. Uses Prisma when `DATABASE_URL` is set.                     |
+| `bun run telegram:dev`   | Telegram long polling. Requires `TELEGRAM_BOT_TOKEN`.                       |
+| `bun run whatsapp:dev`   | WhatsApp webhook. Requires `WHATSAPP_*`.                                    |
 | `bun run assistant:demo` | Demo in `examples/assistant/`. Set `KITT_CHANNEL=rest\|telegram\|whatsapp`. |
 
 ### REST
@@ -466,21 +469,21 @@ useStartAssistant(); // port?, host?, mountPath = "/assistant", options?
 // or mount useCreateAssistantRouter() on an existing Express app
 ```
 
-| Method | Path | Body | Response |
-|--------|------|------|----------|
-| `POST` | `/assistant/chat` | `{ sessionId?, message }` | `{ ok, data: { reply, sessionId }, error }` |
-| `GET` | `/assistant/sessions/:id` | — | `{ sessionId, messages }` or `404` |
-| `DELETE` | `/assistant/sessions/:id` | — | `204` or `404` |
+| Method   | Path                      | Body                      | Response                                    |
+| -------- | ------------------------- | ------------------------- | ------------------------------------------- |
+| `POST`   | `/assistant/chat`         | `{ sessionId?, message }` | `{ ok, data: { reply, sessionId }, error }` |
+| `GET`    | `/assistant/sessions/:id` | —                         | `{ sessionId, messages }` or `404`          |
+| `DELETE` | `/assistant/sessions/:id` | —                         | `204` or `404`                              |
 
 The endpoints are **public by default**. In production pass an auth guard (applied to every
 route). Unknown session ids return `404`, and `useReply` rejects a `sessionId` that does not exist.
 
 ```ts
 useStartAssistant(3000, "localhost", "/assistant", {
-  guard: (req, res, next) =>
-    req.header("authorization") === `Bearer ${process.env.ASSISTANT_API_KEY}`
-      ? next()
-      : res.status(401).end(),
+	guard: (req, res, next) =>
+		req.header("authorization") === `Bearer ${process.env.ASSISTANT_API_KEY}`
+			? next()
+			: res.status(401).end(),
 });
 ```
 
@@ -495,9 +498,12 @@ curl -X POST http://localhost:3000/assistant/chat \
 POST `/chat` and POST `/whatsapp/webhook` are rate-limited by default (20 req/min and 60 req/min per IP). Override via the router options:
 
 ```ts
-app.use("/assistant", useCreateAssistantRouter({
-  rateLimit: rateLimit({ windowMs: 60_000, max: 30 }),
-}));
+app.use(
+	"/assistant",
+	useCreateAssistantRouter({
+		rateLimit: rateLimit({ windowMs: 60_000, max: 30 }),
+	}),
+);
 ```
 
 ### Telegram (BotFather)
@@ -526,10 +532,10 @@ Webhook: `GET` / `POST` `/whatsapp/webhook`. Session ids are `wa:<phone>`.
 import { useInitWhatsApp, useStartWhatsApp } from "katanakit-js/adapters/whatsapp";
 
 useInitWhatsApp({
-  token: process.env.WHATSAPP_TOKEN,
-  phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID,
-  verifyToken: process.env.WHATSAPP_VERIFY_TOKEN,
-  appSecret: process.env.WHATSAPP_APP_SECRET,
+	token: process.env.WHATSAPP_TOKEN,
+	phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID,
+	verifyToken: process.env.WHATSAPP_VERIFY_TOKEN,
+	appSecret: process.env.WHATSAPP_APP_SECRET,
 });
 useStartWhatsApp();
 ```
@@ -613,14 +619,14 @@ const result = await useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })
 
 ```ts
 import { useLogger, useInitApis, useGetApi } from "katanakit-js";
-import { useRequest } from "katanakit-js/adapters/vue";   // Vue only
-import { useUnwrap } from "katanakit-js/adapters/nuxt";         // Nuxt only
+import { useRequest } from "katanakit-js/adapters/vue"; // Vue only
+import { useUnwrap } from "katanakit-js/adapters/nuxt"; // Nuxt only
 ```
 
 ```html
 <!-- vanilla -->
 <script type="module">
-  import { useLogger } from "https://cdn.jsdelivr.net/npm/katanakit-js/+esm";
+	import { useLogger } from "https://cdn.jsdelivr.net/npm/katanakit-js/+esm";
 </script>
 ```
 
@@ -628,24 +634,24 @@ See [Getting Started](https://senseikatana.com/katanakit-js/docs/guides/getting-
 
 ## Framework Adapters
 
-| Adapter | Import | Description |
-|---------|--------|-------------|
-| **Express** | `katanakit-js/adapters/express` | Reference server with CORS and hardened headers |
-| **Nuxt** | `katanakit-js/adapters/nuxt` | `useUnwrap`, `useSafeResponse`, `useEventResponse` |
-| **Vue** | `katanakit-js/adapters/vue` | `useRequest` composable with reactivity |
-| **Astro** | `katanakit-js` or `katanakit-js/adapters/astro` | `AstroService`, `RssService` |
-| **Assistant** | `katanakit-js/adapters/assistant` | REST digital assistant (`useStartAssistant`) |
-| **Telegram** | `katanakit-js/adapters/telegram` | BotFather bot (`useInitTelegram`, `useStartTelegramPolling`) |
-| **WhatsApp** | `katanakit-js/adapters/whatsapp` | Meta Cloud API (`useInitWhatsApp`, `useStartWhatsApp`) |
+| Adapter       | Import                                          | Description                                                  |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------------ |
+| **Express**   | `katanakit-js/adapters/express`                 | Reference server with CORS and hardened headers              |
+| **Nuxt**      | `katanakit-js/adapters/nuxt`                    | `useUnwrap`, `useSafeResponse`, `useEventResponse`           |
+| **Vue**       | `katanakit-js/adapters/vue`                     | `useRequest` composable with reactivity                      |
+| **Astro**     | `katanakit-js` or `katanakit-js/adapters/astro` | `AstroService`, `RssService`                                 |
+| **Assistant** | `katanakit-js/adapters/assistant`               | REST digital assistant (`useStartAssistant`)                 |
+| **Telegram**  | `katanakit-js/adapters/telegram`                | BotFather bot (`useInitTelegram`, `useStartTelegramPolling`) |
+| **WhatsApp**  | `katanakit-js/adapters/whatsapp`                | Meta Cloud API (`useInitWhatsApp`, `useStartWhatsApp`)       |
 
 ## REST API Adapters
 
 Typed adapters for popular REST APIs with auth, pagination helpers, and full TypeScript types.
 All functions return `FetchResult<T>` — the same Safe Result pattern used by the HTTP client.
 
-| Adapter | Import | Description |
-|---------|--------|-------------|
-| **Notion** | `katanakit-js/adapters/notion` | Pages, databases, blocks, search with cursor pagination |
+| Adapter       | Import                            | Description                                                       |
+| ------------- | --------------------------------- | ----------------------------------------------------------------- |
+| **Notion**    | `katanakit-js/adapters/notion`    | Pages, databases, blocks, search with cursor pagination           |
 | **WordPress** | `katanakit-js/adapters/wordpress` | Posts, pages, media, categories, tags, comments, users, batch ops |
 
 ### Notion
@@ -666,10 +672,10 @@ useInitNotion({ token: process.env.NOTION_TOKEN });
 
 ```ts
 import {
-  useNotionGetPage,
-  useNotionCreatePage,
-  useNotionUpdatePage,
-  useNotionArchivePage,
+	useNotionGetPage,
+	useNotionCreatePage,
+	useNotionUpdatePage,
+	useNotionArchivePage,
 } from "katanakit-js/adapters/notion";
 
 // Get a single page with all its properties
@@ -678,24 +684,24 @@ if (page.ok) console.log(page.data.properties);
 
 // Create a page inside a database
 const created = await useNotionCreatePage(
-  { type: "database_id", database_id: "db-id" },
-  {
-    Name: { title: [{ type: "text", text: { content: "My Task" } }] },
-    Status: { select: { name: "To Do" } },
-  },
+	{ type: "database_id", database_id: "db-id" },
+	{
+		Name: { title: [{ type: "text", text: { content: "My Task" } }] },
+		Status: { select: { name: "To Do" } },
+	},
 );
 
 // Create a child page with content blocks
 const child = await useNotionCreatePage(
-  { type: "page_id", page_id: "parent-id" },
-  { title: { title: [{ type: "text", text: { content: "Child Page" } }] } },
-  [{ type: "paragraph", paragraph: { rich_text: [{ type: "text", text: { content: "Hello!" } }] } }],
+	{ type: "page_id", page_id: "parent-id" },
+	{ title: { title: [{ type: "text", text: { content: "Child Page" } }] } },
+	[{ type: "paragraph", paragraph: { rich_text: [{ type: "text", text: { content: "Hello!" } }] } }],
 );
 
 // Update page properties (only changed fields)
 await useNotionUpdatePage("page-id", {
-  Status: { select: { name: "Done" } },
-  DueDate: { date: { start: "2025-12-31" } },
+	Status: { select: { name: "Done" } },
+	DueDate: { date: { start: "2025-12-31" } },
 });
 
 // Archive (soft-delete) a page
@@ -706,26 +712,26 @@ await useNotionArchivePage("page-id");
 
 ```ts
 import {
-  useNotionGetDatabase,
-  useNotionQueryDatabase,
-  useNotionCreateDatabase,
-  useNotionUpdateDatabase,
-  useNotionListAllDatabasePages,
+	useNotionGetDatabase,
+	useNotionQueryDatabase,
+	useNotionCreateDatabase,
+	useNotionUpdateDatabase,
+	useNotionListAllDatabasePages,
 } from "katanakit-js/adapters/notion";
 
 // Inspect database schema (property names, types, options)
 const schema = await useNotionGetDatabase("db-id");
 if (schema.ok) {
-  Object.entries(schema.data.properties).forEach(([name, prop]) => {
-    console.log(`${name}: ${prop.type}`);
-  });
+	Object.entries(schema.data.properties).forEach(([name, prop]) => {
+		console.log(`${name}: ${prop.type}`);
+	});
 }
 
 // Query with filter + sort (single page of results)
 const page1 = await useNotionQueryDatabase("db-id", {
-  filter: { property: "Status", select: { equals: "Published" } },
-  sorts: [{ property: "Date", direction: "descending" }],
-  page_size: 10,
+	filter: { property: "Status", select: { equals: "Published" } },
+	sorts: [{ property: "Date", direction: "descending" }],
+	page_size: 10,
 });
 
 // Get ALL pages (auto-pagination — handles cursors internally)
@@ -733,76 +739,74 @@ const all = await useNotionListAllDatabasePages("db-id");
 
 // With filter + sort
 const published = await useNotionListAllDatabasePages(
-  "db-id",
-  { property: "Status", select: { equals: "Published" } },
-  [{ property: "Date", direction: "descending" }],
+	"db-id",
+	{ property: "Status", select: { equals: "Published" } },
+	[{ property: "Date", direction: "descending" }],
 );
 
 // Create a new database
 await useNotionCreateDatabase(
-  { type: "page_id", page_id: "parent-id" },
-  [{ type: "text", text: { content: "My Tasks" } }],
-  {
-    Name: { title: {} },
-    Status: { select: { options: [{ name: "To Do" }, { name: "Done" }] } },
-    Priority: { select: { options: [{ name: "Low" }, { name: "High" }] } },
-  },
+	{ type: "page_id", page_id: "parent-id" },
+	[{ type: "text", text: { content: "My Tasks" } }],
+	{
+		Name: { title: {} },
+		Status: { select: { options: [{ name: "To Do" }, { name: "Done" }] } },
+		Priority: { select: { options: [{ name: "Low" }, { name: "High" }] } },
+	},
 );
 
 // Rename a database
-await useNotionUpdateDatabase("db-id", [
-  { type: "text", text: { content: "Renamed Database" } },
-]);
+await useNotionUpdateDatabase("db-id", [{ type: "text", text: { content: "Renamed Database" } }]);
 ```
 
 #### Blocks — read, write, append, delete page content
 
 ```ts
 import {
-  useNotionGetBlock,
-  useNotionGetBlockChildren,
-  useNotionListAllBlockChildren,
-  useNotionAppendBlocks,
-  useNotionUpdateBlock,
-  useNotionDeleteBlock,
+	useNotionGetBlock,
+	useNotionGetBlockChildren,
+	useNotionListAllBlockChildren,
+	useNotionAppendBlocks,
+	useNotionUpdateBlock,
+	useNotionDeleteBlock,
 } from "katanakit-js/adapters/notion";
 
 // Get ALL blocks of a page (auto-pagination)
 const blocks = await useNotionListAllBlockChildren("page-id");
 if (blocks.ok) {
-  blocks.data.forEach(b => console.log(b.type)); // "paragraph", "heading_1", etc.
+	blocks.data.forEach((b) => console.log(b.type)); // "paragraph", "heading_1", etc.
 }
 
 // Manual pagination (for fine-grained cursor control)
 const page = await useNotionGetBlockChildren("page-id", { page_size: 50 });
 if (page.ok) {
-  console.log(page.data.results);    // blocks
-  console.log(page.data.has_more);   // true if more pages exist
-  console.log(page.data.next_cursor); // pass as start_cursor for next page
+	console.log(page.data.results); // blocks
+	console.log(page.data.has_more); // true if more pages exist
+	console.log(page.data.next_cursor); // pass as start_cursor for next page
 }
 
 // Append content blocks to a page
 await useNotionAppendBlocks("page-id", [
-  {
-    type: "heading_2",
-    heading_2: { rich_text: [{ type: "text", text: { content: "New Section" } }] },
-  },
-  {
-    type: "paragraph",
-    paragraph: { rich_text: [{ type: "text", text: { content: "Body text here." } }] },
-  },
-  {
-    type: "to_do",
-    to_do: {
-      rich_text: [{ type: "text", text: { content: "Checklist item" } }],
-      checked: false,
-    },
-  },
+	{
+		type: "heading_2",
+		heading_2: { rich_text: [{ type: "text", text: { content: "New Section" } }] },
+	},
+	{
+		type: "paragraph",
+		paragraph: { rich_text: [{ type: "text", text: { content: "Body text here." } }] },
+	},
+	{
+		type: "to_do",
+		to_do: {
+			rich_text: [{ type: "text", text: { content: "Checklist item" } }],
+			checked: false,
+		},
+	},
 ]);
 
 // Update a block's content
 await useNotionUpdateBlock("block-id", {
-  paragraph: { rich_text: [{ type: "text", text: { content: "Updated text" } }] },
+	paragraph: { rich_text: [{ type: "text", text: { content: "Updated text" } }] },
 });
 
 // Delete (archive) a block
@@ -819,14 +823,14 @@ const found = await useNotionSearchContent({ query: "meeting notes" });
 
 // Search only databases
 const dbs = await useNotionSearchContent({
-  query: "tasks",
-  filter: { value: "database", property: "object" },
+	query: "tasks",
+	filter: { value: "database", property: "object" },
 });
 
 // Search only pages, sorted by recently edited
 const pages = await useNotionSearchContent({
-  filter: { value: "page", property: "object" },
-  sort: { direction: "descending", timestamp: "last_edited_time" },
+	filter: { value: "page", property: "object" },
+	sort: { direction: "descending", timestamp: "last_edited_time" },
 });
 ```
 
@@ -841,22 +845,22 @@ if (user.ok) console.log(user.data.name);
 
 // List all workspace members + bots
 const users = await useNotionListUsers();
-if (users.ok) users.data.results.forEach(u => console.log(u.name));
+if (users.ok) users.data.results.forEach((u) => console.log(u.name));
 ```
 
 #### Framework examples
 
-| Framework | Example | Description |
-|-----------|---------|-------------|
-| **Vue 3** | [`examples/notion/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-blog.vue) | Blog listing with `useQuery` composable |
-| **Vue 3** | [`examples/notion/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-post.vue) | Single post view |
-| **Nuxt 3** | [`examples/notion/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
-| **Nuxt 3** | [`examples/notion/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-post.vue) | SSR single post view |
-| **Astro** | [`examples/notion/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-blog.astro) | Static blog listing |
-| **Astro** | [`examples/notion/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-[slug].astro) | Dynamic `[slug]` route |
-| **Next.js** | [`examples/notion/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-blog.tsx) | Server component blog listing |
-| **Next.js** | [`examples/notion/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-[slug].tsx) | Dynamic `[slug]` page |
-| **Node.js** | [`examples/notion/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/demo.ts) | Runnable demo covering all Notion operations |
+| Framework   | Example                                                                                                                        | Description                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| **Vue 3**   | [`examples/notion/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-blog.vue)             | Blog listing with `useQuery` composable      |
+| **Vue 3**   | [`examples/notion/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/vue-post.vue)             | Single post view                             |
+| **Nuxt 3**  | [`examples/notion/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-blog.vue)           | SSR blog listing with `useAsyncData`         |
+| **Nuxt 3**  | [`examples/notion/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/nuxt-post.vue)           | SSR single post view                         |
+| **Astro**   | [`examples/notion/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-blog.astro)     | Static blog listing                          |
+| **Astro**   | [`examples/notion/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/astro-[slug].astro) | Dynamic `[slug]` route                       |
+| **Next.js** | [`examples/notion/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-blog.tsx)           | Server component blog listing                |
+| **Next.js** | [`examples/notion/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/next-[slug].tsx)       | Dynamic `[slug]` page                        |
+| **Node.js** | [`examples/notion/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/notion/demo.ts)                       | Runnable demo covering all Notion operations |
 
 ### WordPress
 
@@ -871,20 +875,20 @@ import { useInitWordPress } from "katanakit-js/adapters/wordpress";
 
 // Application Passwords (recommended) — WP Admin → Users → Your Profile → Application Passwords
 useInitWordPress({
-  baseUrl: "https://mysite.com",
-  auth: { type: "application-passwords", username: "admin", password: "xxxx xxxx xxxx" },
+	baseUrl: "https://mysite.com",
+	auth: { type: "application-passwords", username: "admin", password: "xxxx xxxx xxxx" },
 });
 
 // JWT tokens
 useInitWordPress({
-  baseUrl: "https://mysite.com",
-  auth: { type: "jwt", token: "eyJhbGci..." },
+	baseUrl: "https://mysite.com",
+	auth: { type: "jwt", token: "eyJhbGci..." },
 });
 
 // Nonce-based (for WP themes)
 useInitWordPress({
-  baseUrl: "https://mysite.com",
-  auth: { type: "nonce", nonce: "abc123" },
+	baseUrl: "https://mysite.com",
+	auth: { type: "nonce", nonce: "abc123" },
 });
 ```
 
@@ -892,22 +896,22 @@ useInitWordPress({
 
 ```ts
 import {
-  useWpGetPosts,
-  useWpGetPost,
-  useWpCreatePost,
-  useWpUpdatePost,
-  useWpDeletePost,
-  useWpListAllPosts,
-  useWpSearchAllPosts,
-  useWpFindPostBySlug,
+	useWpGetPosts,
+	useWpGetPost,
+	useWpCreatePost,
+	useWpUpdatePost,
+	useWpDeletePost,
+	useWpListAllPosts,
+	useWpSearchAllPosts,
+	useWpFindPostBySlug,
 } from "katanakit-js/adapters/wordpress";
 
 // List published posts (paginated)
 const posts = await useWpGetPosts({
-  per_page: 5,
-  status: "publish",
-  orderby: "date",
-  order: "desc",
+	per_page: 5,
+	status: "publish",
+	orderby: "date",
+	order: "desc",
 });
 
 // Get a single post with embedded resources
@@ -916,19 +920,19 @@ if (post.ok) console.log(post.data.title.rendered);
 
 // Create a post
 await useWpCreatePost({
-  title: "My New Post",
-  content: "<p>Hello World!</p>",
-  status: "publish",  // "draft" | "pending" | "publish"
-  categories: [1, 3],
-  tags: [5, 8],
+	title: "My New Post",
+	content: "<p>Hello World!</p>",
+	status: "publish", // "draft" | "pending" | "publish"
+	categories: [1, 3],
+	tags: [5, 8],
 });
 
 // Update a post
 await useWpUpdatePost(42, { title: "Updated Title", status: "publish" });
 
 // Delete (trash or permanent)
-await useWpDeletePost(42);        // move to trash
-await useWpDeletePost(42, true);  // permanently delete
+await useWpDeletePost(42); // move to trash
+await useWpDeletePost(42, true); // permanently delete
 
 // Get ALL posts (auto-pagination — loops until exhausted)
 const all = await useWpListAllPosts({ status: "publish" });
@@ -936,7 +940,7 @@ if (all.ok) console.log(`Total: ${all.data.length}`);
 
 // Search ALL posts by keyword
 const found = await useWpSearchAllPosts("tutorial");
-if (found.ok) found.data.forEach(p => console.log(p.title.rendered));
+if (found.ok) found.data.forEach((p) => console.log(p.title.rendered));
 
 // Find post by slug (for dynamic routes like /blog/:slug)
 const bySlug = await useWpFindPostBySlug("hello-world");
@@ -947,11 +951,11 @@ if (bySlug.ok && bySlug.data) console.log(bySlug.data.title.rendered);
 
 ```ts
 import {
-  useWpGetPages,
-  useWpGetPage,
-  useWpCreatePage,
-  useWpUpdatePage,
-  useWpDeletePage,
+	useWpGetPages,
+	useWpGetPage,
+	useWpCreatePage,
+	useWpUpdatePage,
+	useWpDeletePage,
 } from "katanakit-js/adapters/wordpress";
 
 const pages = await useWpGetPages({ per_page: 20 });
@@ -960,10 +964,10 @@ const page = await useWpGetPage(10);
 if (page.ok) console.log(page.data.title.rendered);
 
 await useWpCreatePage({
-  title: "About Us",
-  content: "<p>Welcome to our site!</p>",
-  status: "publish",
-  parent: 0, // top-level page (set a page ID for child pages)
+	title: "About Us",
+	content: "<p>Welcome to our site!</p>",
+	status: "publish",
+	parent: 0, // top-level page (set a page ID for child pages)
 });
 
 await useWpUpdatePage(10, { title: "Updated About" });
@@ -974,11 +978,11 @@ await useWpDeletePage(10); // trash
 
 ```ts
 import {
-  useWpGetMedia,
-  useWpGetMediaItem,
-  useWpUploadMedia,
-  useWpUpdateMedia,
-  useWpDeleteMedia,
+	useWpGetMedia,
+	useWpGetMediaItem,
+	useWpUploadMedia,
+	useWpUpdateMedia,
+	useWpDeleteMedia,
 } from "katanakit-js/adapters/wordpress";
 
 // List media items
@@ -991,9 +995,9 @@ if (item.ok) console.log(item.data.source_url);
 // Upload from browser (File from <input type="file">)
 const file = document.querySelector("input[type=file]").files[0];
 const uploaded = await useWpUploadMedia(file, {
-  title: "My Image",
-  alt_text: "Description for accessibility",
-  caption: "Image caption",
+	title: "My Image",
+	alt_text: "Description for accessibility",
+	caption: "Image caption",
 });
 if (uploaded.ok) console.log(uploaded.data.source_url); // URL to use in content
 
@@ -1013,10 +1017,16 @@ await useWpDeleteMedia(42, true); // permanent
 
 ```ts
 import {
-  useWpGetCategories, useWpGetCategory, useWpCreateCategory,
-  useWpUpdateCategory, useWpDeleteCategory,
-  useWpGetTags, useWpGetTag, useWpCreateTag,
-  useWpUpdateTag, useWpDeleteTag,
+	useWpGetCategories,
+	useWpGetCategory,
+	useWpCreateCategory,
+	useWpUpdateCategory,
+	useWpDeleteCategory,
+	useWpGetTags,
+	useWpGetTag,
+	useWpCreateTag,
+	useWpUpdateTag,
+	useWpDeleteTag,
 } from "katanakit-js/adapters/wordpress";
 
 // Categories
@@ -1036,8 +1046,11 @@ await useWpDeleteTag(12);
 
 ```ts
 import {
-  useWpGetComments, useWpGetComment, useWpCreateComment,
-  useWpUpdateComment, useWpDeleteComment,
+	useWpGetComments,
+	useWpGetComment,
+	useWpCreateComment,
+	useWpUpdateComment,
+	useWpDeleteComment,
 } from "katanakit-js/adapters/wordpress";
 
 // Get comments for a post
@@ -1045,10 +1058,10 @@ const comments = await useWpGetComments({ post: 42, per_page: 10 });
 
 // Create a comment (public or authenticated)
 await useWpCreateComment({
-  post: 42,
-  content: "Great article!",
-  author_name: "John",
-  author_email: "john@example.com",
+	post: 42,
+	content: "Great article!",
+	author_name: "John",
+	author_email: "john@example.com",
 });
 
 // Update / delete
@@ -1060,18 +1073,22 @@ await useWpDeleteComment(7);
 
 ```ts
 import {
-  useWpGetUsers, useWpGetUser, useWpGetCurrentUser,
-  useWpCreateUser, useWpUpdateUser, useWpDeleteUser,
+	useWpGetUsers,
+	useWpGetUser,
+	useWpGetCurrentUser,
+	useWpCreateUser,
+	useWpUpdateUser,
+	useWpDeleteUser,
 } from "katanakit-js/adapters/wordpress";
 
 const users = await useWpGetUsers({ roles: "editor" });
 const me = await useWpGetCurrentUser(); // authenticated user
 
 await useWpCreateUser({
-  username: "johndoe",
-  email: "john@example.com",
-  password: "secure-password",
-  roles: ["editor"],
+	username: "johndoe",
+	email: "john@example.com",
+	password: "secure-password",
+	roles: ["editor"],
 });
 
 await useWpUpdateUser(2, { name: "John Smith" });
@@ -1082,8 +1099,11 @@ await useWpDeleteUser(2, 1); // reassign content to user 1
 
 ```ts
 import {
-  useWpGetCustomPosts, useWpGetCustomPost,
-  useWpCreateCustomPost, useWpUpdateCustomPost, useWpDeleteCustomPost,
+	useWpGetCustomPosts,
+	useWpGetCustomPost,
+	useWpCreateCustomPost,
+	useWpUpdateCustomPost,
+	useWpDeleteCustomPost,
 } from "katanakit-js/adapters/wordpress";
 
 // Works with any registered CPT: "product", "portfolio", "event", etc.
@@ -1091,9 +1111,9 @@ const products = await useWpGetCustomPosts("product", { per_page: 10 });
 const product = await useWpGetCustomPost("product", 15);
 
 await useWpCreateCustomPost("product", {
-  title: "Widget",
-  content: "<p>A great widget</p>",
-  status: "publish",
+	title: "Widget",
+	content: "<p>A great widget</p>",
+	status: "publish",
 });
 
 await useWpUpdateCustomPost("product", 15, { title: "Updated Widget" });
@@ -1106,13 +1126,13 @@ await useWpDeleteCustomPost("product", 15, true);
 import { useWpBatch } from "katanakit-js/adapters/wordpress";
 
 const result = await useWpBatch([
-  { method: "GET", path: "/wp/v2/posts?per_page=2" },
-  { method: "GET", path: "/wp/v2/pages?per_page=2" },
-  { method: "GET", path: "/wp/v2/categories?per_page=5" },
+	{ method: "GET", path: "/wp/v2/posts?per_page=2" },
+	{ method: "GET", path: "/wp/v2/pages?per_page=2" },
+	{ method: "GET", path: "/wp/v2/categories?per_page=5" },
 ]);
 
 if (result.ok) {
-  result.data.responses.forEach(resp => console.log(resp.status));
+	result.data.responses.forEach((resp) => console.log(resp.status));
 }
 ```
 
@@ -1124,8 +1144,8 @@ significantly for list views.
 ```ts
 // Only fetch id, title, link, slug, and date
 const posts = await useWpGetPosts({
-  per_page: 20,
-  _fields: "id,title,link,slug,date",
+	per_page: 20,
+	_fields: "id,title,link,slug,date",
 });
 ```
 
@@ -1140,16 +1160,17 @@ const posts = await useWpGetPosts({ _embed: true });
 
 // Embed only specific resources
 const posts = await useWpGetPosts({
-  _embed: "author,wp:featuredmedia",
+	_embed: "author,wp:featuredmedia",
 });
 
 // Access embedded data
 if (posts.ok) {
-  for (const post of posts.data) {
-    const author = post._embedded?.author?.[0]?.name;
-    const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-    const thumbnail = post._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.thumbnail?.source_url;
-  }
+	for (const post of posts.data) {
+		const author = post._embedded?.author?.[0]?.name;
+		const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+		const thumbnail =
+			post._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes?.thumbnail?.source_url;
+	}
 }
 ```
 
@@ -1162,40 +1183,40 @@ media item, or custom post type entry.
 ```ts
 // Request ACF fields explicitly with _fields
 const posts = await useWpGetPosts({
-  per_page: 5,
-  _fields: "id,title,acf",
+	per_page: 5,
+	_fields: "id,title,acf",
 });
 
 if (posts.ok) {
-  for (const post of posts.data) {
-    if (post.acf) {
-      // ACF fields are dynamic — access by field name
-      console.log(post.acf.my_field_name);
-    }
-  }
+	for (const post of posts.data) {
+		if (post.acf) {
+			// ACF fields are dynamic — access by field name
+			console.log(post.acf.my_field_name);
+		}
+	}
 }
 
 // Combine _fields + _embed + ACF for full-featured list views
 const full = await useWpGetPosts({
-  per_page: 5,
-  _fields: "id,title,link,slug,date,acf",
-  _embed: "author,wp:featuredmedia",
+	per_page: 5,
+	_fields: "id,title,link,slug,date,acf",
+	_embed: "author,wp:featuredmedia",
 });
 ```
 
 #### Framework examples
 
-| Framework | Example | Description |
-|-----------|---------|-------------|
-| **Vue 3** | [`examples/wordpress/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-blog.vue) | Blog listing with categories, featured images, `_embed` |
-| **Vue 3** | [`examples/wordpress/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-post.vue) | Single post view with embedded author |
-| **Nuxt 3** | [`examples/wordpress/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-blog.vue) | SSR blog listing with `useAsyncData` |
-| **Nuxt 3** | [`examples/wordpress/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-post.vue) | SSR single post view |
-| **Astro** | [`examples/wordpress/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-blog.astro) | Static blog listing |
-| **Astro** | [`examples/wordpress/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-[slug].astro) | Dynamic `[slug]` route |
-| **Next.js** | [`examples/wordpress/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-blog.tsx) | Server component blog listing |
-| **Next.js** | [`examples/wordpress/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-[slug].tsx) | Dynamic `[slug]` page |
-| **Node.js** | [`examples/wordpress/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/demo.ts) | Runnable demo covering all WP operations, `_fields`, `_embed`, ACF |
+| Framework   | Example                                                                                                                              | Description                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| **Vue 3**   | [`examples/wordpress/vue-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-blog.vue)             | Blog listing with categories, featured images, `_embed`            |
+| **Vue 3**   | [`examples/wordpress/vue-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/vue-post.vue)             | Single post view with embedded author                              |
+| **Nuxt 3**  | [`examples/wordpress/nuxt-blog.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-blog.vue)           | SSR blog listing with `useAsyncData`                               |
+| **Nuxt 3**  | [`examples/wordpress/nuxt-post.vue`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/nuxt-post.vue)           | SSR single post view                                               |
+| **Astro**   | [`examples/wordpress/astro-blog.astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-blog.astro)     | Static blog listing                                                |
+| **Astro**   | [`examples/wordpress/astro-[slug].astro`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/astro-[slug].astro) | Dynamic `[slug]` route                                             |
+| **Next.js** | [`examples/wordpress/next-blog.tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-blog.tsx)           | Server component blog listing                                      |
+| **Next.js** | [`examples/wordpress/next-[slug].tsx`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/next-[slug].tsx)       | Dynamic `[slug]` page                                              |
+| **Node.js** | [`examples/wordpress/demo.ts`](https://github.com/senseikatana/katanakit/tree/main/examples/wordpress/demo.ts)                       | Runnable demo covering all WP operations, `_fields`, `_embed`, ACF |
 
 ## Contributing
 

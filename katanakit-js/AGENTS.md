@@ -7,7 +7,7 @@ TypeScript service toolkit (ESM, hexagonal). Bun for package management and scri
 - `bun run check` — gate: `eslint ./src` + `tsc6 --noEmit` + `vitest run`. Must pass before any PR.
 - `bun run fix` — same with `eslint --fix`.
 - `bun run build` — clean + check + `tsc6 -p tsconfig.json` → `dist/`.
-- `bun run docs:build` — Docusaurus build (separate; CI does NOT build docs).
+- `bun run guides:build` — Docusaurus build (separate; CI does NOT build docs).
 - `bun run playground:dev` — launches the Vue playground (Vite dev server on port 5173).
 - One test file: `vitest run <path>`. Tests live in `tests/`, import via `@/` alias, node env.
 - `tsc6`, NOT `tsc`: `typescript` devDep is aliased to `@typescript/typescript6@6.0.2`.
@@ -43,9 +43,9 @@ TypeScript service toolkit (ESM, hexagonal). Bun for package management and scri
 
 ## Cloudflare Pages deployment
 
-- **Docs:** `katanakit-docs` project → `senseikatana.com` + `www.senseikatana.com`
+- **Docs:** `katanakit-guides` project → `senseikatana.com` + `www.senseikatana.com`
 - **Playground:** `katanakit-playground` project → `play.senseikatana.com`
-- Deploy manually: `bun run docs:build` → `wrangler pages deploy docs/build --project-name katanakit-docs --branch main`
+- Deploy manually: `bun run guides:build` → `wrangler pages deploy guides/build --project-name katanakit-guides --branch main`
 - Deploy playground: `bun run playground:build` → `wrangler pages deploy playground/dist --project-name katanakit-playground --branch main`
 - Custom domains via Cloudflare API: `POST /accounts/{id}/pages/projects/{name}/domains`
 - Cloudflare Account ID: `d84658746e925afe768db13e48a136a7`

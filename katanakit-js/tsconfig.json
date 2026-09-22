@@ -1,11 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "ES2022",
-		"lib": [
-			"ES2022",
-			"DOM",
-			"DOM.Iterable"
-		],
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"strict": true,
@@ -13,36 +9,19 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
-		"types": [
-			"node"
-		],
+		"types": ["node"],
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
 		"outDir": "dist",
 		"rootDir": "src",
 		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@/docs/*": [
-				"./docs/*"
-			],
-			"@/adapters/*": [
-				"./src/adapters/*"
-			],
-			"@/config/*": [
-				"./src/config/*"
-			]
+			"@/*": ["./src/*"],
+			"@/guides/*": ["./guides/*"],
+			"@/adapters/*": ["./src/adapters/*"],
+			"@/config/*": ["./src/config/*"]
 		}
 	},
-	"include": [
-		"src/**/*.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"dist",
-		"examples",
-		"tests"
-	]
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "dist", "examples", "tests"]
 }

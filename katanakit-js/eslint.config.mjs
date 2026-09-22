@@ -1,7 +1,6 @@
 // @ts-check
 
 import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
@@ -12,7 +11,7 @@ export default defineConfig(
 	{
 		ignores: [
 			"dist/**",
-			"docs/**",
+			"guides/**",
 			"node_modules/**",
 			"**/*.js",
 			"**/*.cjs",
@@ -23,7 +22,6 @@ export default defineConfig(
 	},
 	js.configs.recommended,
 	tseslint.configs.recommended,
-	eslintConfigPrettier,
 	eslintPluginPrettier,
 	{
 		plugins: {

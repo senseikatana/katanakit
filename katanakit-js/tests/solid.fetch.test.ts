@@ -46,6 +46,11 @@ describe("solid/useWatch", () => {
 			queueMicrotask(() => setValue("b"));
 		});
 
-		await vi.waitFor(() => expect(captured).toEqual([["a", undefined], ["b", "a"]]));
+		await vi.waitFor(() =>
+			expect(captured).toEqual([
+				["a", undefined],
+				["b", "a"],
+			]),
+		);
 	});
 });

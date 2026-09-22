@@ -26,7 +26,11 @@ describe("react/useRequest", () => {
 
 		function Pokemon(): ReactNode {
 			const { data, loading } = useRequest<{ name: string }>("api", "list");
-			return createElement("div", { "data-testid": "name" }, loading ? "loading" : (data?.name ?? "none"));
+			return createElement(
+				"div",
+				{ "data-testid": "name" },
+				loading ? "loading" : (data?.name ?? "none"),
+			);
 		}
 
 		render(createElement(Pokemon));
@@ -51,6 +55,11 @@ describe("react/useWatch", () => {
 		await waitFor(() => expect(captured).toEqual([["a", undefined]]));
 
 		rerender(createElement(Comp, { value: "b" }));
-		await waitFor(() => expect(captured).toEqual([["a", undefined], ["b", "a"]]));
+		await waitFor(() =>
+			expect(captured).toEqual([
+				["a", undefined],
+				["b", "a"],
+			]),
+		);
 	});
 });

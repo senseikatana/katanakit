@@ -23,7 +23,11 @@ function Pokemon({ client }: { client: QueryClient }): ReactNode {
 		{ queryKey: ["pokemon", 1], queryFn: async () => ok({ name: "bulbasaur" }) },
 		client,
 	);
-	return createElement("div", { "data-testid": "name" }, isLoading ? "loading" : (data?.name ?? "none"));
+	return createElement(
+		"div",
+		{ "data-testid": "name" },
+		isLoading ? "loading" : (data?.name ?? "none"),
+	);
 }
 
 function Missing({ client }: { client: QueryClient }): ReactNode {
@@ -35,7 +39,11 @@ function Missing({ client }: { client: QueryClient }): ReactNode {
 		},
 		client,
 	);
-	return createElement("div", { "data-testid": "error" }, error ? error.message : (data?.name ?? "none"));
+	return createElement(
+		"div",
+		{ "data-testid": "error" },
+		error ? error.message : (data?.name ?? "none"),
+	);
 }
 
 function Create(): ReactNode {

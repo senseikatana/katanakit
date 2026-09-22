@@ -1,165 +1,166 @@
 :root {
-  --color-bg: #1a1a2e;
-  --color-bg-secondary: #16213e;
-  --color-bg-tertiary: #0f3460;
-  --color-text: #e6e6e6;
-  --color-text-muted: #a0a0b0;
-  --color-primary: #58a6ff;
-  --color-primary-hover: #79b8ff;
-  --color-success: #3fb950;
-  --color-error: #f85149;
-  --color-warning: #d29922;
-  --color-border: #30363d;
-  --color-code-bg: #0d1117;
-  --sidebar-width: 260px;
-  --header-height: 56px;
+	--color-bg: #1a1a2e;
+	--color-bg-secondary: #16213e;
+	--color-bg-tertiary: #0f3460;
+	--color-text: #e6e6e6;
+	--color-text-muted: #a0a0b0;
+	--color-primary: #58a6ff;
+	--color-primary-hover: #79b8ff;
+	--color-success: #3fb950;
+	--color-error: #f85149;
+	--color-warning: #d29922;
+	--color-border: #30363d;
+	--color-code-bg: #0d1117;
+	--sidebar-width: 260px;
+	--header-height: 56px;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.6;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+		"Helvetica Neue", sans-serif;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	line-height: 1.6;
 }
 
 a {
-  color: var(--color-primary);
-  text-decoration: none;
+	color: var(--color-primary);
+	text-decoration: none;
 }
 
 a:hover {
-  color: var(--color-primary-hover);
+	color: var(--color-primary-hover);
 }
 
 code {
-  font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
-  font-size: 0.9em;
+	font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+	font-size: 0.9em;
 }
 
 pre {
-  background-color: var(--color-code-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 16px;
-  overflow-x: auto;
+	background-color: var(--color-code-bg);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	padding: 16px;
+	overflow-x: auto;
 }
 
 pre code {
-  background: none;
-  padding: 0;
+	background: none;
+	padding: 0;
 }
 
 button {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 0.9em;
-  font-weight: 500;
+	background-color: var(--color-primary);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	padding: 8px 16px;
+	cursor: pointer;
+	font-size: 0.9em;
+	font-weight: 500;
 }
 
 button:hover {
-  background-color: var(--color-primary-hover);
+	background-color: var(--color-primary-hover);
 }
 
 button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+	opacity: 0.5;
+	cursor: not-allowed;
 }
 
 input,
 textarea {
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  width: 100%;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	padding: 8px 12px;
+	font-size: 0.9em;
+	width: 100%;
 }
 
 input:focus,
 textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
+	outline: none;
+	border-color: var(--color-primary);
 }
 
 .json-viewer {
-  background-color: var(--color-code-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 16px;
-  font-family: "Fira Code", monospace;
-  font-size: 0.85em;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
+	background-color: var(--color-code-bg);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	padding: 16px;
+	font-family: "Fira Code", monospace;
+	font-size: 0.85em;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
 }
 
 .json-key {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .json-string {
-  color: var(--color-success);
+	color: var(--color-success);
 }
 
 .json-number {
-  color: var(--color-warning);
+	color: var(--color-warning);
 }
 
 .json-boolean {
-  color: #ff7b72;
+	color: #ff7b72;
 }
 
 .json-null {
-  color: var(--color-text-muted);
+	color: var(--color-text-muted);
 }
 
 .status-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.8em;
-  font-weight: 500;
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 12px;
+	font-size: 0.8em;
+	font-weight: 500;
 }
 
 .status-badge.success {
-  background-color: rgba(63, 185, 80, 0.2);
-  color: var(--color-success);
+	background-color: rgba(63, 185, 80, 0.2);
+	color: var(--color-success);
 }
 
 .status-badge.error {
-  background-color: rgba(248, 81, 73, 0.2);
-  color: var(--color-error);
+	background-color: rgba(248, 81, 73, 0.2);
+	color: var(--color-error);
 }
 
 .status-badge.loading {
-  background-color: rgba(88, 166, 255, 0.2);
-  color: var(--color-primary);
+	background-color: rgba(88, 166, 255, 0.2);
+	color: var(--color-primary);
 }
 
 .loading-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--color-border);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-border);
+	border-top-color: var(--color-primary);
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+	to {
+		transform: rotate(360deg);
+	}
 }

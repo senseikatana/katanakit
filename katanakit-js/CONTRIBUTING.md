@@ -26,7 +26,7 @@ These rules keep the codebase consistent and maintainable. Please read
 4. **Pure ESM with `.js` extensions** — the package is `"type": "module"` and
    compiles with `module: nodenext`. All relative imports **must** use an
    explicit `.js` extension (e.g. `import { useLogger } from
-   "./logger.service.js"`). Do not import without the extension and do not add
+"./logger.service.js"`). Do not import without the extension and do not add
    new `@/`-aliased imports inside `src/`; the `@/` alias exists for the test
    suite and examples only.
 5. **Destructured exports** — services expose their methods as arrow-function
@@ -72,17 +72,17 @@ bun install
 
 Useful scripts:
 
-| Command | Description |
-| ------- | ----------- |
-| `bun run check` | ESLint + typecheck + tests (gate before build/publish) |
-| `bun run fix` | Same as `check` with ESLint auto-fix |
-| `bun run build` | `check` then compile to `dist/` |
-| `bun run release` | `build` → version bump → publish to npm |
-| `bun run release:minor` | Same for minor release |
-| `bun run release:major` | Same for major release |
-| `bun run docs:dev` | Docs site dev server |
-| `bun run docs:build` | Docs site build |
-| `bun run dev` | Express example server |
+| Command                 | Description                                            |
+| ----------------------- | ------------------------------------------------------ |
+| `bun run check`         | ESLint + typecheck + tests (gate before build/publish) |
+| `bun run fix`           | Same as `check` with ESLint auto-fix                   |
+| `bun run build`         | `check` then compile to `dist/`                        |
+| `bun run release`       | `build` → version bump → publish to npm                |
+| `bun run release:minor` | Same for minor release                                 |
+| `bun run release:major` | Same for major release                                 |
+| `bun run docs:dev`      | Docs site dev server                                   |
+| `bun run docs:build`    | Docs site build                                        |
+| `bun run dev`           | Express example server                                 |
 
 `build` and `release` never compile or publish unless `check` passes.
 

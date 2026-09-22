@@ -1,6 +1,6 @@
-import 'dotenv/config';
-import { definePrismaConfig } from '@prisma/cli-engine';
-import { defineConfig as ormConfig } from '@prisma/orm-postgres/config';
+import "dotenv/config";
+import { definePrismaConfig } from "@prisma/cli-engine";
+import { defineConfig as ormConfig } from "@prisma/orm-postgres/config";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
@@ -8,10 +8,10 @@ if (!DATABASE_URL) {
 }
 
 export default definePrismaConfig({
-  orm: ormConfig({
-    contract: "./src/prisma/schema.prisma",
-    db: {
-      connection: DATABASE_URL,
-    },
-  }),
+	orm: ormConfig({
+		contract: "./src/prisma/schema.prisma",
+		db: {
+			connection: DATABASE_URL,
+		},
+	}),
 });

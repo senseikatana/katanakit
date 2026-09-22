@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Bumps the version in package.json (and mirrors it to docs/package.json),
+ * Bumps the version in package.json (and mirrors it to guides/package.json),
  * commits, and tags the release.
  *
  * Usage:
@@ -13,7 +13,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const MANIFESTS = [join(ROOT, "package.json"), join(ROOT, "docs/package.json")];
+const MANIFESTS = [join(ROOT, "package.json"), join(ROOT, "guides/package.json")];
 
 const args = process.argv.slice(2);
 const kind = args[0];

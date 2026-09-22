@@ -80,9 +80,9 @@ bodies at 100 kb, but a production API should add more:
 import rateLimit from "express-rate-limit";
 
 app.use(
-  cors({
-    origin: process.env.CORS_ORIGINS?.split(",") ?? ["http://localhost:5173"],
-  }),
+	cors({
+		origin: process.env.CORS_ORIGINS?.split(",") ?? ["http://localhost:5173"],
+	}),
 );
 app.use(rateLimit({ windowMs: 60_000, limit: 100 }));
 app.use(express.json({ limit: "16kb" }));
