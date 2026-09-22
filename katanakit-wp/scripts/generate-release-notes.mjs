@@ -10,7 +10,11 @@
  *   node scripts/generate-release-notes.mjs --all --json
  */
 import { execFileSync } from "node:child_process";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
+// Monorepo: el filtro de paths acota los notes a este paquete, no a katanakit-js.
+const PACKAGE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 const REPO = "senseikatana/katanakit";
 
 const SECTIONS = [
@@ -25,7 +29,8 @@ const SECTIONS = [
 	{ type: "chore", title: "🧹 Chores" },
 ];
 
-const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
+const git = (...args) =>
+	execFileSync("git", args, { cwd: PACKAGE_DIR, encoding: "utf8" }).trim();
 
 function allTags() {
 	return git("tag", "--sort=-v:refname")
@@ -52,7 +57,14 @@ function collect(tag) {
 	const range = prev ? `${prev}..${tag}` : tag;
 	const date = git("log", "-1", "--format=%cs", tag);
 
-	const commits = git("log", "--no-merges", "--pretty=format:%s", range)
+	const commits = git(
+		"log",
+		"--no-merges",
+		"--pretty=format:%s",
+		range,
+		"--",
+		".",
+	)
 		.split("\n")
 		.map((line) => line.trim())
 		.filter(Boolean)

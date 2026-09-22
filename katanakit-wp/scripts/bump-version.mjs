@@ -62,7 +62,7 @@ const version = bump(readVersion(), kind);
 writeVersion(version);
 
 const git = (...gitArgs) => execFileSync("git", gitArgs, { cwd: ROOT, stdio: "inherit" });
-git("add", "package.json", "style.css");
-git("commit", "-m", `chore(katanakit-wp): release v${version}`);
+// Pathspec explícito: no barre otros staging ni toca katanakit-js.
+git("commit", "-m", `chore(katanakit-wp): release v${version}`, "--", "package.json", "style.css");
 git("tag", `${TAG_PREFIX}${version}`);
 console.log(`Released ${TAG_PREFIX}${version}`);
