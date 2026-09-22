@@ -22,6 +22,10 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Assistant demo runtime notes
 examples/assistant/notes.jsonl
 
+examples
+docs
+guides
+
 # caches
 .eslintcache
 .cache
@@ -30,7 +34,7 @@ examples/assistant/notes.jsonl
 
 
 # Generated TypeDoc markdown (produced by docs build / docs:dev)
-docs/docs/api/
+guides/docs/api/
 
 # IDE and AI tools
 .idea/
@@ -56,7 +60,9 @@ docs/docs/api/
 .windsurfrules
 .clinerules
 .roomodes
-
+.agents
+.atl
+.husky
 # MacOS
 .DS_Store
 
