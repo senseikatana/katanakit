@@ -15,6 +15,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PACKAGE_JSON = join(ROOT, "package.json");
 const STYLE_CSS = join(ROOT, "style.css");
+// Tags propios de este paquete; la línea vX.Y.Z del monorepo es de katanakit-js.
+const TAG_PREFIX = "wp/v";
 
 const args = process.argv.slice(2);
 const kind = args[0];
@@ -41,12 +43,12 @@ if (kind === "--sync") {
 	const tag = execFileSync("git", ["tag", "--sort=-v:refname"], { cwd: ROOT, encoding: "utf8" })
 		.split("\n")
 		.map((line) => line.trim())
-		.find((line) => /^v\d+\.\d+\.\d+$/.test(line));
+		.find((line) => line.startsWith(TAG_PREFIX) && /^wp\/v\d+\.\d+\.\d+$/.test(line));
 	if (!tag) {
-		console.error("No vX.Y.Z tags found");
+		console.error("No wp/vX.Y.Z tags found");
 		process.exit(1);
 	}
-	writeVersion(tag.replace(/^v/, ""));
+	writeVersion(tag.slice(TAG_PREFIX.length));
 	console.log(`Synced to ${tag}`);
 	process.exit(0);
 }
@@ -60,7 +62,7 @@ const version = bump(readVersion(), kind);
 writeVersion(version);
 
 const git = (...gitArgs) => execFileSync("git", gitArgs, { cwd: ROOT, stdio: "inherit" });
-git("add", "-u");
-git("commit", "-m", `chore: release v${version}`);
-git("tag", `v${version}`);
-console.log(`Released v${version}`);
+git("add", "package.json", "style.css");
+git("commit", "-m", `chore(katanakit-wp): release v${version}`);
+git("tag", `${TAG_PREFIX}${version}`);
+console.log(`Released ${TAG_PREFIX}${version}`);

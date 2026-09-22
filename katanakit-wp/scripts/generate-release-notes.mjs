@@ -5,8 +5,8 @@
  * output that the docs site can consume.
  *
  * Usage:
- *   node scripts/generate-release-notes.mjs v2.14.1
- *   node scripts/generate-release-notes.mjs v2.14.1 --json
+ *   node scripts/generate-release-notes.mjs wp/v0.1.1
+ *   node scripts/generate-release-notes.mjs wp/v0.1.1 --json
  *   node scripts/generate-release-notes.mjs --all --json
  */
 import { execFileSync } from "node:child_process";
@@ -31,7 +31,7 @@ function allTags() {
 	return git("tag", "--sort=-v:refname")
 		.split("\n")
 		.map((tag) => tag.trim())
-		.filter((tag) => /^v\d+\.\d+\.\d+$/.test(tag));
+		.filter((tag) => /^wp\/v\d+\.\d+\.\d+$/.test(tag));
 }
 
 function previousTag(tag) {
@@ -71,7 +71,7 @@ function collect(tag) {
 			})),
 	})).filter((section) => section.items.length > 0);
 
-	return { tag, version: tag.replace(/^v/, ""), date, previous: prev, sections };
+	return { tag, version: tag.replace(/^wp\/v/, ""), date, previous: prev, sections };
 }
 
 function renderMarkdown(release) {
