@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useQuery } from "katanakit-js/adapters/vue";
-import { useFetch, useInitApis, useQueryClient } from "katanakit-js";
+import { computed, ref } from "vue";
+import { useQuery, useQueryClient, useSafeQueryFn } from "katanakit-js/adapters/vue";
+import { useFetch } from "katanakit-js";
 import { usePlaygroundApis } from "../composables/usePlaygroundApis";
 import JsonViewer from "../components/JsonViewer.vue";
+
+interface Pokemon {
+	name: string;
+	id: number;
+	height: number;
+	weight: number;
+	sprites: { front_default: string };
+}
 
 const pokemonId = ref(25);
 const qc = useQueryClient();
 
 usePlaygroundApis();
 
-const { data, error, isLoading, isSuccess, isError, isStale, status, refetch } = useQuery<{
-	name: string;
-	id: number;
-	height: number;
-	weight: number;
-	sprites: { front_default: string };
-}>({
-	queryKey: () => ["pokemon", pokemonId.value],
-	queryFn: () =>
-		useFetch("pokeapi", "pokemonById", { urlOptions: { params: { id: pokemonId.value } } }),
-	staleTime: 30_000,
-});
+const pokemon = useQuery(
+	computed(() => ({
+		queryKey: ["pokemon", pokemonId.value],
+		queryFn: useSafeQueryFn(() =>
+			useFetch<Pokemon>("pokeapi", "pokemonById", {
+				urlOptions: { params: { id: pokemonId.value } },
+			}),
+		),
+		staleTime: 30_000,
+	})),
+);
 
 function invalidateCache() {
 	qc.invalidateQueries({ queryKey: ["pokemon"] });
@@ -37,9 +44,9 @@ function invalidateCache() {
 					Pokemon ID
 					<input v-model.number="pokemonId" type="number" min="1" max="1025" placeholder="25" />
 				</label>
-				<button @click="refetch" :disabled="isLoading">
-					<span v-if="isLoading" class="loading-spinner"></span>
-					{{ isLoading ? "Fetching..." : "Refetch" }}
+				<button @click="pokemon.refetch()" :disabled="pokemon.isFetching">
+					<span v-if="pokemon.isFetching" class="loading-spinner"></span>
+					{{ pokemon.isFetching ? "Fetching..." : "Refetch" }}
 				</button>
 				<button @click="invalidateCache" class="secondary">Invalidate Cache</button>
 			</div>
@@ -53,36 +60,40 @@ function invalidateCache() {
 					<span
 						class="status-badge"
 						:class="{
-							success: isSuccess,
-							error: isError,
-							loading: isLoading,
+							success: pokemon.isSuccess,
+							error: pokemon.isError,
+							loading: pokemon.isPending,
 						}"
 					>
-						{{ status }}
+						{{ pokemon.status }}
 					</span>
 				</div>
 				<div class="state-item">
-					<span class="state-label">isLoading:</span>
-					<span class="state-value">{{ isLoading }}</span>
+					<span class="state-label">isPending:</span>
+					<span class="state-value">{{ pokemon.isPending }}</span>
+				</div>
+				<div class="state-item">
+					<span class="state-label">isFetching:</span>
+					<span class="state-value">{{ pokemon.isFetching }}</span>
 				</div>
 				<div class="state-item">
 					<span class="state-label">isSuccess:</span>
-					<span class="state-value">{{ isSuccess }}</span>
+					<span class="state-value">{{ pokemon.isSuccess }}</span>
 				</div>
 				<div class="state-item">
 					<span class="state-label">isError:</span>
-					<span class="state-value">{{ isError }}</span>
+					<span class="state-value">{{ pokemon.isError }}</span>
 				</div>
 				<div class="state-item">
 					<span class="state-label">isStale:</span>
-					<span class="state-value">{{ isStale }}</span>
+					<span class="state-value">{{ pokemon.isStale }}</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="section">
 			<h3>Response</h3>
-			<JsonViewer :data="data" :error="error?.message" />
+			<JsonViewer :data="pokemon.data" :error="pokemon.error?.message" />
 		</div>
 	</div>
 </template>

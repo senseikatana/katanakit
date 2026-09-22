@@ -10,6 +10,9 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- **Framework-free query adapter** (`katanakit-js/adapters/vanilla`) — pure TypeScript with no framework. Returns the raw `QueryObserver` / `MutationObserver` so you own the subscribe/render loop (DOM, canvas, CLI, worker). The framework adapters are the same plus a reactivity bridge.
+- **Query examples** — `examples/query/` ships a runnable vanilla walkthrough (`bun run examples/query/vanilla.ts`) plus React, Vue, Solid, Svelte and Angular demos, and a README explaining every helper (`useQuery`, `useMutation`, `useSafeQueryFn`, `useQueryClient`, `useInitQueryClient`, `useCreateQueryClient`).
+- Every adapter subpath now also re-exports the client helpers (`useQueryClient`, `useInitQueryClient`, `useCreateQueryClient`, `useSafeQueryFn`), so each framework is a complete, independent entry point.
 - **`useSafeQueryFn` helper** — bridges KatanaKit's Safe Result (`useGetApi`/`useFetch`) into TanStack's throw-on-error `queryFn`. It receives TanStack's `QueryFunctionContext`, so `signal` can be forwarded for real request cancellation.
 - **`useCreateQueryClient` helper** — creates a fresh `QueryClient` per call. Use it on the server (SSR) to keep one cache per request instead of the module-level singleton (`useQueryClient()` stays the browser default).
 

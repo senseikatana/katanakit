@@ -264,6 +264,38 @@ readonly mutation = useMutation({
 </TabItem>
 </Tabs>
 
+## Framework-free (vanilla TS)
+
+Not every runtime is a framework. `katanakit-js/adapters/vanilla` returns the raw
+`QueryObserver`, so you own the subscribe/render loop — for DOM, canvas, a CLI, a
+worker, a terminal UI:
+
+```ts
+import { useQuery, useSafeQueryFn } from "katanakit-js/adapters/vanilla";
+import { useGetApi } from "katanakit-js";
+
+const observer = useQuery({
+  queryKey: ["pokemon", 25],
+  queryFn: useSafeQueryFn(() => useGetApi("pokeapi", "pokemonById", { params: { id: 25 } })),
+});
+
+const render = () => {
+  const { data, isPending, isFetching, isError, error } = observer.getCurrentResult();
+  // paint `data` / `isPending` / `error` wherever you want
+};
+
+const unsubscribe = observer.subscribe(render); // starts fetching
+render(); // paint the current state immediately
+
+// later
+unsubscribe();
+observer.destroy();
+```
+
+The framework adapters are exactly this plus a reactivity bridge. See
+[`examples/query/`](https://github.com/senseikatana/katanakit/tree/dev/katanakit-js/examples/query)
+for a runnable vanilla walkthrough plus React, Vue, Solid, Svelte and Angular demos.
+
 ## The engine, re-exported
 
 The full `@tanstack/query-core` surface is re-exported from `katanakit-js`, so you can use the engine directly — `QueryClient`, `QueryObserver`, `MutationObserver`, `focusManager`, `onlineManager`, `dehydrate` / `hydrate`, `QueryCache`, `MutationCache`, and every type:

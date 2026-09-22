@@ -82,6 +82,11 @@
 			"import": "./dist/adapters/angular/index.js",
 			"default": "./dist/adapters/angular/index.js"
 		},
+		"./adapters/vanilla": {
+			"types": "./dist/adapters/vanilla/index.d.ts",
+			"import": "./dist/adapters/vanilla/index.js",
+			"default": "./dist/adapters/vanilla/index.js"
+		},
 		"./prisma": {
 			"types": "./dist/prisma/index.d.ts",
 			"import": "./dist/prisma/index.js",

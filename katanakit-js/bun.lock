@@ -7,7 +7,7 @@
       "dependencies": {
         "@js-temporal/polyfill": "0.5.1",
         "@prisma/orm-postgres": "8.0.0-rc.8",
-        "@tanstack/query-core": "^5.103.2",
+        "@tanstack/query-core": "5.103.2",
         "express-rate-limit": "8.7.0",
       },
       "devDependencies": {
