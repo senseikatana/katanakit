@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Bumps the version in package.json (and mirrors it to guides/package.json),
- * commits, and tags the release.
+ * Bumps the version in package.json (and mirrors it to the theme
+ * style.css header), commits, and tags the release.
  *
  * Usage:
  *   node scripts/bump-version.mjs patch|minor|major
@@ -13,19 +13,21 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const MANIFESTS = [join(ROOT, "package.json"), join(ROOT, "guides/package.json")];
+const PACKAGE_JSON = join(ROOT, "package.json");
+const STYLE_CSS = join(ROOT, "style.css");
 
 const args = process.argv.slice(2);
 const kind = args[0];
 
-function readVersion(manifest) {
-	return JSON.parse(readFileSync(manifest, "utf8")).version;
+function readVersion() {
+	return JSON.parse(readFileSync(PACKAGE_JSON, "utf8")).version;
 }
 
-function writeVersion(manifest, version) {
-	const content = readFileSync(manifest, "utf8");
-	const updated = content.replace(/("version":\s*)"[^"]+"/, `$1"${version}"`);
-	writeFileSync(manifest, updated);
+function writeVersion(version) {
+	const pkg = readFileSync(PACKAGE_JSON, "utf8");
+	writeFileSync(PACKAGE_JSON, pkg.replace(/("version":\s*)"[^"]+"/, `$1"${version}"`));
+	const css = readFileSync(STYLE_CSS, "utf8");
+	writeFileSync(STYLE_CSS, css.replace(/^Version:.*$/m, `Version: ${version}`));
 }
 
 function bump(current, release) {
@@ -37,13 +39,15 @@ function bump(current, release) {
 
 if (kind === "--sync") {
 	const tag = execFileSync("git", ["tag", "--sort=-v:refname"], { cwd: ROOT, encoding: "utf8" })
-		.split("\n")[0]
-		.trim();
-	const version = tag.replace(/^v/, "");
-	for (const manifest of MANIFESTS) {
-		writeVersion(manifest, version);
+		.split("\n")
+		.map((line) => line.trim())
+		.find((line) => /^v\d+\.\d+\.\d+$/.test(line));
+	if (!tag) {
+		console.error("No vX.Y.Z tags found");
+		process.exit(1);
 	}
-	console.log(`Synced to v${version}`);
+	writeVersion(tag.replace(/^v/, ""));
+	console.log(`Synced to ${tag}`);
 	process.exit(0);
 }
 
@@ -52,10 +56,8 @@ if (kind !== "patch" && kind !== "minor" && kind !== "major") {
 	process.exit(1);
 }
 
-const version = bump(readVersion(MANIFESTS[0]), kind);
-for (const manifest of MANIFESTS) {
-	writeVersion(manifest, version);
-}
+const version = bump(readVersion(), kind);
+writeVersion(version);
 
 const git = (...gitArgs) => execFileSync("git", gitArgs, { cwd: ROOT, stdio: "inherit" });
 git("add", "-u");
