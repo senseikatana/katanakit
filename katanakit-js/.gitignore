@@ -16,6 +16,7 @@ logs
 *.log
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 *.lock
+!bun.lock
 # dotenv environment variable files
 .env*
 !.env.example

@@ -105,6 +105,11 @@ function delayMs(base: number, attempt: number): number {
 	return Math.min(base * 2 ** attempt, 30_000);
 }
 
+function isKeyPrefix(prefix: QueryKey, key: QueryKey): boolean {
+	if (prefix.length > key.length) return false;
+	return prefix.every((part, index) => part === key[index]);
+}
+
 // ============================================================
 // QueryCache — manages individual query entries
 // ============================================================
@@ -271,10 +276,11 @@ export class QueryClient {
 	 * active queries.
 	 */
 	async invalidateQueries(filters?: { queryKey?: QueryKey }): Promise<void> {
-		const prefix = filters?.queryKey ? hashQueryKey(filters.queryKey) : undefined;
+		const prefixKey = filters?.queryKey;
 
-		for (const [hash, entry] of this.cache.entries_()) {
-			if (prefix && !hash.startsWith(prefix)) continue;
+		for (const entry of this.cache.entries_().values()) {
+			const entryKey = (entry as QueryEntry<unknown>).config.queryKey;
+			if (prefixKey && !isKeyPrefix(prefixKey, entryKey)) continue;
 			(entry as QueryEntry<unknown>).state.isStale = true;
 			this.notifyObservers(entry as QueryEntry<unknown>);
 		}

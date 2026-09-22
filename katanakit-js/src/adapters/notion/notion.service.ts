@@ -612,7 +612,7 @@ export async function useNotionSearchContent(
  * pagination cursors. Loops through all pages until `has_more` is false.
  *
  * @param blockId - The parent block ID (usually a page ID).
- * @param maxItems - Optional cap on the total number of blocks to fetch.
+ * @param maxItems - Cap on the total number of blocks to fetch (default `1000`).
  * @returns All child blocks as a flat array.
  *
  * @example
@@ -626,7 +626,7 @@ export async function useNotionSearchContent(
  */
 export async function useNotionListAllBlockChildren(
 	blockId: string,
-	maxItems?: number,
+	maxItems = 1000,
 ): Promise<FetchResult<NotionBlock[]>> {
 	const allBlocks: NotionBlock[] = [];
 	let cursor: string | undefined;
@@ -645,7 +645,7 @@ export async function useNotionListAllBlockChildren(
 	} while (cursor);
 
 	return {
-		data: maxItems ? allBlocks.slice(0, maxItems) : allBlocks,
+		data: allBlocks.slice(0, maxItems),
 		error: null,
 		url: "",
 		status: 200,
@@ -663,7 +663,7 @@ export async function useNotionListAllBlockChildren(
  * @param databaseId - The database UUID.
  * @param filter - Optional filter to apply (same syntax as Notion API).
  * @param sorts - Optional sort options.
- * @param maxItems - Optional cap on the total number of pages to fetch.
+ * @param maxItems - Cap on the total number of pages to fetch (default `1000`).
  * @returns All pages matching the filter as a flat array.
  *
  * @example
@@ -684,7 +684,7 @@ export async function useNotionListAllDatabasePages(
 	databaseId: string,
 	filter?: NotionFilter,
 	sorts?: NotionSort[],
-	maxItems?: number,
+	maxItems = 1000,
 ): Promise<FetchResult<NotionPage[]>> {
 	const allPages: NotionPage[] = [];
 	let cursor: string | undefined;
@@ -705,7 +705,7 @@ export async function useNotionListAllDatabasePages(
 	} while (cursor);
 
 	return {
-		data: maxItems ? allPages.slice(0, maxItems) : allPages,
+		data: allPages.slice(0, maxItems),
 		error: null,
 		url: "",
 		status: 200,

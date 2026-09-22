@@ -1177,7 +1177,7 @@ export async function useWpBatch(
  *
  * @param options - Query params for filtering (`status`, `categories`, `tags`,
  *   `author`, `search`, `orderby`, `order`). Do NOT pass `page` or `per_page`.
- * @param maxItems - Optional cap on the total number of posts to fetch.
+ * @param maxItems - Cap on the total number of posts to fetch (default `1000`).
  * @returns All posts as a flat array.
  *
  * @example
@@ -1192,7 +1192,7 @@ export async function useWpBatch(
  */
 export async function useWpListAllPosts(
 	options?: WpQueryParams,
-	maxItems?: number,
+	maxItems = 1000,
 ): Promise<FetchResult<WpPost[]>> {
 	const allPosts: WpPost[] = [];
 	let page = 1;
@@ -1209,7 +1209,7 @@ export async function useWpListAllPosts(
 	}
 
 	return {
-		data: maxItems ? allPosts.slice(0, maxItems) : allPosts,
+		data: allPosts.slice(0, maxItems),
 		error: null,
 		url: "",
 		status: 200,

@@ -128,8 +128,7 @@
 		"guides:check": "node scripts/sync-docs-releases.mjs --limit=8 --check",
 		"guides:serve": "bun run --filter katanakit-guides serve",
 		"playground:dev": "bun run --filter katanakit-playground dev",
-		"playground:build": "bun run --filter katanakit-playground build",
-		"prepare": "husky"
+		"playground:build": "bun run --filter katanakit-playground build"
 	},
 	"repository": {
 		"type": "git",
@@ -227,9 +226,7 @@
 		"eslint-plugin-simple-import-sort": "^14.0.0",
 		"express": "5.2.1",
 		"globals": "^17.12.0",
-		"husky": "^9.1.7",
 		"jsdom": "^30.1.0",
-		"lint-staged": "^17.5.1",
 		"prettier": "^3.9.8",
 		"prisma": "8.0.0-rc.13",
 		"react": "^19.3.0",
@@ -245,10 +242,5 @@
 		"vitest": "5.0.1",
 		"vue": "3.5.43",
 		"zone.js": "^0.16.3"
-	},
-	"lint-staged": {
-		"src/**/*.{ts,mts,cts}": [
-			"eslint --fix"
-		]
 	}
 }

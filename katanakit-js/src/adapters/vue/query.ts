@@ -232,7 +232,6 @@ export function useQuery<T>(config: UseQueryConfig<T>, client?: QueryClient): Us
  * Does not cache — returns a `mutate` function that executes the mutation.
  *
  * @param config - Mutation configuration.
- * @param client - Optional QueryClient instance.
  * @returns Reactive `{ data, error, isLoading, isSuccess, isError, status, mutate, reset }`.
  *
  * @example
@@ -251,10 +250,7 @@ export function useQuery<T>(config: UseQueryConfig<T>, client?: QueryClient): Us
  */
 export function useMutation<TData = unknown, TVariables = unknown>(
 	config: UseMutationConfig<TData, TVariables>,
-	client?: QueryClient,
 ): UseMutationReturn<TData, TVariables> {
-	const _qc = client ?? useQueryClient();
-
 	const data = shallowRef<TData | null>(null);
 	const error = ref<ApiError | null>(null);
 	const isLoading = ref(false);

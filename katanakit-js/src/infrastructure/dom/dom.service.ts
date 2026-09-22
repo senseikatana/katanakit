@@ -268,16 +268,20 @@ export const useSetAttribute = (target: Element | string, attr: string, value: s
 		if (scheme === "javascript" || scheme === "vbscript") {
 			throw new Error(`[DomService] "${scheme}:" URLs are not allowed in attribute "${attr}".`);
 		}
-		if (scheme === "data" && !/^data:image\//i.test(sanitized.trim())) {
-			throw new Error(`[DomService] Only data:image/* URLs are allowed in attribute "${attr}".`);
+		// Only raster data: URIs are allowed (SVG can carry <script>/<foreignObject>).
+		if (scheme === "data" && !/^data:image\/(?:png|jpe?g|gif|webp);/i.test(sanitized.trim())) {
+			throw new Error(
+				`[DomService] Only raster data:image/(png|jpg|gif|webp) URLs are allowed in attribute "${attr}".`,
+			);
 		}
 	}
 
-	if (
-		normalizedAttr === "srcdoc" &&
-		/(?:javascript:|vbscript:|<script\b|on\w+\s*=)/i.test(sanitized)
-	) {
-		throw new Error(`[DomService] Potentially unsafe srcdoc value is not allowed.`);
+	// `srcdoc` is a full HTML sink: entity-encoded payloads can bypass a regex.
+	// Refuse it outright — use a real sanitizer (e.g. DOMPurify) for iframe HTML.
+	if (normalizedAttr === "srcdoc") {
+		throw new Error(
+			`[DomService] "srcdoc" is not allowed. Sanitize the HTML with a dedicated library.`,
+		);
 	}
 
 	resolve(target)?.setAttribute(attr, value);

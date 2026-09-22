@@ -9,19 +9,6 @@ const ERROR_DEFAULTS: Record<number, string> = {
 	500: "Internal Server Error",
 };
 
-export class ErrorService {
-	private static instance: ErrorService;
-
-	private constructor() {}
-
-	public static getInstance(): ErrorService {
-		if (ErrorService) {
-			ErrorService.instance = new ErrorService();
-		}
-		return ErrorService.instance;
-	}
-}
-
 /**
  * Serialize an error into a plain object.
  * Uses sensible defaults based on the status code when message is omitted.
